@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+}
+
+/* Change the color of the buttons for red to purple */
+.select.is-purple:after {
+    border-color: purple !important;
+}
+.button.is-danger.is-outlined {
+    background-color: transparent;
+    border-color: purple !important;
+    color: purple;
+}
+.button.is-danger.is-outlined:hover, .button.is-danger.is-outlined.is-hovered, .button.is-danger.is-outlined:focus, .button.is-danger.is-outlined.is-focused {
+    background-color: purple !important;
+    border-color: purple !important;
+    color: #fff;
+}
+
+ul {
+    text-align: left;
+}
+
+/* ////////////////////////////////// */
+
+/*hidden attribute doesn't work with flexbox. This allows to fix it */
+[hidden] { 
+    display: none !important
+}
+
+/* Add scrollbar if too many pathways */
+.qual_legend, .legend {
+    height:300px;
+    width:100%;
+    border:5px solid #f5f5f5;
+    white-space: nowrap;
+    overflow-y: auto;
+    overflow-x: auto;
+}

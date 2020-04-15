@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Multi-layers Viewer</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Papaparse framework loading (CSV/TSV parsing into JSON object) -->
+    <script src="js/library/papaparse.min.js"></script>
+    <!-- CSS stylesheet loading -->
+    <link rel="stylesheet" type="text/css" media="screen" href="css/script.css" />
+    <!-- Bulma loading -->
+    <link rel="stylesheet" type="text/css" media="screen" href="css/bulma.min.css" />
+    <script src="js/library/all.js"></script>
+    <!-- pretty checkbox framework loading (provides good looking checkboxes) -->
+    <link rel="stylesheet" type="text/css" media="screen" href="css/pretty-checkbox.min.css" />
+    <!-- plot.ly framework loading (provides nice plots) -->
+    <script src="js/library/plotly-latest.min.js"></script>
+    <!-- combinatorics (for color combinations) is charged -->
+    <script src="js/library/combinatorics.js"></script>
+
+</head>
+
+<body>
+    <h1 class="title">
+        <div class="notification">
+            Multi-layers visualization tool !
+        </div>
+    </h1>
+
+    <div class="tile is-ancestor" style="margin:10px;">
+        <div class="tile is-vertical">
+            <div class="tile">
+                <div class="tile is-child is-1.5">
+                    <!-- Check box for re-sampling -->
+                    <div class="pretty p-switch p-fill">
+                        <input type="checkbox" id="resampling" autocomplete="off" onclick="ask_resampling();"/>
+                        <div class="state p-danger">
+                            <label>Resampling ?</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Boxes for files loading -->
+                <div class="tile is-child is-5" style="margin:10px!important;">
+                    <p>
+                        Please, load a TSV file :
+                    </p>
+                    <!-- CSV FILE LOADING -->
+                    <div class="field">
+                        <div class="file is-centered">
+                            <div class="file has-name">
+                                <label class="file-label">
+                                    <input
+                                        class="file-input" 
+                                        type="file" 
+                                        id="tsv_file" 
+                                        name="tsv_file" 
+                                        accept=".csv,.tsv" 
+                                        onchange="reading_tsv_file()">
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                    <span class="file-name" id="tsv-file-name"> 
+                                        No file uploaded 
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tile is-child is-5" style="margin:10px!important;">
+                    <p>
+                        Please load a spatial transcriptomic image file :
+                    </p>
+                    
+                    <!-- IMAGE FILE LOADING -->
+                    <div class="field">
+                        <div class="file is-centered">
+                            <div class="file has-name">
+                                <label class="file-label">
+                                    <input 
+                                        class="file-input" 
+                                        type="file" 
+                                        id="image_file" 
+                                        name="image_file" 
+                                        accept="image/*" 
+                                        onchange="reading_img_file();"
+                                    >
+                                    <span class="file-cta">
+                                        <span class="file-icon">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                        <span class="file-label">
+                                            Choose a file…
+                                        </span>
+                                    </span>
+                                    <span class="file-name" id="img-file-name"> 
+                                        No file uploaded 
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile">
+                <!-- AXES SELECTION-->
+                <!-- Here goes the number of parameters wanted -->
+                <div class="tile is-child is-3"></div>
+                <div class="tile is-child is-2">
+                    <div class="field has-addons has-addons-centered">
+                        <div class="control" hidden id="control_for_number_layers">
+                            <div class="select is-purple" id="layer_number_selection" onchange="lists_of_layers_display();">
+                                <!-- Here goes the select of number of parameters -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tile is-child is-2">
+                    <!-- Here goes the X axis selection -->
+                    <div class="field has-addons has-addons-centered">
+                        <div class="control" hidden id="control_for_x">
+                            <div class="select is-purple" id="x_axis_selection" onchange="check_both();">
+                                <!-- Here goes the select for X axis -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tile is-child is-2">
+                    <!-- Here goes the Y axis selection -->
+                    <div class="field has-addons has-addons-centered">
+                        <div class="control" hidden id="control_for_y">
+                            <div class="select is-purple" id="y_axis_selection" onchange="check_both();">
+                                <!-- Here goes the select for Y axis -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tile is-child is-3"></div>
+            </div>
+
+            <div class="tile">
+                <div class="tile is-child is-4 "></div>
+                <!-- Here we make appear the number of select depending on the number of parameters chosen by the user-->
+                <!-- LISTS DYNAMICALY DISPLAYED -->
+                <div class="tile is-child is-4 ">
+                    <div class="field has-addons has-addons-centered">
+
+                        <div class="control notification" hidden id="control_for_layer1" style="margin:10px;">
+                            <p style="text-align:center;">LAYER 1</p>
+                            <span class="select is-purple" id="choosing_layer_1">
+                                <!-- Signature 1 is displayed if selected-->
+                            </span>
+                            <div id="control_color_1" hidden>
+                                <!-- Color picker is displayed -->
+                                <div><label for="color_layer_1">Color for layer 1 : </label>
+                                <input type="color" id="color_layer_1" style="margin-top:5px;" value="#ff0000" onchange="color_change(1);"></div> 
+                                <div><label for="dot_size_1">Dot size : </label>
+                                <input type="range" id="dot_size_1"autocomplete=off min="1" max="20" value="3" onchange="change_dot_size(1)"></input></div>
+                            </div>
+                            <div id="control_checkbox_1" style="margin-top: 15px" hidden>
+                                <!-- Check box for qualitative values -->
+                                <label class="radio">
+                                    <input type="radio" name="answer1" id="cb_shape_1" checked='checked' autocomplete="off" onchange="add_legend_shapes(1);"/>
+                                    Shape 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="answer1" id="cb_color_1" autocomplete="off" onchange="add_legend_color(1);"/>
+                                    Color 
+                                </label>
+                            </div>
+                        </div>
+            
+                        <div class="control notification" hidden id="control_for_layer2" style="margin:10px;">
+                            <p style="text-align:center;">LAYER 2</p>
+                            <span class="select is-purple" id="choosing_layer_2">
+                                <!-- Signature 2 is displayed if selected-->
+                            </span>
+                            <div id="control_color_2" hidden>
+                                <!-- Color picker is displayed -->
+                                <div><label for="color_layer_2">Color for layer 2 : </label>
+                                <input type="color" id="color_layer_2" style="margin-top:5px;" value="#0000ff" onchange="color_change(2);"></div>
+                                <div><label for="dot_size_2">Dot size : </label>
+                                <input type="range" id="dot_size_2" autocomplete=off min="1" max="20" value="3" onchange="change_dot_size(2)"></input></div>
+                            </div>
+                            <div id="control_checkbox_2" style="margin-top: 15px" hidden>
+                                <!-- Check box for qualitative values -->
+                                <label class="radio">
+                                    <input type="radio" name="answer2" id="cb_shape_2" checked='checked' autocomplete="off" onchange="add_legend_shapes(2);"/>
+                                    Shape 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="answer2" id="cb_color_2" autocomplete="off" onchange="add_legend_color(2);"/>
+                                    Color 
+                                </label>
+                            </div>
+                        </div>
+            
+                        <div class="control notification" hidden id="control_for_layer3" style="margin:10px;">
+                            <p style="text-align:center;">LAYER 3</p>
+                            <span class="select is-purple" id="choosing_layer_3">
+                                <!-- Signature 3 is displayed if selected -->
+                            </span>
+                            <div id="control_color_3" hidden>
+                                <!-- Color picker is displayed -->
+                                <div><label for="color_layer_3">Color for layer 3 : </label>
+                                <input type="color" id="color_layer_3" style="margin-top:5px;" value="#ffff00" onchange="color_change(3);"></div>
+                                <div><label for="dot_size_3">Dot size : </label>
+                                <input type="range" id="dot_size_3" autocomplete=off min="1" max="20" value="3" onchange="change_dot_size(3)"></input></div>
+                            </div>
+                            <div id="control_checkbox_3" style="margin-top: 15px" hidden>
+                                <!-- Check box for qualitative values -->
+                                <label class="radio">
+                                    <input type="radio" name="answer3" id="cb_shape_3" checked='checked' autocomplete="off" onchange="add_legend_shapes(3);"/>
+                                    Shape 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="answer3" id="cb_color_3" autocomplete="off" onchange="add_legend_color(3);"/>
+                                    Color 
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control notification" hidden id="control_for_layer4" style="margin:10px;">
+                            <p style="text-align:center;">LAYER 4</p>
+                            <span class="select is-purple" id="choosing_layer_4">
+                                <!-- Signature 4 is displayed if selected -->
+                            </span>
+                            <div id="control_color_4" hidden>
+                                <!-- Color picker is displayed -->
+                                <div><label for="color_layer_4">Color for layer 4 : </label> 
+                                <input type="color" id="color_layer_4" style="margin-top:5px;" value="#00ffff" onchange="color_change(4);"></div>
+                                <div><label for="dot_size_4">Dot size : </label>
+                                <input type="range" id="dot_size_4" autocomplete=off min="1" max="20" value="3" onchange="change_dot_size(4)"></input></div>
+                            </div>
+                            <div id="control_checkbox_4" style="margin-top: 15px" hidden>
+                                <!-- Check box for qualitative values -->
+                                <label class="radio">
+                                    <input type="radio" name="answer4" id="cb_shape_4" checked='checked' autocomplete="off" onchange="add_legend_shapes(4);"/>
+                                    Shape 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="answer4" id="cb_color_4" autocomplete="off" onchange="add_legend_color(4);"/>
+                                    Color 
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control notification" hidden id="control_for_layer5" style="margin:10px;">
+                            <p style="text-align:center;">LAYER 5</p>
+                            <span class="select is-purple" id="choosing_layer_5">
+                                <!-- Signature 5 is displayed if selected -->
+                            </span>
+                            <div id="control_color_5" hidden>
+                                <!-- Color picker is displayed -->
+                                <div><label for="color_layer_5">Color for layer 5 : </label> 
+                                <input type="color" id="color_layer_5" value="#00ff00" style="margin-top:5px;" onchange="color_change(5);"></div>
+                                <div><label for="dot_size_5">Dot size : </label>
+                                <input type="range" id="dot_size_5" autocomplete=off min="1" max="20" value="3" onchange="change_dot_size(5)"></input></div>
+                            </div>
+                            <div id="control_checkbox_5" style="margin-top: 15px" hidden>
+                                <!-- Check box for qualitative values -->
+                                <label class="radio">
+                                    <input type="radio" name="answer5" id="cb_shape_5" checked='checked' autocomplete="off" onchange="add_legend_shapes(5);"/>
+                                    Shape 
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="answer5" id="cb_color_5" autocomplete="off" onchange="add_legend_color(5);"/>
+                                    Color 
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tile is-child is-4 "></div>
+            </div>
+
+            <!-- The graphical part goes here.
+                The chart will be displayed -->
+            <div class="tile box">
+                <div class="tile is-child">
+                    <!-- Graphic display -->
+                    <div class="container is-centered is-widescreen">
+                        <div class="notification">
+                            <div id="graphic">
+                                <!-- Data will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 
+                On this part will go the legend, 
+                and their options (like the shape of points) 
+                for qualitatives values 
+            -->
+            <div class = "tile">
+                <!--------------------- THOSE ARE FOR THE FIRST QUALITY VALUES --------------------- -->
+                <div class="tile is-child is-4 box" id="display_shapes_1" hidden>
+                    <h1 class="title" id="shapes_title_1">
+                        <!-- Display the title -->
+                    </h1>
+                    <div class="qual_legend" id="shapes_1">
+                        <!-- 
+                            Here goes the shape picker for qualitative values 
+                        -->
+                    </div>
+                </div>
+
+                <div class="tile is-child is-4 box" id="display_qual_color_1" hidden>
+                    <h1 class="title" id="qual_color_title_1">
+                            <!-- Display the title -->
+                    </h1>
+                    <div class="qual_legend" id="qual_color_1">
+                        <!-- 
+                            Here goes the color picker for secondary qualitative values 
+                        -->
+                    </div>
+                </div>
+                <!-------------------------------------------------------------------------------------->
+
+                <!--------------------- THOSE ARE FOR THE SECOND QUALITY VALUES --------------------- -->
+                <div class="tile is-child is-4 box" id="display_shapes_2" hidden>
+                    <h1 class="title" id="shapes_title_2">
+                        <!-- Display the title -->
+                    </h1>
+                    <div class="qual_legend" id="shapes_2">
+                        <!-- 
+                            Here goes the shape picker for qualitative values 
+                        -->
+                    </div>
+                </div>
+
+                <div class="tile is-child is-4 box" id="display_qual_color_2" hidden>
+                    <h1 class="title" id="qual_color_title_2">
+                            <!-- Display the title -->
+                    </h1>
+                    <div class="qual_legend" id="qual_color_2">
+                        <!-- 
+                            Here goes the color picker for secondary qualitative values 
+                        -->
+                    </div>
+                </div>
+                <!-------------------------------------------------------------------------------------->
+                
+                <!--------------------- THOSE ARE FOR THE QUANTITATIVE VALUES ----------------------- -->
+                <div class="tile is-child is-4 box" id="display_legend" hidden>
+                    <h1 class="title" id="legend_title">
+                            <!-- Display the title -->
+                    </h1>
+                    <div class="legend" id="legend">
+                        <!-- 
+                            Here goes the legend for quantitative values 
+                        -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile">
+                <!-- Saving buttons : PNG/SVG
+                    - It will look prettier if the <p> were at the left and not upper the buttons. 
+                -->
+                <div class="tile is-child">
+                    <div field is-grouped>
+                        <p style="margin-right: 10px;">Export your graphic : </p>
+                        <button 
+                            class="button is-danger is-outlined" 
+                            style="margin-right: 10px; margin-left: 10px;" 
+                            id="svg_button" onclick="ask_for_size(this.id);" 
+                            disabled autocomplete="off"
+                        >SVG</button>
+                        <button 
+                            class="button is-danger is-outlined" 
+                            style="margin-left: 10px;" 
+                            id="png_button" 
+                            onclick="ask_for_size(this.id);" 
+                            disabled autocomplete="off"
+                        >PNG</button>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS scripts loadings -->
+    <script src="js/graphic-display.js"></script>
+    <script src="js/files-reader-parser.js"></script>
+    <script src="js/export-png-svg.js"></script>
+    <script src="js/one-parameter.js"></script>
+    <script src="js/two-parameters.js"></script>
+    <script src="js/three-parameters.js"></script>
+    <script src="js/four-parameters.js"></script>
+    <script src="js/five-parameters.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
