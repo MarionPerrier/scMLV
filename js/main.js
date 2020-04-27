@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2020  Marion PERRIER, Frédéric PONT
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 /**
  * TO DO :
  * - Prevent selection of two same parameters. (ex : 2 parameters are selected : CD3E and CD3E)
@@ -154,6 +171,7 @@ function select_number_Layers () {
             element.appendChild(option);
         }
     }
+    document.getElementById('control_text').removeAttribute('hidden', '');
     document.getElementById(`control_for_number_layers`).removeAttribute('hidden', '');
 }
 
@@ -244,9 +262,50 @@ function check_both () {
                     X.push(PARSED_RESULTS[element][X_name]);
                     Y.push(PARSED_RESULTS[element][Y_name]);
                 }
+                console.log("X : ", X.length);
+                console.log("Y : ", Y.length);
                 Plotly.restyle(GRAPHDIV, {'x':[X], 'y':[Y]});
-            }
+ 
+                //Enable save PNG/SVG buttons when the plot is shown 
+                if(document.getElementById('svg_button').disabled){
+                    document.getElementById('svg_button').removeAttribute('disabled');
+                    document.getElementById('png_button').removeAttribute('disabled');
+                }
 
+                //Eable button for parameters and axes selection
+                document.getElementById('numberOfLayers').removeAttribute('disabled');
+                if(document.getElementById('x_axis_select_id').disabled){
+                    //Axes selection
+                    document.getElementById('x_axis_select_id').removeAttribute('disabled');
+                    document.getElementById('y_axis_select_id').removeAttribute('disabled');
+
+                    //parameters selection
+
+                    for(let j = 0; j <= 5; j++){
+                        if(document.getElementById(`selectLayer${j}`) != null){
+                            document.getElementById(`selectLayer${j}`).removeAttribute('disabled');
+                        }
+                    }
+                }
+
+                switch(parseInt(document.getElementById(`numberOfLayers`).value)){
+                    case 1:
+                        one_parameter(1);
+                    break;
+                    case 2:
+                        two_parameters();
+                    break;
+                    case 3:
+                        three_parameters();
+                    break;
+                    case 4:
+                        four_parameters();
+                    break;
+                    case 5:
+                        five_parameters();
+                    break;
+                }
+            }
         }
         else{
             alert("Sorry, you can't use qualitative parameters to display axes.\nPlease try again");
@@ -268,6 +327,7 @@ function check_all_select_filled (number_of_dropdown) {
             return false;
         }
     }
+    document.getElementById('explanatory_text').removeAttribute('hidden');
     return true;
 }
 
@@ -276,6 +336,7 @@ function check_all_select_filled (number_of_dropdown) {
  * This will constitute the number of cells to display
  */
 function ask_resampling () {
+    console.log("Ask_resampling a été demandé");
     isChecked = document.getElementById('resampling').checked;
     
     if (isChecked) {
@@ -289,6 +350,7 @@ function ask_resampling () {
         else {
             //If there is already a file provided, we reload the reading_tsv_file() function
             if(FILE != undefined){
+                console.log("Je lance le SVG. 311");
                 parse_csv_to_json();
             }
             //If there is no file already loaded, wait for the user to load a file.
@@ -297,6 +359,7 @@ function ask_resampling () {
     else {
         RESAMPLE_SIZE = undefined;
         if(FILE != undefined){
+            console.log("Je lance le SVG. 320");
             parse_csv_to_json();
         }
     }

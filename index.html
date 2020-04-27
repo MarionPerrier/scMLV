@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--
+        Copyright (C) 2020  Marion PERRIER, Frédéric PONT
+
+        This program is free software: you can redistribute it and/or modify
+        it under the terms of the GNU Affero General Public License as
+        published by the Free Software Foundation, either version 3 of the
+        License, or (at your option) any later version.
+
+        This program is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU Affero General Public License for more details.
+
+        You should have received a copy of the GNU Affero General Public License
+        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    -->
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
@@ -27,26 +44,18 @@
 <body>
     <h1 class="title">
         <div class="notification">
-            Multi-layers visualization tool !
+            Multi-layers visualization tool
         </div>
     </h1>
 
     <div class="tile is-ancestor" style="margin:10px;">
         <div class="tile is-vertical">
             <div class="tile">
-                <div class="tile is-child is-1.5">
-                    <!-- Check box for re-sampling -->
-                    <div class="pretty p-switch p-fill">
-                        <input type="checkbox" id="resampling" autocomplete="off" onclick="ask_resampling();"/>
-                        <div class="state p-danger">
-                            <label>Resampling ?</label>
-                        </div>
-                    </div>
-                </div>
-                <!-- Boxes for files loading -->
-                <div class="tile is-child is-5" style="margin:10px!important;">
+
+                <!-- Boxes for file loading -->
+                <div class="tile is-child" style="margin:10px!important;">
                     <p>
-                        Please, load a TSV file :
+                        1 - Please, load a dataset (.tsv file) :
                     </p>
                     <!-- CSV FILE LOADING -->
                     <div class="field">
@@ -77,56 +86,24 @@
                     </div>
                 </div>
 
-                <div class="tile is-child is-5" style="margin:10px!important;">
-                    <p>
-                        Please load a spatial transcriptomic image file :
-                    </p>
-                    
-                    <!-- IMAGE FILE LOADING -->
-                    <div class="field">
-                        <div class="file is-centered">
-                            <div class="file has-name">
-                                <label class="file-label">
-                                    <input 
-                                        class="file-input" 
-                                        type="file" 
-                                        id="image_file" 
-                                        name="image_file" 
-                                        accept="image/*" 
-                                        onchange="reading_img_file();"
-                                    >
-                                    <span class="file-cta">
-                                        <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
-                                        </span>
-                                        <span class="file-label">
-                                            Choose a file…
-                                        </span>
-                                    </span>
-                                    <span class="file-name" id="img-file-name"> 
-                                        No file uploaded 
-                                    </span>
-                                </label>
-                            </div>
+                <div class="tile is-child">
+                    <!-- Check box for re-sampling -->
+                    <div class="pretty p-switch p-fill">
+                        <input type="checkbox" id="resampling" autocomplete="off" onclick="ask_resampling();"/>
+                        <div class="state p-danger">
+                            <label>Resampling ?</label>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="tile">
+
                 <!-- AXES SELECTION-->
                 <!-- Here goes the number of parameters wanted -->
-                <div class="tile is-child is-3"></div>
-                <div class="tile is-child is-2">
-                    <div class="field has-addons has-addons-centered">
-                        <div class="control" hidden id="control_for_number_layers">
-                            <div class="select is-purple" id="layer_number_selection" onchange="lists_of_layers_display();">
-                                <!-- Here goes the select of number of parameters -->
-                            </div>
-                        </div>
-                    </div>
+                <div class="tile is-child is-3 has-text-right" hidden id="control_text">
+                    2 - Select axes and layers : 
                 </div>
-
                 <div class="tile is-child is-2">
                     <!-- Here goes the X axis selection -->
                     <div class="field has-addons has-addons-centered">
@@ -144,6 +121,16 @@
                         <div class="control" hidden id="control_for_y">
                             <div class="select is-purple" id="y_axis_selection" onchange="check_both();">
                                 <!-- Here goes the select for Y axis -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tile is-child is-2">
+                    <div class="field has-addons has-addons-centered">
+                        <div class="control" hidden id="control_for_number_layers">
+                            <div class="select is-purple" id="layer_number_selection" onchange="lists_of_layers_display();">
+                                <!-- Here goes the select of number of parameters -->
                             </div>
                         </div>
                     </div>
@@ -287,6 +274,11 @@
                 <div class="tile is-child is-4 "></div>
             </div>
 
+            <div hidden id="explanatory_text" class="has-text-centered">
+                <p>3 - View and/or select multilayers combination (click on the legend dots or "LC#") :</p>
+                WARNING : Note that only 1 layer size can be changed at a time
+            </div>
+
             <!-- The graphical part goes here.
                 The chart will be displayed -->
             <div class="tile box">
@@ -375,7 +367,7 @@
                 -->
                 <div class="tile is-child">
                     <div field is-grouped>
-                        <p style="margin-right: 10px;">Export your graphic : </p>
+                        <p style="margin-right: 10px;">Export graphic : </p>
                         <button 
                             class="button is-danger is-outlined" 
                             style="margin-right: 10px; margin-left: 10px;" 

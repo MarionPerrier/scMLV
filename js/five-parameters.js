@@ -1,4 +1,21 @@
- /**
+/*
+    Copyright (C) 2020  Marion PERRIER, Frédéric PONT
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/**
  * Main function of the five-parameters mode.
  * Will determine how many quantitative and qualitative values were asked, and
  * then draws the plot.
@@ -167,7 +184,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(VAL_MIN);
-                title = j + ' = No layer detected';
+                title = 'LC ' + j + ' = No layer detected';
             }
 
             //Looking at the values which contain only L1
@@ -181,7 +198,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name1]);
-                title = j + ' = Only '+quanti_column_name1;
+                title = 'LC ' + j + ' = Only '+quanti_column_name1;
             }
 
             //Looking at the values which contain only L2
@@ -195,7 +212,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name2]);
-                title = j + ' = Only '+quanti_column_name2;
+                title = 'LC ' + j + ' = Only '+quanti_column_name2;
             }
 
             //Looking at the values which contain only L3
@@ -209,7 +226,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name3]);
-                title = j + ' = Only '+quanti_column_name3;
+                title = 'LC ' + j + ' = Only ' +quanti_column_name3;
             }
 
             //Looking at the values which contain only L4
@@ -223,7 +240,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name4]);
-                title = j + ' = Only '+quanti_column_name4;
+                title = 'LC ' + j + ' = Only '+quanti_column_name4;
             }
 
             //Looking at the values which contain only L5
@@ -237,7 +254,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name5]);
-                title = j + ' = Only '+quanti_column_name5;               
+                title = 'LC ' + j + ' = Only '+quanti_column_name5;               
             }
 
             //Looking at the values which contain L1 and L2
@@ -256,9 +273,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer2[point]*100)/cmax2;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + '
+                        + quanti_column_name2;
             }
 
             //Looking at the values which contain L1 and L3
@@ -277,9 +294,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer3[point]*100)/cmax3;
                 let exp_percent = (exp_percent1+exp_percent2)/2;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name3;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name3;
             }
 
             //Looking at the values which contain L1 and L4
@@ -298,9 +315,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name4;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + '
+                        + quanti_column_name4;
             }
 
             //Looking at the values which contain L1 and L5
@@ -319,9 +336,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain L2 and L3
@@ -340,9 +357,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer3[point]*100)/cmax3;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3;
             }
 
             //Looking at the values which contain L2 and L4
@@ -361,9 +378,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2)/2;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name4;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name4;
             }
 
             //Looking at the values which contain L2 and L5
@@ -382,9 +399,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2)/2;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain L3 and L4
@@ -403,9 +420,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name4;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name4;
             }
 
             //Looking at the values which contain L3 and L5
@@ -424,9 +441,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain L4 and L5
@@ -445,9 +462,9 @@ function five_quanti () {
                 let exp_percent2 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;     
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;     
             }
 
             //Looking at the values which contain L1, L2 and L3 together
@@ -467,11 +484,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer3[point]*100)/cmax3;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3;
             }
 
             //Looking at the values which contain L1, L2 and L4 together
@@ -491,11 +507,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name4;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name4;
             }
 
             //Looking at the values which contain L1, L2 and L5 together
@@ -515,11 +530,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain L1, L3 and L4 together
@@ -539,11 +553,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name4;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name4;
             }
 
             //Looking at the values which contain L1, L3 and L5 together
@@ -563,11 +576,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name5;
             }
             
             //Looking at the values which contain L1, L4 and L5 together
@@ -587,11 +599,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain L2, L3 and L4 together
@@ -611,11 +622,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name4;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name4;
             }
 
             //Looking at the values which contain L2, L3 and L5 together
@@ -635,11 +645,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain L2, L4 and L5 together
@@ -659,11 +668,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain L3, L4 and L5 together
@@ -683,11 +691,10 @@ function five_quanti () {
                 let exp_percent3 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain layers 1, 2, 3 and 4 together
@@ -708,13 +715,11 @@ function five_quanti () {
                 let exp_percent4 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4)/4;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name4;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name4;
             }
 
             //Looking at the values which contain layers 1, 2, 3 and 5 together
@@ -735,13 +740,11 @@ function five_quanti () {
                 let exp_percent4 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4)/4;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain layers 1, 2, 4 and 5 together
@@ -762,13 +765,11 @@ function five_quanti () {
                 let exp_percent4 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4)/4;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain layers 1, 3, 4 and 5 together
@@ -789,13 +790,11 @@ function five_quanti () {
                 let exp_percent4 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4)/4;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain layers 2, 3, 4 and 5 together
@@ -816,13 +815,11 @@ function five_quanti () {
                 let exp_percent4 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4)/4;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;
             }
 
             //Looking at the values which contain all layers 1, 2, 3, 4 and 5 together
@@ -844,15 +841,12 @@ function five_quanti () {
                 let exp_percent5 = (values_layer5[point]*100)/cmax5;
                 let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4+exp_percent5)/5;                     
                 color.push(exp_percent);
-                title = j + ' = ' + quanti_column_name1 +
-                        ' + ' +
-                        quanti_column_name2 +
-                        ' + ' +
-                        quanti_column_name3 +
-                        ' + ' +
-                        quanti_column_name4 +
-                        ' + ' +
-                        quanti_column_name5;
+                title = 'LC ' + j + ' = ' 
+                        + quanti_column_name1 + ' + ' 
+                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name3 + ' + ' 
+                        + quanti_column_name4 + ' + ' 
+                        + quanti_column_name5;
             }
         }
 
@@ -867,7 +861,7 @@ function five_quanti () {
                 colorscale: colorscale[j],
                 cmin: VAL_MIN
             },
-            name: j,
+            name: 'LC ' + j,
             type: 'scattergl',
             hoverinfo: 'none' //to hide labels on points
         });
@@ -883,6 +877,7 @@ function five_quanti () {
     //update the graph
     Plotly.purge(GRAPHDIV);
     Plotly.react(GRAPHDIV, data, LAYOUT, {responsive: true});
+    Plotly.relayout(GRAPHDIV, 'showlegend', true);
 }
 
 /**

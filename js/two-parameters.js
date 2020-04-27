@@ -1,3 +1,20 @@
+/*
+    Copyright (C) 2020  Marion PERRIER, Frédéric PONT
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 /**
  * Main function of the two-parameters mode.
  * Will determine how many quantitative and qualitative values are asked and
@@ -270,7 +287,7 @@ function two_quanti (color = undefined,
                     }
                 }
                 color.push(VAL_MIN);
-                title = j + ' = No layer detected';
+                title = 'LC ' + j + ' = ' + ' No layer detected\n';
             }
 
             //Looking at the values which contain only L1
@@ -287,7 +304,7 @@ function two_quanti (color = undefined,
                     }
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name1]);
-                title = j + ' = Only '+quanti_column_name1;
+                title = 'LC ' + j + ' = Only '+quanti_column_name1+'\n';
             }
 
             //Looking at the values which contain only L2
@@ -304,7 +321,7 @@ function two_quanti (color = undefined,
                     }
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name2]);
-                title = j + ' = Only '+quanti_column_name2;
+                title = 'LC ' + j + ' = Only '+quanti_column_name2+'\n';
             }
 
             //Looking at the values which contain both L1 and L2
@@ -325,7 +342,7 @@ function two_quanti (color = undefined,
                 let exp_percent2 = (values_layer2[point]*100)/cmax2;
                 let exp_percent = (exp_percent1+exp_percent2)/2; 
                 color.push(exp_percent);
-                title = j + ' = ' +quanti_column_name1+' + '+quanti_column_name2;
+                title = 'LC ' + j + ' = ' +quanti_column_name1+' + '+quanti_column_name2+'\n';
             }
         }
 
@@ -343,7 +360,7 @@ function two_quanti (color = undefined,
                         colorscale: colorscale[j],
                         cmin: VAL_MIN
                     },
-                    name: j,
+                    name: 'LC ' + j,
                     type: 'scattergl',
                     hoverinfo: 'none' //to hide labels on points
                 });
@@ -362,7 +379,7 @@ function two_quanti (color = undefined,
                         colorscale: colorscale[j],
                         cmin: VAL_MIN
                     },
-                    name: j,
+                    name: 'LC ' + j,
                     type: 'scattergl',
                     hoverinfo: 'none' //to hide labels on points
                 });
@@ -380,7 +397,7 @@ function two_quanti (color = undefined,
                         colorscale: colorscale[j],
                         cmin: VAL_MIN
                     },
-                    name: j,
+                    name: 'LC ' + j,
                     type: 'scattergl',
                     hoverinfo: 'none' //to hide labels on points
                 });
@@ -396,4 +413,5 @@ function two_quanti (color = undefined,
     //update the graph
     Plotly.purge(GRAPHDIV);
     Plotly.react(GRAPHDIV, data, LAYOUT, {responsive: true});
+    Plotly.relayout(GRAPHDIV, 'showlegend', true);
 }

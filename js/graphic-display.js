@@ -1,3 +1,21 @@
+/*
+    Copyright (C) 2020  Marion PERRIER, Frédéric PONT
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+
 /**
  * Enable all usefull buttons. Show graphical plot
  * using Plot.ly, graphical framework.
@@ -23,18 +41,22 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
     }
 
     //Enables button for parameters and axes selection
+    console.log("Je suis passé draw_on axe ! ");
     if(document.getElementById('x_axis_select_id').disabled){
+        console.log("Je réactive les boutons désactivés");
         //Axes selection
         document.getElementById('x_axis_select_id').removeAttribute('disabled');
         document.getElementById('y_axis_select_id').removeAttribute('disabled');
 
         //parameters selection
-        for(let j = 0; j <= 5; j++){
+        for(let layer_index = 1; layer_index <= 5; layer_index++){
+            console.log(layer_index);
             //Reset sliders and color pickers
-            document.getElementById(`color_layer_${j}`).value = "#FF0000";
-            document.getElementById(`dot_size_${j}`).value = 3;
-            if(document.getElementById(`selectLayer${j}`) != null){
-                document.getElementById(`selectLayer${j}`).removeAttribute('disabled');
+            document.getElementById(`color_layer_${layer_index}`).value = "#1f77b4"; //Default blue color on plotly
+            document.getElementById(`dot_size_${layer_index}`).value = 3;
+            if(document.getElementById(`selectLayer${layer_index}`) != null){
+                console.log("Je réactive les boutons de sélection de layers désactivés");
+                document.getElementById(`selectLayer${layer_index}`).removeAttribute('disabled');
             }
         }
     }
@@ -57,7 +79,8 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
             type: 'scattergl',
             hoverinfo: 'none' //to hide labels on points
             }], 
-            LAYOUT, {responsive: true});
+            LAYOUT, {responsive: true}
+        );
         return;
     }
     else {
@@ -367,7 +390,7 @@ function display_legend (legend) {
     textNode.innerHTML=string_to_display;
 
     //Add title
-    document.getElementById('legend_title').innerHTML = 'Legend for quantitative values';
+    document.getElementById('legend_title').innerHTML = 'Layers Combinations Legend';
     document.getElementById('legend').appendChild(textNode);
 }
 

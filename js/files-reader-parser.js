@@ -1,5 +1,25 @@
+/*
+    Copyright (C) 2020  Marion PERRIER, Frédéric PONT
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
 /**
- * TO DO : Find an other name for "j" var line 132
+ * TO DO : 
+ *  - Find an other name for "j" var line 132
+ *  - div 'control_text', 'control_for_number_layers', 'control_for_x' and 'control_for_y'
+ *    should be under the control of one unique div (to hide/display more easily)
  */
 
 /** 
@@ -22,6 +42,7 @@ function reading_tsv_file(){
     //Deletes all selective lists (number of layers) already displayed if there is an other file given
     document.getElementById('layer_number_selection').innerHTML = "";
 
+    document.getElementById('control_text').hidden = true;
     document.getElementById('control_for_number_layers').hidden = true;
     document.getElementById('control_for_x').hidden = true;
     document.getElementById('control_for_y').hidden = true;
@@ -63,7 +84,7 @@ function parse_csv_to_json(){
     if (IS_CREATED) {
         if (document.getElementById('x_axis_select_id') 
             || document.getElementById('y_axis_select_id')) {
-
+            console.log("Je suis déjà créé, donc je disable tous les boutons");
             document.getElementById('x_axis_select_id').setAttribute('disabled', '');
             document.getElementById('y_axis_select_id').setAttribute('disabled', '');
             document.getElementById('numberOfLayers').setAttribute('disabled', '');
