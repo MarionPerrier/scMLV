@@ -55,12 +55,14 @@ function save_to_svg (width, height, ask_legend) {
     };
     Plotly.restyle(GRAPHDIV, update);
 
-    if(!ask_legend){
-        //redisplay legend
-        Plotly.relayout(GRAPHDIV, 'showlegend', true);
-    }
-    else {
-        save_legend_txt();
+    if(document.getElementById('numberOfLayers').value != 1){
+        if(!ask_legend){
+            //redisplay legend
+            Plotly.relayout(GRAPHDIV, 'showlegend', true);
+        }
+        else {
+            save_legend_txt();
+        }
     }
 }
 
@@ -84,14 +86,15 @@ function save_to_png (width, height, ask_legend) {
         filename: 'newplot'}
     );
 
-    if(!ask_legend){
-        //redisplay legend
-        Plotly.relayout(GRAPHDIV, 'showlegend', true);
+    if(document.getElementById('numberOfLayers').value != 1){
+        if(!ask_legend){
+            //redisplay legend
+            Plotly.relayout(GRAPHDIV, 'showlegend', true);
+        }
+        else {
+            save_legend_txt();
+        }
     }
-    else {
-        save_legend_txt();
-    }
-
 }
 
 /**
@@ -124,7 +127,9 @@ function ask_for_size(value) {
 
     dimension.width = prompt('Width desired : ', '1280');
     dimension.height = prompt('Height desired : ', '450');
-    ask_legend = window.confirm('Do you want to save the legend ?\nPress "OK" if yes, "Cancel" if no');
+    if(document.getElementById('numberOfLayers').value != 1){
+        ask_legend = window.confirm('Do you want to save the legend ?\nPress "OK" if yes, "Cancel" if no');
+    }
 
     if(re.test(dimension.width) && re.test(dimension.height)){
         switch(value){

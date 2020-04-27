@@ -41,9 +41,7 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
     }
 
     //Enables button for parameters and axes selection
-    console.log("Je suis passé draw_on axe ! ");
     if(document.getElementById('x_axis_select_id').disabled){
-        console.log("Je réactive les boutons désactivés");
         //Axes selection
         document.getElementById('x_axis_select_id').removeAttribute('disabled');
         document.getElementById('y_axis_select_id').removeAttribute('disabled');
@@ -55,7 +53,6 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
             document.getElementById(`color_layer_${layer_index}`).value = "#1f77b4"; //Default blue color on plotly
             document.getElementById(`dot_size_${layer_index}`).value = 3;
             if(document.getElementById(`selectLayer${layer_index}`) != null){
-                console.log("Je réactive les boutons de sélection de layers désactivés");
                 document.getElementById(`selectLayer${layer_index}`).removeAttribute('disabled');
             }
         }
