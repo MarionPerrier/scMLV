@@ -1,1 +1,1 @@
-# multi-signatures-visual-tool
+# scMLVT

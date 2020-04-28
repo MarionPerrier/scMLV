@@ -55,7 +55,7 @@ function save_to_svg (width, height, ask_legend) {
     };
     Plotly.restyle(GRAPHDIV, update);
 
-    if(document.getElementById('numberOfLayers').value != 1){
+    if(is_a_legend_possible()){
         if(!ask_legend){
             //redisplay legend
             Plotly.relayout(GRAPHDIV, 'showlegend', true);
@@ -86,7 +86,7 @@ function save_to_png (width, height, ask_legend) {
         filename: 'newplot'}
     );
 
-    if(document.getElementById('numberOfLayers').value != 1){
+    if(is_a_legend_possible()){
         if(!ask_legend){
             //redisplay legend
             Plotly.relayout(GRAPHDIV, 'showlegend', true);
@@ -127,7 +127,7 @@ function ask_for_size(value) {
 
     dimension.width = prompt('Width desired : ', '1280');
     dimension.height = prompt('Height desired : ', '450');
-    if(document.getElementById('numberOfLayers').value != 1){
+    if(is_a_legend_possible()){
         ask_legend = window.confirm('Do you want to save the legend ?\nPress "OK" if yes, "Cancel" if no');
     }
 
@@ -147,4 +147,21 @@ function ask_for_size(value) {
             return;
         }
     }
+}
+
+
+function is_a_legend_possible (){
+    let number_of_layers = document.getElementById('numberOfLayers').value;
+    if(number_of_layers != 1){
+        if(number_of_layers == 2 && is_quantitative([1, 2]) === 1){
+            return false;
+        }
+        else if(number_of_layers == 3 && is_quantitative([1, 2, 3]) === 1){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    return false;
 }

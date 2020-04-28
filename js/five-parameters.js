@@ -184,7 +184,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(VAL_MIN);
-                title = 'LC ' + j + ' = No layer detected';
+                title = 'LC ' + j + ' = No layer detected\n';
             }
 
             //Looking at the values which contain only L1
@@ -198,7 +198,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name1]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name1;
+                title = 'LC ' + j + ' = Only '+quanti_column_name1+'\n';
             }
 
             //Looking at the values which contain only L2
@@ -212,7 +212,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name2]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name2;
+                title = 'LC ' + j + ' = Only '+quanti_column_name2+'\n';
             }
 
             //Looking at the values which contain only L3
@@ -226,7 +226,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name3]);
-                title = 'LC ' + j + ' = Only ' +quanti_column_name3;
+                title = 'LC ' + j + ' = Only ' +quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain only L4
@@ -240,7 +240,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name4]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name4;
+                title = 'LC ' + j + ' = Only '+quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain only L5
@@ -254,7 +254,7 @@ function five_quanti () {
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name5]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name5;               
+                title = 'LC ' + j + ' = Only '+quanti_column_name5+'\n';               
             }
 
             //Looking at the values which contain L1 and L2
@@ -275,7 +275,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + '
-                        + quanti_column_name2;
+                        + quanti_column_name2+'\n';
             }
 
             //Looking at the values which contain L1 and L3
@@ -296,7 +296,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
-                        + quanti_column_name3;
+                        + quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain L1 and L4
@@ -317,7 +317,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + '
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L1 and L5
@@ -338,7 +338,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain L2 and L3
@@ -359,7 +359,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name3;
+                        + quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain L2 and L4
@@ -380,7 +380,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L2 and L5
@@ -401,7 +401,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain L3 and L4
@@ -422,7 +422,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L3 and L5
@@ -443,7 +443,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain L4 and L5
@@ -464,7 +464,7 @@ function five_quanti () {
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;     
+                        + quanti_column_name5+'\n';     
             }
 
             //Looking at the values which contain L1, L2 and L3 together
@@ -487,7 +487,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name3;
+                        + quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain L1, L2 and L4 together
@@ -510,7 +510,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L1, L2 and L5 together
@@ -533,7 +533,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain L1, L3 and L4 together
@@ -556,7 +556,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L1, L3 and L5 together
@@ -579,7 +579,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
             
             //Looking at the values which contain L1, L4 and L5 together
@@ -602,7 +602,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain L2, L3 and L4 together
@@ -625,7 +625,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L2, L3 and L5 together
@@ -648,7 +648,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain L2, L4 and L5 together
@@ -671,7 +671,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain L3, L4 and L5 together
@@ -694,7 +694,7 @@ function five_quanti () {
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name3 + ' + ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain layers 1, 2, 3 and 4 together
@@ -719,7 +719,7 @@ function five_quanti () {
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain layers 1, 2, 3 and 5 together
@@ -744,7 +744,7 @@ function five_quanti () {
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain layers 1, 2, 4 and 5 together
@@ -769,7 +769,7 @@ function five_quanti () {
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain layers 1, 3, 4 and 5 together
@@ -794,7 +794,7 @@ function five_quanti () {
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name3 + ' + ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain layers 2, 3, 4 and 5 together
@@ -819,7 +819,7 @@ function five_quanti () {
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
 
             //Looking at the values which contain all layers 1, 2, 3, 4 and 5 together
@@ -846,7 +846,7 @@ function five_quanti () {
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + ' 
                         + quanti_column_name4 + ' + ' 
-                        + quanti_column_name5;
+                        + quanti_column_name5+'\n';
             }
         }
 

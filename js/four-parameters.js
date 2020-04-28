@@ -291,7 +291,7 @@ function four_quanti (color = undefined,
                     text.push(PARSED_RESULTS[point][quali_column_name]);
                 }
                 color.push(VAL_MIN);
-                title = 'LC ' + j + ' = No layer detected';
+                title = 'LC ' + j + ' = No layer detected\n';
             }
 
             //Looking at the values which contain only L1
@@ -307,7 +307,7 @@ function four_quanti (color = undefined,
                     text.push(PARSED_RESULTS[point][quali_column_name]);
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name1]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name1;
+                title = 'LC ' + j + ' = Only '+quanti_column_name1+'\n';
             }
 
             //Looking at the values which contain only L2
@@ -323,7 +323,7 @@ function four_quanti (color = undefined,
                     text.push(PARSED_RESULTS[point][quali_column_name]);
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name2]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name2;
+                title = 'LC ' + j + ' = Only '+quanti_column_name2+'\n';
             }
 
             //Looking at the values which contain only L3
@@ -339,7 +339,7 @@ function four_quanti (color = undefined,
                     text.push(PARSED_RESULTS[point][quali_column_name]);
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name3]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name3;
+                title = 'LC ' + j + ' = Only '+quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain only L4
@@ -355,7 +355,7 @@ function four_quanti (color = undefined,
                     text.push(PARSED_RESULTS[point][quali_column_name]);
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name4]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name4;
+                title = 'LC ' + j + ' = Only '+quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L1 and L2
@@ -378,7 +378,7 @@ function four_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
-                        + quanti_column_name2;
+                        + quanti_column_name2+'\n';
             }
 
             //Looking at the values which contain L1 and L3
@@ -401,7 +401,7 @@ function four_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
-                        + quanti_column_name3;
+                        + quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain L1 and L4
@@ -424,7 +424,7 @@ function four_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L2 and L3
@@ -447,7 +447,7 @@ function four_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name3;
+                        + quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain L2 and L4
@@ -470,7 +470,7 @@ function four_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + '
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L3 and L4
@@ -493,7 +493,7 @@ function four_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L1, L2 and L3 together
@@ -518,7 +518,7 @@ function four_quanti (color = undefined,
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name3;
+                        + quanti_column_name3+'\n';
             }
 
             //Looking at the values which contain L1, L2 and L4 together
@@ -543,7 +543,7 @@ function four_quanti (color = undefined,
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + '
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L1, L3 and L4 together
@@ -568,7 +568,7 @@ function four_quanti (color = undefined,
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name3 + ' + '
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
             //Looking at the values which contain L2, L3 and L4 together
@@ -593,7 +593,7 @@ function four_quanti (color = undefined,
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + ' 
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
 
              //Looking at the values which contain all layers (1, 2, 3, 4) together
@@ -620,7 +620,7 @@ function four_quanti (color = undefined,
                         + quanti_column_name1 + ' + '
                         + quanti_column_name2 + ' + ' 
                         + quanti_column_name3 + ' + '
-                        + quanti_column_name4;
+                        + quanti_column_name4+'\n';
             }
         }
 
