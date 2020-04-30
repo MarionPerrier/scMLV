@@ -262,8 +262,6 @@ function check_both () {
                     X.push(PARSED_RESULTS[element][X_name]);
                     Y.push(PARSED_RESULTS[element][Y_name]);
                 }
-                console.log("X : ", X.length);
-                console.log("Y : ", Y.length);
                 Plotly.restyle(GRAPHDIV, {'x':[X], 'y':[Y]});
  
                 //Enable save PNG/SVG buttons when the plot is shown 
