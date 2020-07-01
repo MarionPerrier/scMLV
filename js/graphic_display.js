@@ -956,7 +956,7 @@ function change_size_legend (position, different_terms, stylesIndex, value) {
 
     //Strating by looking if there is already a "transforms" defined (which tells that a "groupby" has been made)
     //It shouldn't be any "z" coordinate to update this way. (If there is a Z, we need to change the groupby attribute, because it can be obsolete)
-    if(GRAPHDIV.data[0].transforms != undefined){
+    if(GRAPHDIV.data[0].transforms !== undefined){
         if(GRAPHDIV.data[0].z !== undefined){
             for(trace in GRAPHDIV.data){
                 if(position === 2){

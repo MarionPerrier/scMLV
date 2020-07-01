@@ -43,6 +43,7 @@ function reading_tsv_file(){
     document.getElementById('layer_number_selection').innerHTML = "";
 
     document.getElementById('control_text').hidden = true;
+    document.getElementById('explanatory_text').hidden = true;
     document.getElementById('control_for_number_layers').hidden = true;
     document.getElementById('control_for_x').hidden = true;
     document.getElementById('control_for_y').hidden = true;
