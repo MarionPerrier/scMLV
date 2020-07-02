@@ -160,9 +160,7 @@ function one_quanti_one_quali () {
     
     //update the graph
     Plotly.purge(GRAPHDIV);
-    Plotly.react(GRAPHDIV, data, layout={
-        xaxis: {visible: false, showgrid: false, zeroline: false}, 
-        yaxis: {visible: false, showgrid: false, zeroline: false},
+    Plotly.react(GRAPHDIV, data, layout={LAYOUT,
         showlegend: false},
         config={responsive: true});
 

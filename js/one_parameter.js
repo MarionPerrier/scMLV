@@ -124,10 +124,7 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
         
         //update the graph
         Plotly.purge(GRAPHDIV);
-        Plotly.react(GRAPHDIV, data, layout={
-            xaxis: {visible: false, showgrid: false, zeroline: false}, 
-            yaxis: {visible: false, showgrid: false, zeroline: false},
-            showlegend: false},
+        Plotly.react(GRAPHDIV, data, layout=LAYOUT,{showlegend: false},
             config={responsive: true});
     }
     else {

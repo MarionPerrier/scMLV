@@ -37,6 +37,9 @@ function save_to_svg (width, height, ask_legend) {
     };
     Plotly.restyle(GRAPHDIV, update);
 
+    //hide button
+    Plotly.relayout(GRAPHDIV, 'updatemenus[0].visible', false);
+
     if(!ask_legend){
         //hide legend
         Plotly.relayout(GRAPHDIV, 'showlegend', false);
@@ -54,6 +57,7 @@ function save_to_svg (width, height, ask_legend) {
         type: 'scattergl'
     };
     Plotly.restyle(GRAPHDIV, update);
+    Plotly.relayout(GRAPHDIV, 'updatemenus[0].visible', true);
 
     if(is_a_legend_possible()){
         if(!ask_legend){
@@ -74,6 +78,9 @@ function save_to_svg (width, height, ask_legend) {
  */
 function save_to_png (width, height, ask_legend) {
 
+    //Hide button
+    Plotly.relayout(GRAPHDIV, 'updatemenus[0].visible', false);
+
     if(!ask_legend){
         //hide legend
         Plotly.relayout(GRAPHDIV, 'showlegend', false);
@@ -85,6 +92,8 @@ function save_to_png (width, height, ask_legend) {
         height: height, 
         filename: 'newplot'}
     );
+
+    Plotly.relayout(GRAPHDIV, 'updatemenus[0].visible', true);
 
     if(is_a_legend_possible()){
         if(!ask_legend){
@@ -148,7 +157,6 @@ function ask_for_size(value) {
         }
     }
 }
-
 
 function is_a_legend_possible (){
     let number_of_layers = document.getElementById('numberOfLayers').value;

@@ -49,10 +49,37 @@ var VAL_MIN = 0; //personal note (to remove !!) : 6.4
 var DOT_SIZE = 3;
 
 const GRAPHDIV = document.getElementById('graphic');
+
+//Creation of buttons to hide/show axis
+const UPDATEMENUS = [
+    {
+    buttons: [
+            {
+                args: [{'xaxis.showline':false, 'yaxis.showline':false, 'xaxis.visible':false, 'yaxis.visible':false}],
+                label: 'Hide axis',
+                method: 'relayout'
+            },
+            {
+                args: [{'xaxis.showline':true, 'yaxis.showline':true, 'xaxis.visible':true, 'yaxis.visible':true}],
+                label:'Show axis',
+                method:'relayout'
+            }
+        ],
+        direction: 'down',
+        showactive: true,
+        type: 'dropdown',
+        x: 1.02,
+        xanchor: 'left',
+        y: 1.1,
+        yanchor: 'bottom'
+    }
+];
+
 var LAYOUT = {
     xaxis: {visible: false, showgrid: false, zeroline: false}, 
     yaxis: {visible: false, showgrid: false, zeroline: false},
-    }
+    updatemenus: UPDATEMENUS
+}
 
 /**
  *  Dynamically creates lists depending on the number of parameters selected
