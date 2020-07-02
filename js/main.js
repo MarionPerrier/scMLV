@@ -55,12 +55,20 @@ const UPDATEMENUS = [
     {
     buttons: [
             {
-                args: [{'xaxis.showline':false, 'yaxis.showline':false, 'xaxis.visible':false, 'yaxis.visible':false}],
+                args: [{'xaxis.showline':false,
+                    'yaxis.showline':false, 
+                    'xaxis.visible':false, 
+                    'yaxis.visible':false
+                }],
                 label: 'Hide axis',
                 method: 'relayout'
             },
             {
-                args: [{'xaxis.showline':true, 'yaxis.showline':true, 'xaxis.visible':true, 'yaxis.visible':true}],
+                args: [{'xaxis.showline':true, 
+                    'yaxis.showline':true,
+                    'xaxis.visible':true, 
+                    'yaxis.visible':true
+                }],
                 label:'Show axis',
                 method:'relayout'
             }
@@ -280,6 +288,13 @@ function check_both () {
             if(GRAPHDIV.data === undefined){
                 clearLegend();
                 draw_on_axes(X_name, Y_name);
+                //update axis titles
+                console.log("Je créée là");
+                var update = {
+                    'xaxis.title.text':document.getElementById('x_axis_select_id').value,
+                    'yaxis.title.text':document.getElementById('y_axis_select_id').value
+                }
+                Plotly.relayout(GRAPHDIV, update);
             }
             //Otherwise we just rewrite coordinates
             else {
@@ -305,13 +320,20 @@ function check_both () {
                     document.getElementById('y_axis_select_id').removeAttribute('disabled');
 
                     //parameters selection
-
                     for(let j = 0; j <= 5; j++){
                         if(document.getElementById(`selectLayer${j}`) != null){
                             document.getElementById(`selectLayer${j}`).removeAttribute('disabled');
                         }
                     }
                 }
+
+                //update axis titles
+                console.log("J'update là");
+                var update = {
+                    'xaxis.title.text':document.getElementById('x_axis_select_id').value,
+                    'yaxis.title.text':document.getElementById('y_axis_select_id').value
+                }
+                Plotly.relayout(GRAPHDIV, update);
 
                 switch(parseInt(document.getElementById(`numberOfLayers`).value)){
                     case 1:
