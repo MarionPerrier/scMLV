@@ -160,7 +160,7 @@ function one_quanti_one_quali () {
     
     //update the graph
     Plotly.purge(GRAPHDIV);
-    Plotly.react(GRAPHDIV, data, layout={LAYOUT,
+    Plotly.react(GRAPHDIV, data, layout=LAYOUT,{
         showlegend: false},
         config={responsive: true});
 
@@ -185,7 +185,7 @@ function two_quali () {
     }
 
     update = {
-        text: [text]
+        text: [text],
     };
 
     Plotly.restyle(GRAPHDIV, update);
