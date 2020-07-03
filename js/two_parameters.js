@@ -199,13 +199,6 @@ function two_quali () {
         hoverinfo: 'none' //to hide labels on points
     }];
 
-    //update = {
-    //    text: [text],
-    //};
-
-    //Plotly.restyle(GRAPHDIV, update);
-    //Plotly.restyle(GRAPHDIV, 'z', [z]);
-
     Plotly.purge(GRAPHDIV);
     Plotly.react(GRAPHDIV, data, LAYOUT, {responsive: true});
 

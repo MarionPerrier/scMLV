@@ -211,11 +211,11 @@ function add_legend_color (list_number) {
     //Makes sliders appear to the right for each term [TERM : *slider*]
     for (let term in differents_terms) {
 
-        //console.log("terme en cours : ", differents_terms[term]);
         var number_of_cells = 0;
-        //Text has to exist, since he's the first one to be created before z.
+        //Calculates the number of cells for each terms
         for(data_number in GRAPHDIV.data){
             if(position === 1){
+                //For text
                 GRAPHDIV.data[data_number].text.forEach(
                     element => {if(element === differents_terms[term]){
                         number_of_cells += 1;
@@ -223,13 +223,13 @@ function add_legend_color (list_number) {
                 });
             }
             if(position === 2){
+                //For z
                 GRAPHDIV.data[data_number].z.forEach(
                     element => {if(element === differents_terms[term]){
                         number_of_cells += 1;
                     }
                 });
             }
-            //console.log("Par data : ", number_of_cells);
         }
 
         //Create a div for each term
@@ -330,11 +330,12 @@ function add_legend_shapes (list_number) {
 
         //Make sliders appears to the right for each term [TERM : *slider*]
         for (let term in differents_terms) {
-            //console.log("terme en cours : ", differents_terms[term]);
+            
+            //Calculates the number of cells for each terms
             var number_of_cells = 0;
-            //Text has to exist, since he's the first one to be created before z.
             for(data_number in GRAPHDIV.data){
                 if(div_number === 1){
+                    //For text
                     GRAPHDIV.data[data_number].text.forEach(
                         element => {if(element === differents_terms[term]){
                             number_of_cells += 1;
@@ -342,16 +343,14 @@ function add_legend_shapes (list_number) {
                     });
                 }
                 if(div_number === 2){
+                    //For z
                     GRAPHDIV.data[data_number].z.forEach(
                         element => {if(element === differents_terms[term]){
                             number_of_cells += 1;
                         }
                     });
                 }
-                //console.log("Par data : ", number_of_cells);
             }
-
-            //console.log(number_of_cells); //On a le bon nombre.
 
             //Create a div for each term
             let div = document.createElement("div");
@@ -556,7 +555,7 @@ function calculation_middle_color(color) {
  * Insert a black border line for each point which has a width >= 6.
  * Reset the size and the border line when there is an other layer selected.
  * 
- * WARNING : That's not an elegend way to proceed. This function needs to be updated
+ * WARNING : That's not an elegant way to proceed. This function needs to be updated
  * in the future (the traces are hard written, and we want to avoid that.)
  * Plus, this piece of code is extremely slow. We should improve it 
  * 

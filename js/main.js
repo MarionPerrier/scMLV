@@ -67,7 +67,9 @@ const UPDATEMENUS = [
                 args: [{'xaxis.showline':true, 
                     'yaxis.showline':true,
                     'xaxis.visible':true, 
-                    'yaxis.visible':true
+                    'yaxis.visible':true,
+                    'xaxis.ticks':'outside',
+                    'yaxis.ticks':'outside'
                 }],
                 label:'Show axis',
                 method:'relayout'
