@@ -256,7 +256,7 @@ function three_quanti (color = undefined,
                     }
                 }
                 color.push(VAL_MIN);
-                title = 'LC ' + j + ' = No layer detected\n';
+                title = 'LC ' + j +  ` = No layer detected (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain only L1
@@ -274,7 +274,7 @@ function three_quanti (color = undefined,
                     }
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name1]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name1+'\n';
+                title = 'LC ' + j + ' = Only '+quanti_column_name1+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain only L2
@@ -292,7 +292,7 @@ function three_quanti (color = undefined,
                     }
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name2]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name2+'\n';
+                title = 'LC ' + j + ' = Only '+quanti_column_name2+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain only L3
@@ -310,7 +310,7 @@ function three_quanti (color = undefined,
                     }
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name3]);
-                title = 'LC ' + j + ' =  Only '+quanti_column_name3+'\n';
+                title = 'LC ' + j + ' =  Only '+quanti_column_name3+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain L1 and L2
@@ -335,7 +335,7 @@ function three_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
-                        + quanti_column_name2+'\n';
+                        + quanti_column_name2+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain L1 and L3
@@ -360,7 +360,7 @@ function three_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
-                        + quanti_column_name3+'\n';
+                        + quanti_column_name3+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain L2 and L3
@@ -385,7 +385,7 @@ function three_quanti (color = undefined,
                 color.push(exp_percent);
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name3+'\n';
+                        + quanti_column_name3+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain L1, L2 and L3 together
@@ -412,7 +412,7 @@ function three_quanti (color = undefined,
                 title = 'LC ' + j + ' = ' 
                         + quanti_column_name1 + ' + ' 
                         + quanti_column_name2 + ' + ' 
-                        + quanti_column_name3+'\n';
+                        + quanti_column_name3+` (${X.length} cells)\n`;
             }
         }
 

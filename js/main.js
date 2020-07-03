@@ -289,7 +289,6 @@ function check_both () {
                 clearLegend();
                 draw_on_axes(X_name, Y_name);
                 //update axis titles
-                console.log("Je créée là");
                 var update = {
                     'xaxis.title.text':document.getElementById('x_axis_select_id').value,
                     'yaxis.title.text':document.getElementById('y_axis_select_id').value
@@ -328,7 +327,6 @@ function check_both () {
                 }
 
                 //update axis titles
-                console.log("J'update là");
                 var update = {
                     'xaxis.title.text':document.getElementById('x_axis_select_id').value,
                     'yaxis.title.text':document.getElementById('y_axis_select_id').value

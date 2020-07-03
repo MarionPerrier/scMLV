@@ -133,7 +133,7 @@ function one_quanti_one_quali () {
                 text.push(PARSED_RESULTS[point][quali_column_name]);
                 color.push(VAL_MIN);
             }
-            else if(quantitatives_values[point] > VAL_MIN){
+            else if(j === 1 && quantitatives_values[point] > VAL_MIN){
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 text.push(PARSED_RESULTS[point][quali_column_name]);
@@ -155,14 +155,12 @@ function one_quanti_one_quali () {
             },
             type: 'scattergl',
             hoverinfo:'none' //To hide labels on points
-        }); 
+        });
     }
-    
     //update the graph
     Plotly.purge(GRAPHDIV);
-    Plotly.react(GRAPHDIV, data, layout=LAYOUT,{
-        showlegend: false},
-        config={responsive: true});
+    Plotly.react(GRAPHDIV, data, layout=LAYOUT,config={responsive: true});
+    Plotly.relayout(GRAPHDIV, {'showlegend': false});
 
     add_legend_shapes(list_quali);
 }
@@ -177,19 +175,39 @@ function two_quali () {
     }
 
     //Creates text attribute for data. One variable will be in "text", one in "z" coordinate.
+    let X = [];
+    let Y = [];
     let text = [];
     let z = [];
     for(let j = 0; j < TAB_LENGTH; j++){
+        X.push(PARSED_RESULTS[j][X_name]);
+        Y.push(PARSED_RESULTS[j][Y_name]);
         text.push(PARSED_RESULTS[j][document.getElementById('selectLayer1').value]);
         z.push(PARSED_RESULTS[j][document.getElementById('selectLayer2').value]);
     }
 
-    update = {
-        text: [text],
-    };
+    var data = [{
+        x: X,
+        y: Y,
+        z: z,
+        text: text,
+        mode: 'markers',
+        marker: {
+            size: DOT_SIZE,
+        },
+        type: 'scattergl',
+        hoverinfo: 'none' //to hide labels on points
+    }];
 
-    Plotly.restyle(GRAPHDIV, update);
-    Plotly.restyle(GRAPHDIV, 'z', [z]);
+    //update = {
+    //    text: [text],
+    //};
+
+    //Plotly.restyle(GRAPHDIV, update);
+    //Plotly.restyle(GRAPHDIV, 'z', [z]);
+
+    Plotly.purge(GRAPHDIV);
+    Plotly.react(GRAPHDIV, data, LAYOUT, {responsive: true});
 
     add_legend_shapes([1,2], 2);
 }
@@ -285,7 +303,7 @@ function two_quanti (color = undefined,
                     }
                 }
                 color.push(VAL_MIN);
-                title = 'LC ' + j + ' = ' + ' No layer detected\n';
+                title = 'LC ' + j + ' = ' + ` No layer detected (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain only L1
@@ -302,7 +320,7 @@ function two_quanti (color = undefined,
                     }
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name1]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name1+'\n';
+                title = 'LC ' + j + ' = Only '+quanti_column_name1+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain only L2
@@ -319,7 +337,7 @@ function two_quanti (color = undefined,
                     }
                 }
                 color.push(PARSED_RESULTS[point][quanti_column_name2]);
-                title = 'LC ' + j + ' = Only '+quanti_column_name2+'\n';
+                title = 'LC ' + j + ' = Only '+quanti_column_name2+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain both L1 and L2
@@ -340,7 +358,7 @@ function two_quanti (color = undefined,
                 let exp_percent2 = (values_layer2[point]*100)/cmax2;
                 let exp_percent = (exp_percent1+exp_percent2)/2; 
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' +quanti_column_name1+' + '+quanti_column_name2+'\n';
+                title = 'LC ' + j + ' = ' +quanti_column_name1+' + '+quanti_column_name2+` (${X.length} cells)\n`;
             }
         }
 

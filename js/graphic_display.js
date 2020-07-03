@@ -198,7 +198,8 @@ function add_legend_color (list_number) {
     var myDiv = document.getElementById(`qual_color_${position}`);
     let differents_terms = [];
 
-    //Take all values (class names for each point)
+    //Take all values (class names for each point) - Is there already a native function doing it for less ressources ?
+    //It would be nice to check. keyword : TO DO
     for(let j = 0; j < TAB_LENGTH; j++){
         let term = PARSED_RESULTS[j][column_name];
 
@@ -209,6 +210,27 @@ function add_legend_color (list_number) {
 
     //Makes sliders appear to the right for each term [TERM : *slider*]
     for (let term in differents_terms) {
+
+        //console.log("terme en cours : ", differents_terms[term]);
+        var number_of_cells = 0;
+        //Text has to exist, since he's the first one to be created before z.
+        for(data_number in GRAPHDIV.data){
+            if(position === 1){
+                GRAPHDIV.data[data_number].text.forEach(
+                    element => {if(element === differents_terms[term]){
+                        number_of_cells += 1;
+                    }
+                });
+            }
+            if(position === 2){
+                GRAPHDIV.data[data_number].z.forEach(
+                    element => {if(element === differents_terms[term]){
+                        number_of_cells += 1;
+                    }
+                });
+            }
+            //console.log("Par data : ", number_of_cells);
+        }
 
         //Create a div for each term
         let div = document.createElement("div");
@@ -222,7 +244,7 @@ function add_legend_color (list_number) {
         let line = document.createElement('hr');
 
         //Assigns differents attributes to the new inputs elements
-        label.innerText = `${differents_terms[term]} : ` ;
+        label.innerText = `${differents_terms[term]} (${number_of_cells} cells) : ` ;
         label.setAttribute('style', 'float: left;');
 
         element1.setAttribute("id", `cp_${position}_${differents_terms[term]}`); // CP stands for "color picker"
@@ -294,6 +316,8 @@ function add_legend_shapes (list_number) {
         let differents_terms = [];
 
         //Take all values (class names for each point)
+        //I'm pretty sure there is a nicer way to do that. With a native function.
+        // To check. keyword : TO DO
         for(let j = 0; j < TAB_LENGTH; j++){
 
             let term = PARSED_RESULTS[j][column_name];
@@ -302,8 +326,32 @@ function add_legend_shapes (list_number) {
             }
         }
 
+        differents_terms.sort();
+
         //Make sliders appears to the right for each term [TERM : *slider*]
         for (let term in differents_terms) {
+            //console.log("terme en cours : ", differents_terms[term]);
+            var number_of_cells = 0;
+            //Text has to exist, since he's the first one to be created before z.
+            for(data_number in GRAPHDIV.data){
+                if(div_number === 1){
+                    GRAPHDIV.data[data_number].text.forEach(
+                        element => {if(element === differents_terms[term]){
+                            number_of_cells += 1;
+                        }
+                    });
+                }
+                if(div_number === 2){
+                    GRAPHDIV.data[data_number].z.forEach(
+                        element => {if(element === differents_terms[term]){
+                            number_of_cells += 1;
+                        }
+                    });
+                }
+                //console.log("Par data : ", number_of_cells);
+            }
+
+            //console.log(number_of_cells); //On a le bon nombre.
 
             //Create a div for each term
             let div = document.createElement("div");
@@ -321,7 +369,7 @@ function add_legend_shapes (list_number) {
             line.setAttribute('color', 'purple');
 
             //Assigns differents attributes to the new inputs elements
-            label.innerText = `${differents_terms[term]} : ` ;
+            label.innerText = `${differents_terms[term]} (${number_of_cells} cells) : ` ;
             label.setAttribute('style', 'float: left;');
 
             element1_1.setAttribute("id", `shape_${div_number}_${differents_terms[term]}`);
@@ -874,20 +922,28 @@ function change_legend_color (position, different_terms, stylesIndex, valueColor
 
     //Checking if there is already a "transforms" defined (with a groupby function)
     if(GRAPHDIV.data[0].transforms != undefined){
+        //console.log("Il y a déjà un transorms!");
         if(GRAPHDIV.data[0].z !== undefined){
+            //console.log("Et des coordonnées Z!");
             for(trace in GRAPHDIV.data){
                 if(position === 2){
+                    //console.log("Je crée mon groupe en position 2");
                     var groups = GRAPHDIV.data[parseInt(trace)].z;
                 }
                 else {
+                    //console.log("Je crée mon groupe en position 1");
                     var groups = GRAPHDIV.data[parseInt(trace)].text;
                 }
+                //console.log("Je redéfinis mes groupes : ", groups);
                 Plotly.restyle(GRAPHDIV, `transforms[0].groups`, [groups]);
+
                 for(style in GRAPHDIV.data[0].transforms[0].styles){
-                    if(style <= terms.length){
+                    if(GRAPHDIV.data[0].transforms[0].styles.length <= terms.length){
+                        //console.log(style, " <= ", terms.length);
                         Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}].target`, terms[style]);
                     }
                     else {
+                        //console.log("Mon style ", style," est indéfini");
                         Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}]`, undefined);
                     }
                 }
@@ -915,14 +971,11 @@ function change_legend_color (position, different_terms, stylesIndex, valueColor
         }
 
         for (trace in GRAPHDIV.data)  {
-
             //Checking if there is more than one qualitative variable
-            if(GRAPHDIV.data[0].z !== undefined){
+            if(GRAPHDIV.data[0].z !== undefined && position === 2){
                 //Looking if we need to check the "z" or the "text" for group up data
-                //The code is made so that the first variable is in text, and the second in the "z" coordinate. 
-                if(position === 2){
-                    var group = GRAPHDIV.data[parseInt(trace)].z;
-                }
+                //The code is made so that the first variable is in text, and the second in the "z" coordinate.
+                var group = GRAPHDIV.data[parseInt(trace)].z;
             }
             else {
                 var group = GRAPHDIV.data[parseInt(trace)].text;
