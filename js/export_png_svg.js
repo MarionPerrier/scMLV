@@ -45,11 +45,13 @@ function save_to_svg (width, height, ask_legend) {
         Plotly.relayout(GRAPHDIV, 'showlegend', false);
     }
 
+    const name = ask_for_name();
+
     Plotly.downloadImage(GRAPHDIV, 
         {format: 'svg', 
         width: width, 
         height: height, 
-        filename: 'newplot'}
+        filename: name}
     );
 
     //Then put again the graph in a WebGL mode
@@ -86,11 +88,13 @@ function save_to_png (width, height, ask_legend) {
         Plotly.relayout(GRAPHDIV, 'showlegend', false);
     }
 
+    const name = ask_for_name();
+
     Plotly.downloadImage(GRAPHDIV, 
         {format: 'png', 
         width: width, 
         height: height, 
-        filename: 'newplot'}
+        filename: name}
     );
 
     Plotly.relayout(GRAPHDIV, 'updatemenus[0].visible', true);
@@ -158,6 +162,19 @@ function ask_for_size(value) {
     }
 }
 
+/**
+ * Ask for the desired output file's name.
+ * Default value : "newplot"
+ * @returns {string} name of the file.
+ */
+function ask_for_name(){
+    return prompt('Name of the file : ', 'newplot');
+}
+
+/**
+ * Looks if a legend can be saved (ie : more than 1 quantitative layer)
+ * @returns {boolean} true if a legend can be saved
+ */
 function is_a_legend_possible (){
     let number_of_layers = document.getElementById('numberOfLayers').value;
     if(number_of_layers != 1){
