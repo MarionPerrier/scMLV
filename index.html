@@ -383,6 +383,26 @@
                         >PNG</button>
                     </div>
                 </div>
+                <!-- Saving buttons : SAVE/LOAD for the parameters
+                    - It will look prettier if the <p> were at the left and not upper the buttons.
+                -->
+                <div class="tile is-child">
+                    <div field is-grouped>
+                        <p style="margin-right: 10px;">Save & loads parameters : </p>
+                        <button
+                            class="button is-danger is-outlined"
+                            style="margin-right: 10px; margin-left: 10px;"
+                            id="save_param_button" onclick="save_parameters(this.id);"
+                            disabled autocomplete="off"
+                        >SAVE</button>
+                        <button
+                        class="button is-danger is-outlined"
+                        style="margin-right: 10px; margin-left: 10px;"
+                        id="load_param_button" onclick="load_parameters(this.id);"
+                        disabled autocomplete="off"
+                        >LOAD</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

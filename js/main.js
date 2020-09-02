@@ -45,7 +45,7 @@ var FILE;
 var X_name;
 var Y_name;
 
-var VAL_MIN = 0; //personal note (to remove !!) : 6.4 
+var VAL_MIN = 0;
 var DOT_SIZE = 3;
 
 const GRAPHDIV = document.getElementById('graphic');
@@ -103,6 +103,10 @@ function lists_of_layers_display () {
     //Hide again all colors layers
     clearColorLists();
     clearLegend();
+
+    //disable saving parameters buttons
+    document.getElementById('save_param_button').setAttribute('disable', '');
+    document.getElementById('load_param_button').setAttribute('disable', '');
 
     //This condition should never happend but we never know
     if (number_layers_selected > 5) {
@@ -226,6 +230,8 @@ function axes_name_diplay () {
         //Disable saving buttons (PNG/SVG)
         document.getElementById('svg_button').setAttribute('disabled', '');
         document.getElementById('png_button').setAttribute('disabled', '');
+        document.getElementById('save_param_button').setAttribute('disabled', '');
+        document.getElementById('load_param_button').setAttribute('disabled', '');
 
         //Creates a select type dynamically
         var element = document.createElement("select");

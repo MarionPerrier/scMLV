@@ -99,12 +99,14 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
 }
 
 /**
+ * 
+ * THIS DESCRIPTION SHOULD BE REPHRASED (seriously, this is mumbling)
  * Finds how many lists of parameters are displayed
  * Color each point in function of : 
  * 
  *  -> How many parameters are shown
  * 
- *  -> If it's a qualitative value (alpha transparency slider)
+ *  -> If it's a qualitative value
  * 
  *  -> If it's a quantitative value (color palette on a RGB scale)
  * 
@@ -119,7 +121,8 @@ function color_point(list_number){
         document.getElementById(`display_shapes_${j}`).setAttribute('hidden', '');
     }
     document.getElementById('display_legend').setAttribute('hidden', '');
-
+    document.getElementById('save_param_button').setAttribute('disabled', '');
+    document.getElementById('load_param_button').setAttribute('disabled', '');
     number_parameters = document.getElementById('numberOfLayers').value;
 
     //hide "shape" and "color" radio button
@@ -412,6 +415,10 @@ function add_legend_shapes (list_number) {
         //Makes the sliders appear
         document.getElementById(`display_shapes_${div_number}`).removeAttribute('hidden');
         document.getElementById(`display_qual_color_${div_number}`).setAttribute('hidden', '');
+
+        //Allows parameters download and upload
+        document.getElementById(`save_param_button`).removeAttribute('disabled');
+        document.getElementById(`load_param_button`).removeAttribute('disabled');
     }
 }
 
