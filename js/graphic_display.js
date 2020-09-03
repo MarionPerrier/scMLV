@@ -177,7 +177,18 @@ function color_point(list_number){
  */
 function add_legend_color (list_number) {
 
-    console.log("Je suis dans la fonction add_legend_color");
+    //Do the same with the other qualitative variable if there is one
+    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden) 
+    && (!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden)){
+        //we disable the other quali
+        for (let i = 1; i <= 5; i++){
+            if(!document.getElementById(`control_checkbox_${i}`).hidden && i !== list_number){
+                //Now the position has been found, we swap checkbox
+                document.getElementById(`cb_color_${i}`).checked = false;
+                document.getElementById(`cb_shape_${i}`).click();
+            }
+        }
+    }
 
     //Looking for the div position depending on the id of the button where the qualitative variable is.
     if(document.getElementById('shapes_title_1').innerHTML.indexOf(document.getElementById(`selectLayer${list_number}`).value) !== -1){
@@ -190,22 +201,6 @@ function add_legend_color (list_number) {
         alert("A problem has occured.\nPlease reload the application.");
     }
 
-    //Do the same with the other qualitative variable if there is one
-    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden) 
-        && (!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden)){
-        console.log("Il y a deux variables quali!");
-        //we disable the other quali
-        for (let i = 1; i <= 5; i++){
-            if(!document.getElementById(`control_checkbox_${i}`).hidden && i !== list_number){
-                console.log("trouvé, chef. Position "+i);
-                //Now the position has been found, we swap checkbox
-                document.getElementById(`cb_color_${i}`).checked = false;
-                document.getElementById(`cb_shape_${i}`).checked = true;
-            }
-        }
-    }
-
-    //Display colors selection, hide shapes selection.
     if(document.getElementById(`qual_color_title_${position}`).innerHTML != ""){
         document.getElementById(`display_shapes_${position}`).setAttribute('hidden', '');
         document.getElementById(`display_qual_color_${position}`).removeAttribute('hidden');
@@ -308,14 +303,13 @@ function add_legend_color (list_number) {
  */
 function add_legend_shapes (list_number) {
 
-    //Do the same with the other qualitative variable if there is one
     if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden) 
     && (!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden)){
         //we disable the other quali
         for (let i = 1; i <= 5; i++){
             if(!document.getElementById(`control_checkbox_${i}`).hidden && i !== list_number){
                 //Now the position has been found, we swap checkbox
-                document.getElementById(`cb_color_${i}`).checked = true;
+                document.getElementById(`cb_color_${i}`).click();
                 document.getElementById(`cb_shape_${i}`).checked = false;
             }
         }
@@ -450,6 +444,12 @@ function add_legend_shapes (list_number) {
         //Allows parameters download and upload
         document.getElementById(`save_param_button`).removeAttribute('disabled');
         document.getElementById(`load_param_button`).removeAttribute('disabled');
+    }         
+    //Do the same with the other qualitative variable if there is one
+
+    if(Array.isArray(list_number) && list_number.length>1){ //&& document.getElementById(`shapes_title_1`).innerHTML === "") 
+        document.getElementById(`cb_color_${list_number[list_number.length -1]}`).click();
+        document.getElementById(`cb_shape_${list_number[list_number.length -1]}`).checked = false;
     }
 }
 
@@ -484,9 +484,10 @@ function display_legend (legend) {
  * 
  * @param {string} number_layout total number of layout displayed 
  */
-function color_change (number_layout) {
+//function color_change (number_layout) {
+function color_change (){
 
-    number_parameters = document.getElementById('numberOfLayers').value; //var or let ?
+    var number_parameters = document.getElementById('numberOfLayers').value;
     //hex_value = document.getElementById(`color_layer_${number_layout}`).value;
 
     //react with a new color palette range
