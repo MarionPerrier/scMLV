@@ -389,7 +389,6 @@ function check_all_select_filled (number_of_dropdown) {
  * This will constitute the number of cells to display
  */
 function ask_resampling () {
-    console.log("Ask_resampling a été demandé");
     isChecked = document.getElementById('resampling').checked;
     
     if (isChecked) {
@@ -403,7 +402,6 @@ function ask_resampling () {
         else {
             //If there is already a file provided, we reload the reading_tsv_file() function
             if(FILE != undefined){
-                console.log("Je lance le SVG. 311");
                 parse_csv_to_json();
             }
             //If there is no file already loaded, wait for the user to load a file.
@@ -412,7 +410,6 @@ function ask_resampling () {
     else {
         RESAMPLE_SIZE = undefined;
         if(FILE != undefined){
-            console.log("Je lance le SVG. 320");
             parse_csv_to_json();
         }
     }
@@ -535,55 +532,73 @@ function clearLegend (is_two_legends_needed = false) {
 /**
  * Export a .txt file with the parameters sets for qualitative variables.
  * The format look like that : 
- * parameters for LEGEND1
+ * #1 : Legend of [...]
  * NAME     SHAPE   SIZE    COLOR(hex)
- * paramters for LEGEND2
+ * [...]
+ * #2 : Legend of [...]
  * NAME     SHAPE   SIZE    COLOR(hex)
+ * [...]
  */
 function save_parameters () {
 
+    //Ask for name
     let filename = prompt('Name of the file : ', 'save_parameters.txt');
     
     //create the text to save
-    let text = `#1\n`;
-    if(typeof GRAPHDIV.data[0].transforms === 'undefined'){
-        function onlyUnique(value, index, self){
-            return self.indexOf(value) === index;
+    //First add the header
+    let text = `#1 : ${document.getElementById('shapes_title_1').innerHTML}\n`;
+
+    //We take care of the first div
+    //First step : getting the names
+    let different_terms = GRAPHDIV.data[0].text;
+    let terms_list = [];
+    for(intermediate_term in different_terms){
+        if(!terms_list.includes(different_terms[intermediate_term])){
+            terms_list.push(different_terms[intermediate_term]);
         }
-        let names = GRAPHDIV.data[0].text.filter(onlyUnique);
+    }
+    terms_list.sort();
+
+    //Each term will be a new line added.
+    for(term in terms_list){
+        let shape = document.getElementById(`shape_1_${terms_list[term]}`).value;
+        let size = document.getElementsByName(`size_shape_1_${term}`)[0].value;
+        if(document.getElementById(`cp_1_${terms_list[term]}`) === null){
+            var color = null;
+        } 
+        else if(document.getElementById(`cp_1_${terms_list[term]}`).value = '#ffffff'){
+            var color = null;
+        }
+        else {
+            var color = document.getElementById(`cp_1_${terms_list[term]}`).value;
+        }
         
-        for(name in names){
-            text = text + `${names[name]}\tcircle\t3\t#e3e3e3\n`; //add name, shape, size and color
-        }
-    }
-    else {
-        let styles = GRAPHDIV.data[0].transforms[0].styles;
-        for(let style in styles){
-            text = text + `${styles[style].target}\t`; //add name
-            if(typeof styles[style].value.marker.symbol !== 'undefined'){
-                text = text + `${styles[style].value.marker.symbol}\t`; //add symbol
-            } else {
-                text = text + 'circle\t';
-            }
-            if(typeof styles[style].value.marker.size !== 'undefined') {
-                text = text + `${styles[style].value.marker.size}\t`; //add size
-            } else {
-                text = text + '3\t';
-            }
-            if(typeof styles[style].value.marker.color !== 'undefined') {
-                text = text + `${styles[style].value.marker.color}\n`; //add color
-            } else {
-                text = text + '#e3e3e3\n'; //add color
-            }
-        }
+        text = text + `${terms_list[term]}\t${shape}\t${size}\t${color}\n`;
     }
 
-    //looks if there is a second legend up
-    if(!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden){
-        text = text + '#2\n';
-    }
+    //If there is a second div
+    if(!document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden){
+        //There is two qualitative layers
+        text = text + `#2 ${document.getElementById('shapes_title_2').innerHTML}\n`;
+        
+        //getting the names
+        let different_terms = GRAPHDIV.data[0].z;
+        let terms_list = [];
+        for(intermediate_term in different_terms){
+            if(!terms_list.includes(different_terms[intermediate_term])){
+                terms_list.push(different_terms[intermediate_term]);
+            }
+        }
+        terms_list.sort();
 
-    console.log(text);
+        //Each term will be a new line added.
+        for(term in terms_list){
+            let shape = document.getElementById(`shape_2_${terms_list[term]}`).value;
+            let size = document.getElementsByName(`size_shape_2_${term}`)[0].value;
+            let color = document.getElementById(`cp_2_${terms_list[term]}`).value;
+            text = text + `${terms_list[term]}\t${shape}\t${size}\t${color}\n`;
+        }
+    }
 
     /*Create a hyperlink for the download without server
     For that, a fake element is created, and simulate a download click, 

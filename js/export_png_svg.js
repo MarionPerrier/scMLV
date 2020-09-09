@@ -115,7 +115,7 @@ function save_to_png (width, height, ask_legend) {
  */
 function save_legend_txt () {
     let legend_content = document.getElementById('legend').textContent;
-
+    
     var hiddenElement = document.createElement('a');
 
     hiddenElement.href = 'data:attachment/text,' + encodeURI(legend_content);
