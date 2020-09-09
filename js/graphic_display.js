@@ -98,7 +98,6 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
 }
 
 /**
- * 
  * THIS DESCRIPTION SHOULD BE REPHRASED (seriously, this is mumbling)
  * Finds how many lists of parameters are displayed
  * Color each point in function of : 
@@ -268,7 +267,7 @@ function add_legend_color (list_number) {
         element1.setAttribute("name", `${differents_terms[term]}`);
         element1.setAttribute('type', 'color');
         element1.setAttribute('value', '#FFFFFF');
-        element1.setAttribute('onchange', `change_legend_color(${position}, '${differents_terms}', '${differents_terms[term]}', this.value);`);
+        element1.setAttribute('onchange', `change_legend_color(${position}, '${differents_terms}', '${differents_terms[term]}');`);
 
         element2.setAttribute('step', '1');
         element2.setAttribute('min', '1');
@@ -878,80 +877,14 @@ function change_dot_size (layer_id) {
  * 
  * @param {number} position indicates the div number to modify the shape (is it the first qualitative value or the second one ?)
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
- * @param {number} stylesIndex indicates the style number to modify
+ * @param {string} term indicates the style number to modify
  * @param {string} valueShape the shape selected in the select. Can be one of those : ['circle', 'cross', 'x', 'star', 'triangle-up', 'triangle-down']
  */
-function change_shape_legend_saved (position, different_terms, stylesIndex, valueShape) {
-    //Starting by looking at how many terms has been changed : 
-    var terms = different_terms.split(",");
-
-    if(GRAPHDIV.data[0].transforms != undefined){
-        if(GRAPHDIV.data[0].z !== undefined){
-            for(trace in GRAPHDIV.data){
-                if(position === 2){
-                    var groups = GRAPHDIV.data[parseInt(trace)].z;
-                }
-                else {
-                    var groups = GRAPHDIV.data[parseInt(trace)].text;
-                }
-                Plotly.restyle(GRAPHDIV, `transforms[0].groups`, [groups]);
-                for(style in GRAPHDIV.data[0].transforms[0].styles){
-                    if(style <= terms.length){
-                        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}].target`, terms[style]);
-                    }
-                    else {
-                        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}]`, undefined);
-                    }
-                }
-            }
-        }
-        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].target`, terms[stylesIndex]);
-        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.symbol`, valueShape);
-    }
-
-    //If it's not defined, we need to create them.
-    else {
-        styles = [];
-        for (term in terms) {
-            if(document.getElementById(`shape_${position}_${terms[stylesIndex]}`).value != 'circle'){
-                styles.push({
-                    target: terms[term],
-                    value: {marker: {symbol: document.getElementById(`shape_${position}_${terms[term]}`).value}}
-                });            
-            }
-        }
-
-        for (trace in GRAPHDIV.data)  {
-            //Checking if there is more than one qualitative variable
-            if(GRAPHDIV.data[0].z !== undefined){
-                //Looking if we need to check the "z" or the "text" for group up data
-                //The code is made so that the first variable is in text, and the second in the "z" coordinate. 
-                if(position === 2){
-                    var group = GRAPHDIV.data[parseInt(trace)].z;
-                }
-            }
-            else {
-                var group = GRAPHDIV.data[parseInt(trace)].text;
-            }
-
-            var update =  {
-                transforms: [[{
-                    type: 'groupby',
-                    groups: group,
-                    styles: styles
-                }]]
-            };
-            Plotly.restyle(GRAPHDIV, update, [parseInt(trace)]);
-        }
-    }
-}
-
 function change_shape_legend (position, different_terms, term, valueShape){
-    //Création d'un update classique de la forme à changer. Toutes les traces sont concernées
-    //On va faire un update par trace, et changer toutes les traces une par une
+
     let terms = different_terms.split(",");
 
-    //Première étape, créer un dictionnaire de correspondance de formes
+    //First step : Create a dictionnary of shapes and terms.
     let terms_and_shapes_associated = [terms];
 
     let all_shapes = []
@@ -961,16 +894,15 @@ function change_shape_legend (position, different_terms, term, valueShape){
     terms_and_shapes_associated.push(all_shapes);
     
     let shapes = [];
-    //création d'un tableau de formes
+    //each trace will be treated one by one
     for(trace in GRAPHDIV.data){
-
         if(position === 2){
             for(element in GRAPHDIV.data[trace].z){
                 if(GRAPHDIV.data[trace].z[element] === term){
                     shapes.push(valueShape);
                 }
                 else {
-                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    //If the term is not found, we want to keep the same shape as before 
                     let index_term = terms_and_shapes_associated[0].indexOf(GRAPHDIV.data[trace].z[element]);
                     let shape = terms_and_shapes_associated[1][index_term];
                     shapes.push(shape);
@@ -986,20 +918,18 @@ function change_shape_legend (position, different_terms, term, valueShape){
                     shapes.push(valueShape);
                 }
                 else {
-                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    //If the term is not found, we want to keep the same shape as before
                     let index_term = terms_and_shapes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
                     let shape = terms_and_shapes_associated[1][index_term];
                     shapes.push(shape);
-                    //On regarde sur le tableau de correspondance, et on ajoute le signe correspondant
-
                 }
             }
             var update = {
                 'marker.symbol': [shapes]
             }
         }
-
         Plotly.restyle(GRAPHDIV, update, [trace]);
+        //Re-initialization of the list for the next trace.
         shapes = [];
     }
 }
@@ -1008,19 +938,21 @@ function change_shape_legend (position, different_terms, term, valueShape){
  * Changes the color of each point belonging to a specific value in qualitative layers
  * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?) 
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
- * @param {number} term indicates the style number to modify
- * @param {string} valueColor the hexadecimal value chosen by the user !!!!! NOT USED !!!!!
+ * @param {string} term indicates the style number to modify
  */
-function change_legend_color (position, different_terms, term, valueColor) {
+function change_legend_color (position, different_terms, term) {
     //Starting by looking at how many terms has been changed : 
     var terms = different_terms.split(",");
 
-    //création d'un tableau de formes
+    //Creation of a correspondance table, where each term will be associated
+    //to the color associated on the color picker
     for(trace in GRAPHDIV.data){
         var styles = [];
 
+        //Look what div is concerned by the change
         if(position === 2){
-            //Ajout d'une target par groupe
+            
+            //A target by group will be added to the transform.
             for(term in terms){
                 if(document.getElementById(`cp_${position}_${terms[term]}`).value != "#ffffff"){
                     styles.push({
@@ -1034,6 +966,7 @@ function change_legend_color (position, different_terms, term, valueColor) {
                 }
             }
 
+            //create the update for the second div
             var update = {
                 transforms: [[{
                     type: 'groupby',
@@ -1043,6 +976,7 @@ function change_legend_color (position, different_terms, term, valueColor) {
             };
         }
         else {
+            //A target by group will be added to the transform
             for(term in terms){
                 if(document.getElementById(`cp_${position}_${terms[term]}`).value != "#ffffff"){
                     styles.push({
@@ -1055,6 +989,8 @@ function change_legend_color (position, different_terms, term, valueColor) {
                     });
                 }
             }
+
+            //Create the update for the first div
             var update = {
                 transforms: [[{
                     type: 'groupby',
@@ -1063,6 +999,7 @@ function change_legend_color (position, different_terms, term, valueColor) {
                 }]]
             };
         }
+        //Update on the graph
         Plotly.restyle(GRAPHDIV, update, [trace]);
     }
 }
@@ -1074,18 +1011,21 @@ function change_legend_color (position, different_terms, term, valueColor) {
  * 
  * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?) 
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
- * @param {number} term the name of the term concerned by the size change
- * @param {string} value the size selected in the range slider. Can go from O to 10. Default value = 3
+ * @param {string} term the name of the term concerned by the size change
+ * @param {string} valueSize the size selected in the range slider. Can go from O to 10. Default value = 3
  */
 function change_size_legend (position, different_terms, term, valueSize) {
     //Starting by looking at how many terms has been changed : 
     let terms = different_terms.split(",");
 
-    //Première étape, créer un dictionnaire de correspondance de formes
+    //First step : Create a dictionnary of sizes and terms.
     let terms_and_sizes_associated = [terms];
 
     let all_sizes = [];
     for(term_i in terms){
+        //There is two differents size sliders : 1 for the shape, 1 for the color.
+        //We want here to make sure we take the right appropriate one, depending on if 
+        //We have changed dot size on the shape or the color.
         if(document.getElementsByName(`size_color_${position}_${term_i}`).length != 0){
             all_sizes.push(document.getElementsByName(`size_color_${position}_${term_i}`)[0].value);
         }
@@ -1097,7 +1037,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
 
     let sizes = [];
     let widths = [];
-    //création d'un tableau de formes
+    //Looking at all current sizes, and register them for each points
     for(trace in GRAPHDIV.data){
 
         if(position === 2){
@@ -1112,7 +1052,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
                     }
                 }
                 else {
-                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    //If the term is not found, we want to keep the same size as before
                     let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].z[element]);
                     let size = terms_and_sizes_associated[1][index_term];
                     sizes.push(size);
@@ -1143,7 +1083,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
                     }
                 }
                 else {
-                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    //If the term is not found, we want to keep the same size as before
                     let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
                     let size = terms_and_sizes_associated[1][index_term];
                     sizes.push(size);
@@ -1163,6 +1103,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
             }
         }
         Plotly.restyle(GRAPHDIV, update, [trace]);
+        //Re-initialization of lists for the next trace
         sizes = [];
         widths = [];
     }
