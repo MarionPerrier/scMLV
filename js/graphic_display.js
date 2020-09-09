@@ -48,7 +48,6 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
 
         //parameters selection
         for(let layer_index = 1; layer_index <= 5; layer_index++){
-            console.log(layer_index);
             //Reset sliders and color pickers
             document.getElementById(`color_layer_${layer_index}`).value = "#1f77b4"; //Default blue color on plotly
             document.getElementById(`dot_size_${layer_index}`).value = 3;
@@ -99,12 +98,14 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
 }
 
 /**
+ * 
+ * THIS DESCRIPTION SHOULD BE REPHRASED (seriously, this is mumbling)
  * Finds how many lists of parameters are displayed
  * Color each point in function of : 
  * 
  *  -> How many parameters are shown
  * 
- *  -> If it's a qualitative value (alpha transparency slider)
+ *  -> If it's a qualitative value
  * 
  *  -> If it's a quantitative value (color palette on a RGB scale)
  * 
@@ -119,7 +120,8 @@ function color_point(list_number){
         document.getElementById(`display_shapes_${j}`).setAttribute('hidden', '');
     }
     document.getElementById('display_legend').setAttribute('hidden', '');
-
+    document.getElementById('save_param_button').setAttribute('disabled', '');
+    document.getElementById('load_param_button').setAttribute('disabled', '');
     number_parameters = document.getElementById('numberOfLayers').value;
 
     //hide "shape" and "color" radio button
@@ -174,6 +176,19 @@ function color_point(list_number){
  */
 function add_legend_color (list_number) {
 
+    //Do the same with the other qualitative variable if there is one
+    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden) 
+    && (!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden)){
+        //we disable the other quali
+        for (let i = 1; i <= 5; i++){
+            if(!document.getElementById(`control_checkbox_${i}`).hidden && i !== list_number){
+                //Now the position has been found, we swap checkbox
+                document.getElementById(`cb_color_${i}`).checked = false;
+                document.getElementById(`cb_shape_${i}`).click();
+            }
+        }
+    }
+
     //Looking for the div position depending on the id of the button where the qualitative variable is.
     if(document.getElementById('shapes_title_1').innerHTML.indexOf(document.getElementById(`selectLayer${list_number}`).value) !== -1){
         var position = 1;
@@ -207,6 +222,8 @@ function add_legend_color (list_number) {
             differents_terms.push(term);
         }
     }
+
+    differents_terms.sort();
 
     //Makes sliders appear to the right for each term [TERM : *slider*]
     for (let term in differents_terms) {
@@ -251,7 +268,7 @@ function add_legend_color (list_number) {
         element1.setAttribute("name", `${differents_terms[term]}`);
         element1.setAttribute('type', 'color');
         element1.setAttribute('value', '#FFFFFF');
-        element1.setAttribute('onchange', `change_legend_color(${position}, '${differents_terms}', ${term}, this.value);`);
+        element1.setAttribute('onchange', `change_legend_color(${position}, '${differents_terms}', '${differents_terms[term]}', this.value);`);
 
         element2.setAttribute('step', '1');
         element2.setAttribute('min', '1');
@@ -261,7 +278,7 @@ function add_legend_color (list_number) {
         element2.setAttribute('id', `size_${position}_${differents_terms[term]}`);
         element2.setAttribute('name', `size_color_${position}_${term}`);
         element2.setAttribute('style', 'width: auto; float: right; margin-top:10px;');
-        element2.setAttribute('onchange', `change_size_legend(${position}, '${differents_terms}', ${term}, this.value);`);
+        element2.setAttribute('onchange', `change_size_legend(${position}, '${differents_terms}', '${differents_terms[term]}', this.value);`);
 
         //Add them to the appropriate div
         div.appendChild(label);
@@ -286,6 +303,18 @@ function add_legend_color (list_number) {
  * @param {number} list_number id of the button where the qualitative variable is
  */
 function add_legend_shapes (list_number) {
+
+    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden) 
+    && (!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden)){
+        //we disable the other quali
+        for (let i = 1; i <= 5; i++){
+            if(!document.getElementById(`control_checkbox_${i}`).hidden && i !== list_number){
+                //Now the position has been found, we swap checkbox
+                document.getElementById(`cb_color_${i}`).click();
+                document.getElementById(`cb_shape_${i}`).checked = false;
+            }
+        }
+    }
 
     if(document.getElementById(`shapes_title_1`).innerHTML != ""){
         //Looking for the div position depending on the id of the button where the qualitative variable is.
@@ -363,7 +392,6 @@ function add_legend_shapes (list_number) {
             let element1_1 = document.createElement("select"); //Select for shape
             
             let element2 = document.createElement("input"); //Slider for size
-
             let line = document.createElement('hr');
             line.setAttribute('color', 'purple');
 
@@ -374,9 +402,9 @@ function add_legend_shapes (list_number) {
             element1_1.setAttribute("id", `shape_${div_number}_${differents_terms[term]}`);
             element1_1.setAttribute("name", `${differents_terms[term]}`);
             element1_1.setAttribute('style', 'align-items: center;')
-            element1_1.setAttribute('onchange', `change_shape_legend(${div_number}, '${differents_terms}', ${term}, this.value);`)
+            element1_1.setAttribute('onchange', `change_shape_legend(${div_number}, '${differents_terms}', '${differents_terms[term]}', this.value);`)
 
-            shapes = ['circle', 'cross', 'x', 'star', 'triangle-up', 'triangle-down'];
+            let shapes = ['circle', 'cross', 'x', 'star', 'triangle-up', 'triangle-down'];
             shapes.forEach(function(shape){
                 let option = document.createElement('option');
 
@@ -396,7 +424,7 @@ function add_legend_shapes (list_number) {
             element2.setAttribute('id', `size_${div_number}_${differents_terms[term]}`);
             element2.setAttribute('name', `size_shape_${div_number}_${term}`);
             element2.setAttribute('style', 'width: auto; float: right; margin-top:10px;'); //margin-left: 15px; margin-right: 10px; 
-            element2.setAttribute('onchange', `change_size_legend(${div_number}, '${differents_terms}', ${term}, this.value);`);
+            element2.setAttribute('onchange', `change_size_legend(${div_number}, '${differents_terms}', '${differents_terms[term]}', this.value);`);
 
             //Add them to the appropriate div
             div.appendChild(label);
@@ -412,6 +440,16 @@ function add_legend_shapes (list_number) {
         //Makes the sliders appear
         document.getElementById(`display_shapes_${div_number}`).removeAttribute('hidden');
         document.getElementById(`display_qual_color_${div_number}`).setAttribute('hidden', '');
+
+        //Allows parameters download and upload
+        document.getElementById(`save_param_button`).removeAttribute('disabled');
+        document.getElementById(`load_param_button`).removeAttribute('disabled');
+    }
+
+    //Do the same with the other qualitative variable if there is one
+    if(Array.isArray(list_number) && list_number.length>1){ //&& document.getElementById(`shapes_title_1`).innerHTML === "") 
+        document.getElementById(`cb_color_${list_number[list_number.length -1]}`).click();
+        document.getElementById(`cb_shape_${list_number[list_number.length -1]}`).checked = false;
     }
 }
 
@@ -446,9 +484,9 @@ function display_legend (legend) {
  * 
  * @param {string} number_layout total number of layout displayed 
  */
-function color_change (number_layout) {
+function color_change (){
 
-    number_parameters = document.getElementById('numberOfLayers').value; //var or let ?
+    var number_parameters = document.getElementById('numberOfLayers').value;
     //hex_value = document.getElementById(`color_layer_${number_layout}`).value;
 
     //react with a new color palette range
@@ -838,12 +876,12 @@ function change_dot_size (layer_id) {
  * Happens when the value inside the select for "shape" is changed.
  * Changes the shape of the points wich belongs to the value selected 
  * 
- * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?)
+ * @param {number} position indicates the div number to modify the shape (is it the first qualitative value or the second one ?)
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
  * @param {number} stylesIndex indicates the style number to modify
  * @param {string} valueShape the shape selected in the select. Can be one of those : ['circle', 'cross', 'x', 'star', 'triangle-up', 'triangle-down']
  */
-function change_shape_legend (position, different_terms, stylesIndex, valueShape) {
+function change_shape_legend_saved (position, different_terms, stylesIndex, valueShape) {
     //Starting by looking at how many terms has been changed : 
     var terms = different_terms.split(",");
 
@@ -908,89 +946,126 @@ function change_shape_legend (position, different_terms, stylesIndex, valueShape
     }
 }
 
+function change_shape_legend (position, different_terms, term, valueShape){
+    //Création d'un update classique de la forme à changer. Toutes les traces sont concernées
+    //On va faire un update par trace, et changer toutes les traces une par une
+    let terms = different_terms.split(",");
+
+    //Première étape, créer un dictionnaire de correspondance de formes
+    let terms_and_shapes_associated = [terms];
+
+    let all_shapes = []
+    for(term_i in terms){
+        all_shapes.push(document.getElementById(`shape_${position}_${terms[term_i]}`).value);
+    }
+    terms_and_shapes_associated.push(all_shapes);
+    
+    let shapes = [];
+    //création d'un tableau de formes
+    for(trace in GRAPHDIV.data){
+
+        if(position === 2){
+            for(element in GRAPHDIV.data[trace].z){
+                if(GRAPHDIV.data[trace].z[element] === term){
+                    shapes.push(valueShape);
+                }
+                else {
+                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    let index_term = terms_and_shapes_associated[0].indexOf(GRAPHDIV.data[trace].z[element]);
+                    let shape = terms_and_shapes_associated[1][index_term];
+                    shapes.push(shape);
+                }
+            }
+            var update = {
+                'marker.symbol': [shapes]
+            }
+        }
+        else {
+            for(element in GRAPHDIV.data[trace].text){
+                if(GRAPHDIV.data[trace].text[element] === term){
+                    shapes.push(valueShape);
+                }
+                else {
+                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    let index_term = terms_and_shapes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
+                    let shape = terms_and_shapes_associated[1][index_term];
+                    shapes.push(shape);
+                    //On regarde sur le tableau de correspondance, et on ajoute le signe correspondant
+
+                }
+            }
+            var update = {
+                'marker.symbol': [shapes]
+            }
+        }
+
+        Plotly.restyle(GRAPHDIV, update, [trace]);
+        shapes = [];
+    }
+}
+
 /**
  * Changes the color of each point belonging to a specific value in qualitative layers
  * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?) 
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
- * @param {number} stylesIndex indicates the style number to modify
- * @param {string} valueColor the hexadecimal value chosen by the user 
+ * @param {number} term indicates the style number to modify
+ * @param {string} valueColor the hexadecimal value chosen by the user !!!!! NOT USED !!!!!
  */
-function change_legend_color (position, different_terms, stylesIndex, valueColor) {
+function change_legend_color (position, different_terms, term, valueColor) {
     //Starting by looking at how many terms has been changed : 
     var terms = different_terms.split(",");
 
-    //Checking if there is already a "transforms" defined (with a groupby function)
-    if(GRAPHDIV.data[0].transforms != undefined){
-        //console.log("Il y a déjà un transorms!");
-        if(GRAPHDIV.data[0].z !== undefined){
-            //console.log("Et des coordonnées Z!");
-            for(trace in GRAPHDIV.data){
-                if(position === 2){
-                    //console.log("Je crée mon groupe en position 2");
-                    var groups = GRAPHDIV.data[parseInt(trace)].z;
-                }
-                else {
-                    //console.log("Je crée mon groupe en position 1");
-                    var groups = GRAPHDIV.data[parseInt(trace)].text;
-                }
-                //console.log("Je redéfinis mes groupes : ", groups);
-                Plotly.restyle(GRAPHDIV, `transforms[0].groups`, [groups]);
+    //création d'un tableau de formes
+    for(trace in GRAPHDIV.data){
+        var styles = [];
 
-                for(style in GRAPHDIV.data[0].transforms[0].styles){
-                    if(GRAPHDIV.data[0].transforms[0].styles.length <= terms.length){
-                        //console.log(style, " <= ", terms.length);
-                        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}].target`, terms[style]);
-                    }
-                    else {
-                        //console.log("Mon style ", style," est indéfini");
-                        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}]`, undefined);
-                    }
-                }
-            }
-        }
-        if(document.getElementById(`cp_${position}_${terms[stylesIndex]}`).value != "#ffffff"){
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].target`, terms[stylesIndex]);
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.color`, valueColor);
-        }
-        else {
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].target`, terms[stylesIndex]);
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.color`, null); 
-        }
-    }
-    //If it's not defined, we need to create them.
-    else {
-        styles = [];
-        for (term in terms) {
-            if(document.getElementById(`cp_${position}_${terms[term]}`).value != "#ffffff"){
-                styles.push({
+        if(position === 2){
+            //Ajout d'une target par groupe
+            for(term in terms){
+                if(document.getElementById(`cp_${position}_${terms[term]}`).value != "#ffffff"){
+                    styles.push({
                     target: terms[term],
-                    value: {marker: {color: document.getElementById(`cp_${position}_${terms[term]}`).value}}
-                });
-            }
-        }
-
-        for (trace in GRAPHDIV.data)  {
-            //Checking if there is more than one qualitative variable
-            if(GRAPHDIV.data[0].z !== undefined && position === 2){
-                //Looking if we need to check the "z" or the "text" for group up data
-                //The code is made so that the first variable is in text, and the second in the "z" coordinate.
-                var group = GRAPHDIV.data[parseInt(trace)].z;
-            }
-            else {
-                var group = GRAPHDIV.data[parseInt(trace)].text;
+                    value: {
+                        marker: {
+                            color: document.getElementById(`cp_${position}_${terms[term]}`).value
+                        }
+                    }
+                    });
+                }
             }
 
-            var update =  {
+            var update = {
                 transforms: [[{
                     type: 'groupby',
-                    groups: group,
+                    groups: GRAPHDIV.data[trace].z,
                     styles: styles
                 }]]
             };
-            Plotly.restyle(GRAPHDIV, update, [parseInt(trace)]);
         }
+        else {
+            for(term in terms){
+                if(document.getElementById(`cp_${position}_${terms[term]}`).value != "#ffffff"){
+                    styles.push({
+                    target: terms[term],
+                    value: {
+                        marker: {
+                            color: document.getElementById(`cp_${position}_${terms[term]}`).value
+                        }
+                    }
+                    });
+                }
+            }
+            var update = {
+                transforms: [[{
+                    type: 'groupby',
+                    groups: GRAPHDIV.data[trace].text,
+                    styles: styles
+                }]]
+            };
+        }
+        Plotly.restyle(GRAPHDIV, update, [trace]);
     }
-} 
+}
 
 /**
  * Happens when the value inside the input range for "size" is changed.
@@ -999,96 +1074,96 @@ function change_legend_color (position, different_terms, stylesIndex, valueColor
  * 
  * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?) 
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
- * @param {number} stylesIndex indicates the style number to modify
- * @param {string} value the size selected in the range slider. Can go from O to 10.
+ * @param {number} term the name of the term concerned by the size change
+ * @param {string} value the size selected in the range slider. Can go from O to 10. Default value = 3
  */
-function change_size_legend (position, different_terms, stylesIndex, value) {
+function change_size_legend (position, different_terms, term, valueSize) {
     //Starting by looking at how many terms has been changed : 
-    var terms = different_terms.split(",");
+    let terms = different_terms.split(",");
 
-    //Strating by looking if there is already a "transforms" defined (which tells that a "groupby" has been made)
-    //It shouldn't be any "z" coordinate to update this way. (If there is a Z, we need to change the groupby attribute, because it can be obsolete)
-    if(GRAPHDIV.data[0].transforms !== undefined){
-        if(GRAPHDIV.data[0].z !== undefined){
-            for(trace in GRAPHDIV.data){
-                if(position === 2){
-                    var groups = GRAPHDIV.data[parseInt(trace)].z;
-                }
-                else {
-                    var groups = GRAPHDIV.data[parseInt(trace)].text;
-                }
-                Plotly.restyle(GRAPHDIV, `transforms[0].groups`, [groups]);
-                for(style in GRAPHDIV.data[0].transforms[0].styles){
-                    if(style <= terms.length){
-                        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}].target`, terms[style]);
-                    }
-                    else {
-                        Plotly.restyle(GRAPHDIV, `transforms[0].styles[${style}]`, undefined);
-                    }
-                }
-            }
-        }
-        if(value >= 6){
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.size`, value);
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.line.width`, 1);
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.line.color`, 'rgb(0,0,0)');
+    //Première étape, créer un dictionnaire de correspondance de formes
+    let terms_and_sizes_associated = [terms];
+
+    let all_sizes = [];
+    for(term_i in terms){
+        if(document.getElementsByName(`size_color_${position}_${term_i}`).length != 0){
+            all_sizes.push(document.getElementsByName(`size_color_${position}_${term_i}`)[0].value);
         }
         else {
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.size`, value);
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.line.width`, null);
-            Plotly.restyle(GRAPHDIV, `transforms[0].styles[${stylesIndex}].value.marker.line.color`, null);
+            all_sizes.push(document.getElementsByName(`size_shape_${position}_${term_i}`)[0].value);
         }
     }
+    terms_and_sizes_associated.push(all_sizes);
 
-    //If it's not defined, we need to create them.
-    else {
-        for(trace in GRAPHDIV.data){
-            //Checking if there is more than one qualitative variable
-            if(GRAPHDIV.data[0].z !== undefined){
-                //Looking if we need to check the "z" or the "text" for group up data
-                //The code is made so that the first variable is in text, and the second in the "z" coordinate. 
-                if(position === 2){
-                    var groups = GRAPHDIV.data[parseInt(trace)].z;
+    let sizes = [];
+    let widths = [];
+    //création d'un tableau de formes
+    for(trace in GRAPHDIV.data){
+
+        if(position === 2){
+            for(element in GRAPHDIV.data[trace].z){
+                if(GRAPHDIV.data[trace].z[element] === term){
+                    sizes.push(valueSize);
+                    if(valueSize>=6){
+                        widths.push(1);
+                    }
+                    else{
+                        widths.push(0);
+                    }
                 }
                 else {
-                    var groups = GRAPHDIV.data[parseInt(trace)].text;
+                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].z[element]);
+                    let size = terms_and_sizes_associated[1][index_term];
+                    sizes.push(size);
+                    if(size>=6){
+                        widths.push(1);
+                    }
+                    else{
+                        widths.push(0);
+                    }
                 }
             }
-            else {
-                var groups = GRAPHDIV.data[parseInt(trace)].text;
+            var update = {
+                'marker.size': [sizes],
+                'marker.opacity': 1,
+                'marker.line.width': [widths],
+                'marker.line.color': 'rgb(0,0,0)'
             }
-
-            styles = [];
-            for (term in terms) {
-                if(document.getElementById(`size_${position}_${terms[term]}`).value >= 6){
-                    styles.push({
-                        target: terms[term],
-                        value: {marker: {size: document.getElementById(`size_${position}_${terms[term]}`).value,
-                                        line: {width: 1,
-                                                color: 'rgb(0,0,0)'}}}
-                    });
-                }
-                else {
-                    styles.push({
-                        target: terms[term],
-                        value: {marker: {size: document.getElementById(`size_${position}_${terms[term]}`).value}}
-                    });
-                }
-            }
-            var update =  {
-                transforms: [[{
-                    type: 'groupby',
-                    groups: groups,
-                    styles: styles
-                }]]
-            };
-            Plotly.restyle(GRAPHDIV, update, [parseInt(trace)]);
         }
+        else {
+            for(element in GRAPHDIV.data[trace].text){
+                if(GRAPHDIV.data[trace].text[element] === term){
+                    sizes.push(valueSize);
+                    if(valueSize>=6){
+                        widths.push(1);
+                    }
+                    else{
+                        widths.push(0);
+                    }
+                }
+                else {
+                    //Si le terme est pas retrouvé, on veut garder la même forme que précédemment
+                    let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
+                    let size = terms_and_sizes_associated[1][index_term];
+                    sizes.push(size);
+                    if(size>=6){
+                        widths.push(1);
+                    }
+                    else{
+                        widths.push(0);
+                    }
+                }
+            }
+            var update = {
+                'marker.size': [sizes],
+                'marker.opacity': 1,
+                'marker.line.width': [widths],
+                'marker.line.color': 'rgb(0,0,0)'
+            }
+        }
+        Plotly.restyle(GRAPHDIV, update, [trace]);
+        sizes = [];
+        widths = [];
     }
-
-    //Makes the sliders equals in both legends colors and shapes
-    if(document.getElementsByName(`size_color_${position}_${stylesIndex}`).length != 0){
-        document.getElementsByName(`size_color_${position}_${stylesIndex}`)[0].value = value;
-    }
-    document.getElementsByName(`size_shape_${position}_${stylesIndex}`)[0].value = value;
 }

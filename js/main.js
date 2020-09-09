@@ -45,7 +45,7 @@ var FILE;
 var X_name;
 var Y_name;
 
-var VAL_MIN = 0; //personal note (to remove !!) : 6.4 
+var VAL_MIN = 0;
 var DOT_SIZE = 3;
 
 const GRAPHDIV = document.getElementById('graphic');
@@ -103,6 +103,10 @@ function lists_of_layers_display () {
     //Hide again all colors layers
     clearColorLists();
     clearLegend();
+
+    //disable saving parameters buttons
+    document.getElementById('save_param_button').setAttribute('disable', '');
+    document.getElementById('load_param_button').setAttribute('disable', '');
 
     //This condition should never happend but we never know
     if (number_layers_selected > 5) {
@@ -226,6 +230,8 @@ function axes_name_diplay () {
         //Disable saving buttons (PNG/SVG)
         document.getElementById('svg_button').setAttribute('disabled', '');
         document.getElementById('png_button').setAttribute('disabled', '');
+        document.getElementById('save_param_button').setAttribute('disabled', '');
+        document.getElementById('load_param_button').setAttribute('disabled', '');
 
         //Creates a select type dynamically
         var element = document.createElement("select");
@@ -523,4 +529,74 @@ function clearLegend (is_two_legends_needed = false) {
             document.getElementById(`display_qual_color_${j}`).setAttribute('hidden', '');
         }
     }
+}
+
+
+/**
+ * Export a .txt file with the parameters sets for qualitative variables.
+ * The format look like that : 
+ * parameters for LEGEND1
+ * NAME     SHAPE   SIZE    COLOR(hex)
+ * paramters for LEGEND2
+ * NAME     SHAPE   SIZE    COLOR(hex)
+ */
+function save_parameters () {
+
+    let filename = prompt('Name of the file : ', 'save_parameters.txt');
+    
+    //create the text to save
+    let text = `#1\n`;
+    if(typeof GRAPHDIV.data[0].transforms === 'undefined'){
+        function onlyUnique(value, index, self){
+            return self.indexOf(value) === index;
+        }
+        let names = GRAPHDIV.data[0].text.filter(onlyUnique);
+        
+        for(name in names){
+            text = text + `${names[name]}\tcircle\t3\t#e3e3e3\n`; //add name, shape, size and color
+        }
+    }
+    else {
+        let styles = GRAPHDIV.data[0].transforms[0].styles;
+        for(let style in styles){
+            text = text + `${styles[style].target}\t`; //add name
+            if(typeof styles[style].value.marker.symbol !== 'undefined'){
+                text = text + `${styles[style].value.marker.symbol}\t`; //add symbol
+            } else {
+                text = text + 'circle\t';
+            }
+            if(typeof styles[style].value.marker.size !== 'undefined') {
+                text = text + `${styles[style].value.marker.size}\t`; //add size
+            } else {
+                text = text + '3\t';
+            }
+            if(typeof styles[style].value.marker.color !== 'undefined') {
+                text = text + `${styles[style].value.marker.color}\n`; //add color
+            } else {
+                text = text + '#e3e3e3\n'; //add color
+            }
+        }
+    }
+
+    //looks if there is a second legend up
+    if(!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden){
+        text = text + '#2\n';
+    }
+
+    console.log(text);
+
+    /*Create a hyperlink for the download without server
+    For that, a fake element is created, and simulate a download click, 
+    then will be destroyed from the real document.
+    */
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:/text/plain,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
 }

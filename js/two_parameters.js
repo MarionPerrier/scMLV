@@ -202,7 +202,7 @@ function two_quali () {
     Plotly.purge(GRAPHDIV);
     Plotly.react(GRAPHDIV, data, LAYOUT, {responsive: true});
 
-    add_legend_shapes([1,2], 2);
+    add_legend_shapes([1,2]);
 }
 
 /**

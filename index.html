@@ -160,7 +160,7 @@
                             <div id="control_checkbox_1" style="margin-top: 15px" hidden>
                                 <!-- Check box for qualitative values -->
                                 <label class="radio">
-                                    <input type="radio" name="answer1" id="cb_shape_1" checked='checked' autocomplete="off" onchange="add_legend_shapes(1);"/>
+                                    <input type="radio" name="answer1" id="cb_shape_1" autocomplete="off" onchange="add_legend_shapes(1);"/>
                                     Shape
                                 </label>
                                 <label class="radio">
@@ -185,7 +185,7 @@
                             <div id="control_checkbox_2" style="margin-top: 15px" hidden>
                                 <!-- Check box for qualitative values -->
                                 <label class="radio">
-                                    <input type="radio" name="answer2" id="cb_shape_2" checked='checked' autocomplete="off" onchange="add_legend_shapes(2);"/>
+                                    <input type="radio" name="answer2" id="cb_shape_2" autocomplete="off" onchange="add_legend_shapes(2);"/>
                                     Shape
                                 </label>
                                 <label class="radio">
@@ -210,7 +210,7 @@
                             <div id="control_checkbox_3" style="margin-top: 15px" hidden>
                                 <!-- Check box for qualitative values -->
                                 <label class="radio">
-                                    <input type="radio" name="answer3" id="cb_shape_3" checked='checked' autocomplete="off" onchange="add_legend_shapes(3);"/>
+                                    <input type="radio" name="answer3" id="cb_shape_3" autocomplete="off" onchange="add_legend_shapes(3);"/>
                                     Shape
                                 </label>
                                 <label class="radio">
@@ -235,7 +235,7 @@
                             <div id="control_checkbox_4" style="margin-top: 15px" hidden>
                                 <!-- Check box for qualitative values -->
                                 <label class="radio">
-                                    <input type="radio" name="answer4" id="cb_shape_4" checked='checked' autocomplete="off" onchange="add_legend_shapes(4);"/>
+                                    <input type="radio" name="answer4" id="cb_shape_4" autocomplete="off" onchange="add_legend_shapes(4);"/>
                                     Shape
                                 </label>
                                 <label class="radio">
@@ -260,7 +260,7 @@
                             <div id="control_checkbox_5" style="margin-top: 15px" hidden>
                                 <!-- Check box for qualitative values -->
                                 <label class="radio">
-                                    <input type="radio" name="answer5" id="cb_shape_5" checked='checked' autocomplete="off" onchange="add_legend_shapes(5);"/>
+                                    <input type="radio" name="answer5" id="cb_shape_5" autocomplete="off" onchange="add_legend_shapes(5);"/> <!--checked='checked'-->
                                     Shape
                                 </label>
                                 <label class="radio">
@@ -383,12 +383,32 @@
                         >PNG</button>
                     </div>
                 </div>
+                <!-- Saving buttons : SAVE/LOAD for the parameters
+                    - It will look prettier if the <p> were at the left and not upper the buttons.
+                -->
+                <div class="tile is-child">
+                    <div field is-grouped>
+                        <p style="margin-right: 10px;">Save & loads parameters : </p>
+                        <button
+                            class="button is-danger is-outlined"
+                            style="margin-right: 10px; margin-left: 10px;"
+                            id="save_param_button" onclick="save_parameters();"
+                            disabled autocomplete="off"
+                        >SAVE</button>
+                        <button
+                        class="button is-danger is-outlined"
+                        style="margin-right: 10px; margin-left: 10px;"
+                        id="load_param_button" onclick="load_parameters();"
+                        disabled autocomplete="off"
+                        >LOAD</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- JS scripts loadings -->
-    <script src="js/graphic_display.js"></script>
+    <script src="js/graphic_display.js"></script> <!--graphic_display.js-->
     <script src="js/files_reader_parser.js"></script>
     <script src="js/export_png_svg.js"></script>
     <script src="js/one_parameter.js"></script>
