@@ -1009,23 +1009,24 @@ function change_legend_color (position, different_terms, term) {
  * Changes the size of the points wich belongs to the value selected.
  * If the selected size is bigger or equal to 6, then a black border is added to the point.  
  * 
+ * Please don't judge the quality of that work. It tooks me ages to figure out a solution.
+ * 
  * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?) 
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
  * @param {string} term the name of the term concerned by the size change
  * @param {string} valueSize the size selected in the range slider. Can go from O to 10. Default value = 3
  */
 function change_size_legend (position, different_terms, term, valueSize) {
-    //Starting by looking at how many terms has been changed : 
+    //Starting by looking at how many terms has been changed :
     let terms = different_terms.split(",");
 
     //First step : Create a dictionnary of sizes and terms.
     let terms_and_sizes_associated = [terms];
-
     let all_sizes = [];
-    for(term_i in terms){
+    for(let term_i in terms){
         //There is two differents size sliders : 1 for the shape, 1 for the color.
         //We want here to make sure we take the right appropriate one, depending on if 
-        //We have changed dot size on the shape or the color.
+        //we have changed dot size on the shape or the color.
         if(document.getElementsByName(`size_color_${position}_${term_i}`).length != 0){
             all_sizes.push(document.getElementsByName(`size_color_${position}_${term_i}`)[0].value);
         }
@@ -1035,13 +1036,50 @@ function change_size_legend (position, different_terms, term, valueSize) {
     }
     terms_and_sizes_associated.push(all_sizes);
 
+    //If there is a second div, do an other correspondace table for this other div
+    //Quick fonction to return unique values of an array
+    function onlyUnique(value, index, self) { 
+        return self.indexOf(value) === index;
+    }
+
+    //Searching for the list of terms in the other div
+    if(position === 1){
+        var terms_to_filter = GRAPHDIV.data[0].z;
+        var inverted_position = 2;
+    }
+    else {
+        var terms_to_filter = GRAPHDIV.data[0].text;
+        var inverted_position = 1;
+    }
+    
+    //Filter those term to have only uniq one
+    let terms_bis = terms_to_filter.filter(onlyUnique);
+    terms_bis = terms_bis.sort();
+    let terms_and_sizes_associated_bis = [terms_bis];
+    let all_sizes_bis = [];
+
+    for(let term_i in terms_bis){
+        //There is two differents size sliders : 1 for the shape, 1 for the color.
+        //We want here to make sure we take the right appropriate one, depending on if 
+        //We have changed dot size on the shape or the color.
+        if(document.getElementsByName(`size_color_${inverted_position}_${term_i}`).length != 0){
+            all_sizes_bis.push(document.getElementsByName(`size_color_${inverted_position}_${term_i}`)[0].value);
+        }
+        else {
+            all_sizes_bis.push(document.getElementsByName(`size_shape_${inverted_position}_${term_i}`)[0].value);
+        }
+    }
+    terms_and_sizes_associated_bis.push(all_sizes_bis);
+
     let sizes = [];
     let widths = [];
+
     //Looking at all current sizes, and register them for each points
     for(trace in GRAPHDIV.data){
-
         if(position === 2){
+            //It means there is two qualitative layers.
             for(element in GRAPHDIV.data[trace].z){
+                //Add the size selected for each point with a corresponding term
                 if(GRAPHDIV.data[trace].z[element] === term){
                     sizes.push(valueSize);
                     if(valueSize>=6){
@@ -1051,15 +1089,25 @@ function change_size_legend (position, different_terms, term, valueSize) {
                         widths.push(0);
                     }
                 }
+
                 else {
                     //If the term is not found, we want to keep the same size as before
-                    let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].z[element]);
-                    let size = terms_and_sizes_associated[1][index_term];
-                    sizes.push(size);
+                    //But, we need to make sure that the point is not linked to an other term with a bigger size
+                    var index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].z[element]);
+                    var index_term_bis = terms_and_sizes_associated_bis[0].indexOf(GRAPHDIV.data[trace].text[element]);
+
+                    //Searching for who has the biggest size, and add it to the size array
+                    if(parseInt(terms_and_sizes_associated[1][index_term]) >= parseInt(terms_and_sizes_associated_bis[1][index_term_bis])){
+                        var size = parseInt(terms_and_sizes_associated[1][index_term]);
+                        sizes.push(size);
+                    } else {
+                        var size = parseInt(terms_and_sizes_associated_bis[1][index_term_bis]);
+                        sizes.push(size);
+                    }
+
                     if(size>=6){
                         widths.push(1);
-                    }
-                    else{
+                    } else{
                         widths.push(0);
                     }
                 }
@@ -1071,7 +1119,8 @@ function change_size_legend (position, different_terms, term, valueSize) {
                 'marker.line.color': 'rgb(0,0,0)'
             }
         }
-        else {
+
+        else { // means Position == 1, so we are looking into text instead of "z".
             for(element in GRAPHDIV.data[trace].text){
                 if(GRAPHDIV.data[trace].text[element] === term){
                     sizes.push(valueSize);
@@ -1084,14 +1133,40 @@ function change_size_legend (position, different_terms, term, valueSize) {
                 }
                 else {
                     //If the term is not found, we want to keep the same size as before
-                    let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
-                    let size = terms_and_sizes_associated[1][index_term];
-                    sizes.push(size);
-                    if(size>=6){
-                        widths.push(1);
-                    }
-                    else{
-                        widths.push(0);
+                    //If there is two div : 
+                    if(!document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden){
+                        //But, we need to make sure that the point is not linked to an other term with a bigger size
+                        //We are looking for change on the first div. So the opposite position is obviously 2.
+                        let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
+                        let index_term_bis = terms_and_sizes_associated_bis[0].indexOf(GRAPHDIV.data[trace].z[element]);
+
+                        //Looking for the biggest dot size between div1 and div2 on a precise point
+                        if(parseInt(terms_and_sizes_associated[1][index_term]) >= parseInt(terms_and_sizes_associated_bis[1][index_term_bis])){
+                            var size = parseInt(terms_and_sizes_associated[1][index_term]);
+                            sizes.push(size);
+                        }
+                        else {
+                            //If the biggest size is on div2, then add the div2 size on the term related to the point
+                            var size = parseInt(terms_and_sizes_associated_bis[1][index_term_bis]);
+                            sizes.push(size);
+                        }
+                        if(size>=6){
+                            widths.push(1);
+                        }
+                        else{
+                            widths.push(0);
+                        }
+                    } 
+                    else {
+                        let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
+                        let size = parseInt(terms_and_sizes_associated[1][index_term]);
+                        sizes.push(size);
+                        if(size>=6){
+                            widths.push(1);
+                        }
+                        else{
+                            widths.push(0);
+                        }
                     }
                 }
             }
