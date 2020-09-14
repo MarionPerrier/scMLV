@@ -566,7 +566,7 @@ function save_parameters () {
         if(document.getElementById(`cp_1_${terms_list[term]}`) === null){
             var color = null;
         } 
-        else if(document.getElementById(`cp_1_${terms_list[term]}`).value = '#ffffff'){
+        else if(document.getElementById(`cp_1_${terms_list[term]}`).value === '#ffffff'){
             var color = null;
         }
         else {
@@ -595,7 +595,16 @@ function save_parameters () {
         for(term in terms_list){
             let shape = document.getElementById(`shape_2_${terms_list[term]}`).value;
             let size = document.getElementsByName(`size_shape_2_${term}`)[0].value;
-            let color = document.getElementById(`cp_2_${terms_list[term]}`).value;
+            if(document.getElementById(`cp_2_${terms_list[term]}`) === null){
+                var color = null;
+            } 
+            else if(document.getElementById(`cp_2_${terms_list[term]}`).value === '#ffffff'){
+                var color = null;
+            }
+            else {
+                var color = document.getElementById(`cp_2_${terms_list[term]}`).value;
+            }
+            
             text = text + `${terms_list[term]}\t${shape}\t${size}\t${color}\n`;
         }
     }
