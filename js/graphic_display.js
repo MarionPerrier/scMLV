@@ -1043,7 +1043,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
     }
 
     //Searching for the list of terms in the other div
-    isThereASecondDiv = !document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden;
+    let isThereASecondDiv = !document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden;
 
     if(position === 1){
         if(isThereASecondDiv){
@@ -1058,10 +1058,10 @@ function change_size_legend (position, different_terms, term, valueSize) {
     
     //Filter those term to have only uniq one
     if(isThereASecondDiv){
-        let terms_bis = terms_to_filter.filter(onlyUnique);
+        var terms_bis = terms_to_filter.filter(onlyUnique);
         terms_bis = terms_bis.sort();
-        let terms_and_sizes_associated_bis = [terms_bis];
-        let all_sizes_bis = [];
+        var terms_and_sizes_associated_bis = [terms_bis];
+        var all_sizes_bis = [];
 
         for(let term_i in terms_bis){
             //There is two differents size sliders : 1 for the shape, 1 for the color.
