@@ -389,7 +389,7 @@
                 <div class="tile is-child">
                     <div field is-grouped>
                         <p style="margin-right: 10px;">Save & loads parameters : </p>
-                        <button
+                        <div><button
                             class="button is-danger is-outlined"
                             style="margin-right: 10px; margin-left: 10px;"
                             id="save_param_button" onclick="save_parameters();"
@@ -401,6 +401,9 @@
                         id="load_param_button" onclick="load_parameters();"
                         disabled autocomplete="off"
                         >LOAD</button>
+                        <!--There is a little trick here. Because of the page's look, we want to ask for the file
+                        by clicking on a button. It will trigger the real input file, who will be hidden.-->
+                        <input type="file" id='load_param_file' hidden>
                     </div>
                 </div>
             </div>

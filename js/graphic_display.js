@@ -1043,9 +1043,13 @@ function change_size_legend (position, different_terms, term, valueSize) {
     }
 
     //Searching for the list of terms in the other div
+    isThereASecondDiv = !document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden;
+
     if(position === 1){
-        var terms_to_filter = GRAPHDIV.data[0].z;
-        var inverted_position = 2;
+        if(isThereASecondDiv){
+            var terms_to_filter = GRAPHDIV.data[0].z;
+            var inverted_position = 2;
+        }
     }
     else {
         var terms_to_filter = GRAPHDIV.data[0].text;
@@ -1053,24 +1057,25 @@ function change_size_legend (position, different_terms, term, valueSize) {
     }
     
     //Filter those term to have only uniq one
-    let terms_bis = terms_to_filter.filter(onlyUnique);
-    terms_bis = terms_bis.sort();
-    let terms_and_sizes_associated_bis = [terms_bis];
-    let all_sizes_bis = [];
+    if(isThereASecondDiv){
+        let terms_bis = terms_to_filter.filter(onlyUnique);
+        terms_bis = terms_bis.sort();
+        let terms_and_sizes_associated_bis = [terms_bis];
+        let all_sizes_bis = [];
 
-    for(let term_i in terms_bis){
-        //There is two differents size sliders : 1 for the shape, 1 for the color.
-        //We want here to make sure we take the right appropriate one, depending on if 
-        //We have changed dot size on the shape or the color.
-        if(document.getElementsByName(`size_color_${inverted_position}_${term_i}`).length != 0){
-            all_sizes_bis.push(document.getElementsByName(`size_color_${inverted_position}_${term_i}`)[0].value);
+        for(let term_i in terms_bis){
+            //There is two differents size sliders : 1 for the shape, 1 for the color.
+            //We want here to make sure we take the right appropriate one, depending on if 
+            //We have changed dot size on the shape or the color.
+            if(document.getElementsByName(`size_color_${inverted_position}_${term_i}`).length != 0){
+                all_sizes_bis.push(document.getElementsByName(`size_color_${inverted_position}_${term_i}`)[0].value);
+            }
+            else {
+                all_sizes_bis.push(document.getElementsByName(`size_shape_${inverted_position}_${term_i}`)[0].value);
+            }
         }
-        else {
-            all_sizes_bis.push(document.getElementsByName(`size_shape_${inverted_position}_${term_i}`)[0].value);
-        }
+        terms_and_sizes_associated_bis.push(all_sizes_bis);
     }
-    terms_and_sizes_associated_bis.push(all_sizes_bis);
-
     let sizes = [];
     let widths = [];
 
@@ -1134,7 +1139,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
                 else {
                     //If the term is not found, we want to keep the same size as before
                     //If there is two div : 
-                    if(!document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden){
+                    if(isThereASecondDiv){
                         //But, we need to make sure that the point is not linked to an other term with a bigger size
                         //We are looking for change on the first div. So the opposite position is obviously 2.
                         let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);

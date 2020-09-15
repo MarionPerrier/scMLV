@@ -624,3 +624,29 @@ function save_parameters () {
 
     document.body.removeChild(element);
 }
+
+/**
+ * Parse a .txt file, containing parameters on qualitative values.
+ * This function will change all buttons on the qualitative legend.
+ * Then, it will upload the graph with the appropriate parameters.
+ * 
+ * If the file entered doesn't correspond to the buttons given,
+ * then the programm stops, and an error message is displayed.
+ */
+function load_parameters() {
+    //simulate a click on the load_param_file button
+    document.getElementById('load_param_file').click();
+    console.log("yop, on a clické");
+
+    //1) Load the file
+    let load_file = document.getElementById('load_param_file').files[0];
+
+    //2) Parse the file loaded
+    Papa.parse(load_file, {
+        //We can have one or two header, depending on the number of div
+        header: true,
+        step: function(line) {
+            console.log(line);
+        }
+    });
+}
