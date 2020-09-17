@@ -699,11 +699,33 @@ function load_parameters() {
                             alert(`The parameters in the file don't correspond to the parameters in the layer!\nAre you sure you have given the right file?`);
                             return; //Early return
                         }
-                        if(term !== 0){
-                            ensemble_term = ensemble_term + "," + complete_file[0][term][0];
+                        if(term == 0){
+                            ensemble_term = ensemble_term  + complete_file[div][term][0];
                         }
                         else {
-                            ensemble_term = ensemble_term + complete_file[0][term][0];
+                            ensemble_term = ensemble_term + "," + complete_file[div][term][0];
+                        }
+                    }
+                    //Now, we can change the right term with the corresponding parameter
+                    for (let term in complete_file[div]){
+                        let term_name = complete_file[div][term][0];
+                        
+                        for(let node = 0; node < document.getElementsByName(`${term_name}`).length; node ++){
+                            //First parameter to change : shape
+                            if(document.getElementsByName(`${term_name}`)[node].id.includes("shape") && !document.getElementById(`display_shapes_${div+1}`).hidden){
+                                document.getElementsByName(`${term_name}`)[node].value = complete_file[div][term][1];
+                                change_shape_legend(div+1, ensemble_term, term_name, complete_file[div][term][1]);
+                            }
+                            //Second parameter to change : color
+                            if(document.getElementsByName(`${term_name}`)[node].id.includes("cp") && !document.getElementById(`display_qual_color_${div+1}`).hidden){
+                                if(complete_file[div][term][3] !== 'null'){
+                                    document.getElementsByName(`${term_name}`)[node].value = complete_file[div][term][3];
+                                    change_legend_color(div+1, ensemble_term, term_name);
+                                } else { //If there is a "null", then we want to change it for white
+                                    document.getElementsByName(`${term_name}`)[node].value = '#ffffff';
+                                    change_legend_color(div+1, ensemble_term, term_name);
+                                }
+                            }
                         }
                     }
                 }
@@ -732,14 +754,24 @@ function load_parameters() {
                 //Now, we can change the right term with the corresponding parameter
                 for (let term in complete_file[0]){
                     let term_name_div1 = complete_file[0][term][0];
-                    //First parameter to change : shape
+                    
                     for(let node = 0; node < document.getElementsByName(`${term_name_div1}`).length; node ++){
+                        //First parameter to change : shape
                         if(document.getElementsByName(`${term_name_div1}`)[node].id.includes("shape")){
                             document.getElementsByName(`${term_name_div1}`)[node].value = complete_file[0][term][1];
                             change_shape_legend(1, ensemble_term, term_name_div1, complete_file[0][term][1]);
                         }
+                        //Second parameter to change : color
+                        if(document.getElementsByName(`${term_name_div1}`)[node].id.includes("cp")){
+                            if(complete_file[0][term][3] !== 'null'){
+                                document.getElementsByName(`${term_name_div1}`)[node].value = complete_file[0][term][3];
+                                change_legend_color(1, ensemble_term, term_name_div1);
+                            } else { //If there is a "null", then we want to change it for white
+                                document.getElementsByName(`${term_name_div1}`)[node].value = '#ffffff';
+                                change_legend_color(1, ensemble_term, term_name_div1);
+                            }
+                        }
                     }
-                    //Second parameter to change : size
                 }
             }
         }
