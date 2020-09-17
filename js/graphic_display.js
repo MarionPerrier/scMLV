@@ -881,7 +881,7 @@ function change_dot_size (layer_id) {
  * @param {string} valueShape the shape selected in the select. Can be one of those : ['circle', 'cross', 'x', 'star', 'triangle-up', 'triangle-down']
  */
 function change_shape_legend (position, different_terms, term, valueShape){
-
+    console.log(different_terms);
     let terms = different_terms.split(",");
 
     //First step : Create a dictionnary of shapes and terms.

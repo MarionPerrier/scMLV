@@ -686,21 +686,24 @@ function load_parameters() {
 
             //Case 1 : There is 2 div
             if(!document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden){
-                console.log("J'ai détecté deux div");
                 //Case 1.1 : If there is a second div on the layer change, but the given file contain only one, it will raise an exception
                 if(complete_file[1].length === 0){
-                    console.log("Et je vois qu'il n'y a qu'un layer sur le fichier qui a été fourni avec l'utilisateur. Nice try.")
                     alert('The file contain only 1 layer of qualitative information.\nAre you sure you have given the right file?');
                     return //Early return
                 }
                 //Case 1.2 : the terms don't correspond to anything regarding the variables
-                else {
-                    for(let div = 0; div <= 1; div ++){
-                        for (term in complete_file[div]){
-                            if(document.getElementsByName(`${complete_file[div][term][0]}`).length === 0){
-                                console.log("Les paramètres ne correspondent pas! J'arrête l'application.");
-                                alert(`The parameters in the file don't correspond to the parameters in the layer!\nAre you sure you have given the right file?`)
-                            }
+                for(let div = 0; div <= 1; div ++){
+                    let ensemble_term = "";
+                    for (term in complete_file[div]){
+                        if(document.getElementsByName(`${complete_file[div][term][0]}`).length === 0){
+                            alert(`The parameters in the file don't correspond to the parameters in the layer!\nAre you sure you have given the right file?`);
+                            return; //Early return
+                        }
+                        if(term !== 0){
+                            ensemble_term = ensemble_term + "," + complete_file[0][term][0];
+                        }
+                        else {
+                            ensemble_term = ensemble_term + complete_file[0][term][0];
                         }
                     }
                 }
@@ -708,20 +711,35 @@ function load_parameters() {
             //Case 2 : There is 1 div
             else {
                 //Case 2.1 : If there is no second div on the layer change, but the given file contain information, it will raise an expetion.
-                console.log("J'ai détecté une div");
                 if(complete_file[1].length !== 0){
-                    console.log("Mais je voix deux layers dans le fichier fourni ! J'arrête l'application");
                     alert('The file contain 2 layers of qualitative information.\nAre you sure you have given the right file?');
                     return; //Early return
                 }
-                console.log("Tout va bien avec le fichier. Je vérifie que les variables données soient bien les bonnes");
                 //Case 2.2 : the terms don't correspond to anything regarding the variables
+                let ensemble_term = "";
                 for(let term in complete_file[0]){
                     if(document.getElementsByName(`${complete_file[0][term][0]}`).length === 0){
-                        console.log("Les paramètres ne correspondent pas! J'arrête l'application");
                         alert("The parameters in the file don't correspond to the parameters in the layer!\nAre you sure you have given the right file?");
                         return; //Early return
                     }
+                    if(term == 0){
+                        ensemble_term = ensemble_term + complete_file[0][term][0];
+                    }
+                    else {
+                        ensemble_term = ensemble_term + "," + complete_file[0][term][0];
+                    }
+                }
+                //Now, we can change the right term with the corresponding parameter
+                for (let term in complete_file[0]){
+                    let term_name_div1 = complete_file[0][term][0];
+                    //First parameter to change : shape
+                    for(let node = 0; node < document.getElementsByName(`${term_name_div1}`).length; node ++){
+                        if(document.getElementsByName(`${term_name_div1}`)[node].id.includes("shape")){
+                            document.getElementsByName(`${term_name_div1}`)[node].value = complete_file[0][term][1];
+                            change_shape_legend(1, ensemble_term, term_name_div1, complete_file[0][term][1]);
+                        }
+                    }
+                    //Second parameter to change : size
                 }
             }
         }
