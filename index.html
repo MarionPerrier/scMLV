@@ -398,12 +398,12 @@
                         <button
                         class="button is-danger is-outlined"
                         style="margin-right: 10px; margin-left: 10px;"
-                        id="load_param_button" onclick="load_parameters();"
+                        id="load_param_button" onclick="reading_parameters_file();"
                         disabled autocomplete="off"
                         >LOAD</button>
                         <!--There is a little trick here. Because of the page's look, we want to ask for the file
                         by clicking on a button. It will trigger the real input file, who will be hidden.-->
-                        <input type="file" id='load_param_file' hidden>
+                        <input type="file" id='load_param_file' onchange="load_parameters();" hidden>
                     </div>
                 </div>
             </div>

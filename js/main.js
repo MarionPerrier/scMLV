@@ -579,7 +579,7 @@ function save_parameters () {
     //If there is a second div
     if(!document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden){
         //There is two qualitative layers
-        text = text + `#2 ${document.getElementById('shapes_title_2').innerHTML}\n`;
+        text = text + `#2 : ${document.getElementById('shapes_title_2').innerHTML}\n`;
         
         //getting the names
         let different_terms = GRAPHDIV.data[0].z;
@@ -626,27 +626,104 @@ function save_parameters () {
 }
 
 /**
+ * This function has for only purpose to simulate a click
+ * on the "load_param_file" button, to allow user to give a file.
+ */
+function reading_parameters_file (){
+    //simulate a click on the load_param_file button
+    document.getElementById('load_param_file').click();
+}
+
+/**
  * Parse a .txt file, containing parameters on qualitative values.
  * This function will change all buttons on the qualitative legend.
  * Then, it will upload the graph with the appropriate parameters.
  * 
  * If the file entered doesn't correspond to the buttons given,
  * then the programm stops, and an error message is displayed.
+ * 
+ * PROBLEM TO FIX : If a name start by "#1" or "#2", it can be interpreted
+ * as and header
  */
 function load_parameters() {
-    //simulate a click on the load_param_file button
-    document.getElementById('load_param_file').click();
-    console.log("yop, on a clické");
+    /////////////////////////
+    //  1 : Load the file  //
+    /////////////////////////
+    let load_file = undefined;
+    load_file = document.getElementById('load_param_file').files[0];
+    
+    let complete_file = [[],[]];
+    
+    let div_change;
+    let re_div1 = RegExp('#1 : Legend of');
+    let re_div2 = RegExp('#2 : Legend of');
 
-    //1) Load the file
-    let load_file = document.getElementById('load_param_file').files[0];
-
-    //2) Parse the file loaded
+    //////////////////////////////////
+    //  2 : Parse the file loaded   //
+    //////////////////////////////////
     Papa.parse(load_file, {
         //We can have one or two header, depending on the number of div
-        header: true,
         step: function(line) {
-            console.log(line);
+            if(re_div1.test(line.data)){
+                div_change = 0;
+            }
+            //If it's the header, then we want to save a div.
+            //When the header we will be hit again, we will save the other div
+            else if(re_div2.test(line.data)){
+                div_change = 1;
+            }
+            else{
+                if(line.data[0] !== ""){
+                    complete_file[div_change].push(line.data);   
+                }
+            }
+        },
+        complete: function(){    
+            //////////////////////////////////
+            //  3 : Look if the parameters  //
+            //      fits the variables      //
+            //////////////////////////////////
+
+            //Case 1 : There is 2 div
+            if(!document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden){
+                console.log("J'ai détecté deux div");
+                //Case 1.1 : If there is a second div on the layer change, but the given file contain only one, it will raise an exception
+                if(complete_file[1].length === 0){
+                    console.log("Et je vois qu'il n'y a qu'un layer sur le fichier qui a été fourni avec l'utilisateur. Nice try.")
+                    alert('The file contain only 1 layer of qualitative information.\nAre you sure you have given the right file?');
+                    return //Early return
+                }
+                //Case 1.2 : the terms don't correspond to anything regarding the variables
+                else {
+                    for(let div = 0; div <= 1; div ++){
+                        for (term in complete_file[div]){
+                            if(document.getElementsByName(`${complete_file[div][term][0]}`).length === 0){
+                                console.log("Les paramètres ne correspondent pas! J'arrête l'application.");
+                                alert(`The parameters in the file don't correspond to the parameters in the layer!\nAre you sure you have given the right file?`)
+                            }
+                        }
+                    }
+                }
+            }
+            //Case 2 : There is 1 div
+            else {
+                //Case 2.1 : If there is no second div on the layer change, but the given file contain information, it will raise an expetion.
+                console.log("J'ai détecté une div");
+                if(complete_file[1].length !== 0){
+                    console.log("Mais je voix deux layers dans le fichier fourni ! J'arrête l'application");
+                    alert('The file contain 2 layers of qualitative information.\nAre you sure you have given the right file?');
+                    return; //Early return
+                }
+                console.log("Tout va bien avec le fichier. Je vérifie que les variables données soient bien les bonnes");
+                //Case 2.2 : the terms don't correspond to anything regarding the variables
+                for(let term in complete_file[0]){
+                    if(document.getElementsByName(`${complete_file[0][term][0]}`).length === 0){
+                        console.log("Les paramètres ne correspondent pas! J'arrête l'application");
+                        alert("The parameters in the file don't correspond to the parameters in the layer!\nAre you sure you have given the right file?");
+                        return; //Early return
+                    }
+                }
+            }
         }
     });
 }
