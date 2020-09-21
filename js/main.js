@@ -679,10 +679,11 @@ function load_parameters() {
             }
         },
         complete: function(){    
-            //////////////////////////////////
-            //  3 : Look if the parameters  //
-            //      fits the variables      //
-            //////////////////////////////////
+            //////////////////////////////////////////
+            //  3 : Look if the parameters          //
+            //      fits the variables              //
+            //      if yes, change the parameters   //
+            //////////////////////////////////////////
 
             //Case 1 : There is 2 div
             if(!document.getElementById('display_qual_color_2').hidden || !document.getElementById('display_shapes_2').hidden){
@@ -694,11 +695,18 @@ function load_parameters() {
                 //Case 1.2 : the terms don't correspond to anything regarding the variables
                 for(let div = 0; div <= 1; div ++){
                     let ensemble_term = "";
-                    for (term in complete_file[div]){
+                    for (let term = 0; term < complete_file[div].length; term ++){
+                        
                         if(document.getElementsByName(`${complete_file[div][term][0]}`).length === 0){
                             alert(`The parameters in the file don't correspond to the parameters in the layer!\nAre you sure you have given the right file?`);
                             return; //Early return
                         }
+
+                        //If the div2 and div1 are inverted, we put them back in order
+                        if (div === 0 && document.getElementsByName(`${complete_file[0][term][0]}`)[0].id.includes(2) ){
+                            complete_file = complete_file.reverse();
+                        }
+
                         if(term == 0){
                             ensemble_term = ensemble_term  + complete_file[div][term][0];
                         }
@@ -712,12 +720,12 @@ function load_parameters() {
                         
                         for(let node = 0; node < document.getElementsByName(`${term_name}`).length; node ++){
                             //First parameter to change : shape
-                            if(document.getElementsByName(`${term_name}`)[node].id.includes("shape") && !document.getElementById(`display_shapes_${div+1}`).hidden){
+                            if(document.getElementsByName(`${term_name}`)[node].id.includes(`shape_${div+1}`) && !document.getElementById(`display_shapes_${div+1}`).hidden){
                                 document.getElementsByName(`${term_name}`)[node].value = complete_file[div][term][1];
                                 change_shape_legend(div+1, ensemble_term, term_name, complete_file[div][term][1]);
                             }
                             //Second parameter to change : color
-                            if(document.getElementsByName(`${term_name}`)[node].id.includes("cp") && !document.getElementById(`display_qual_color_${div+1}`).hidden){
+                            if(document.getElementsByName(`${term_name}`)[node].id.includes(`cp_${div+1}`) && !document.getElementById(`display_qual_color_${div+1}`).hidden){
                                 if(complete_file[div][term][3] !== 'null'){
                                     document.getElementsByName(`${term_name}`)[node].value = complete_file[div][term][3];
                                     change_legend_color(div+1, ensemble_term, term_name);
@@ -727,9 +735,19 @@ function load_parameters() {
                                 }
                             }
                         }
+                        //Third parameter to change : size. The size is always displayed, no need to search for it
+                        //If on the second div, the size of the parameter is not changed (=== 3), then we gonna ignore it
+                        if(div !== 1 && complete_file[div][term][2] !== 3){
+                            document.getElementsByName(`size_shape_${div+1}_${term_name}`)[0].value = parseInt(complete_file[div][term][2]);
+                            if(document.getElementsByName(`size_color_${div+1}_${term_name}`).length != 0){
+                                document.getElementsByName(`size_color_${div+1}_${term_name}`)[0].value = parseInt(complete_file[div][term][2]);
+                            }
+                            change_size_legend(div+1, ensemble_term, term_name, parseInt(complete_file[div][term][2]));
+                        }
                     }
                 }
             }
+
             //Case 2 : There is 1 div
             else {
                 //Case 2.1 : If there is no second div on the layer change, but the given file contain information, it will raise an expetion.
@@ -772,6 +790,12 @@ function load_parameters() {
                             }
                         }
                     }
+                    //Third parameter to change : size. The size is always displayed, no need to search for it
+                    document.getElementsByName(`size_shape_1_${term_name_div1}`)[0].value = parseInt(complete_file[0][term][2]);
+                    if(document.getElementsByName(`size_color_1_${term_name_div1}`).length != 0){
+                        document.getElementsByName(`size_color_1_${term_name_div1}`)[0].value = parseInt(complete_file[0][term][2]);
+                    }
+                    change_size_legend(1, ensemble_term, term_name_div1, parseInt(complete_file[0][term][2]));
                 }
             }
         }

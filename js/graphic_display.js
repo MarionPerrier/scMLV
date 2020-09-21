@@ -272,10 +272,10 @@ function add_legend_color (list_number) {
         element2.setAttribute('step', '1');
         element2.setAttribute('min', '1');
         element2.setAttribute('max', '20');
-        element2.setAttribute('value', document.getElementsByName(`size_shape_${position}_${term}`)[0].value);
+        element2.setAttribute('value', document.getElementsByName(`size_shape_${position}_${differents_terms[term]}`)[0].value);
         element2.setAttribute('type', 'range');
         element2.setAttribute('id', `size_${position}_${differents_terms[term]}`);
-        element2.setAttribute('name', `size_color_${position}_${term}`);
+        element2.setAttribute('name', `size_color_${position}_${differents_terms[term]}`);
         element2.setAttribute('style', 'width: auto; float: right; margin-top:10px;');
         element2.setAttribute('onchange', `change_size_legend(${position}, '${differents_terms}', '${differents_terms[term]}', this.value);`);
 
@@ -421,7 +421,7 @@ function add_legend_shapes (list_number) {
             element2.setAttribute('value', '3');
             element2.setAttribute('type', 'range');
             element2.setAttribute('id', `size_${div_number}_${differents_terms[term]}`);
-            element2.setAttribute('name', `size_shape_${div_number}_${term}`);
+            element2.setAttribute('name', `size_shape_${div_number}_${differents_terms[term]}`);
             element2.setAttribute('style', 'width: auto; float: right; margin-top:10px;'); //margin-left: 15px; margin-right: 10px; 
             element2.setAttribute('onchange', `change_size_legend(${div_number}, '${differents_terms}', '${differents_terms[term]}', this.value);`);
 
@@ -1026,11 +1026,11 @@ function change_size_legend (position, different_terms, term, valueSize) {
         //There is two differents size sliders : 1 for the shape, 1 for the color.
         //We want here to make sure we take the right appropriate one, depending on if 
         //we have changed dot size on the shape or the color.
-        if(document.getElementsByName(`size_color_${position}_${term_i}`).length != 0){
-            all_sizes.push(document.getElementsByName(`size_color_${position}_${term_i}`)[0].value);
+        if(document.getElementsByName(`size_color_${position}_${terms[term_i]}`).length != 0){
+            all_sizes.push(document.getElementsByName(`size_color_${position}_${terms[term_i]}`)[0].value);
         }
         else {
-            all_sizes.push(document.getElementsByName(`size_shape_${position}_${term_i}`)[0].value);
+            all_sizes.push(document.getElementsByName(`size_shape_${position}_${terms[term_i]}`)[0].value);
         }
     }
     terms_and_sizes_associated.push(all_sizes);
@@ -1066,11 +1066,11 @@ function change_size_legend (position, different_terms, term, valueSize) {
             //There is two differents size sliders : 1 for the shape, 1 for the color.
             //We want here to make sure we take the right appropriate one, depending on if 
             //We have changed dot size on the shape or the color.
-            if(document.getElementsByName(`size_color_${inverted_position}_${term_i}`).length != 0){
-                all_sizes_bis.push(document.getElementsByName(`size_color_${inverted_position}_${term_i}`)[0].value);
+            if(document.getElementsByName(`size_color_${inverted_position}_${terms_bis[term_i]}`).length != 0){
+                all_sizes_bis.push(document.getElementsByName(`size_color_${inverted_position}_${terms_bis[term_i]}`)[0].value);
             }
             else {
-                all_sizes_bis.push(document.getElementsByName(`size_shape_${inverted_position}_${term_i}`)[0].value);
+                all_sizes_bis.push(document.getElementsByName(`size_shape_${inverted_position}_${terms_bis[term_i]}`)[0].value);
             }
         }
         terms_and_sizes_associated_bis.push(all_sizes_bis);
