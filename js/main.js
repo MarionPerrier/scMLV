@@ -18,8 +18,8 @@
 /**
  * TO DO :
  * - Prevent selection of two same parameters. (ex : 2 parameters are selected : CD3E and CD3E)
- * - Add a button allowing user to choose the size of the point
  * - BUG : selecting "id" = fails
+ * - Disable the slider of one qualitative layer if the other one is used (qualitative legend)
  **/
 
 //Code Convention specify that global variables names should be written in upper case. 
@@ -527,7 +527,6 @@ function clearLegend (is_two_legends_needed = false) {
         }
     }
 }
-
 
 /**
  * Export a .txt file with the parameters sets for qualitative variables.

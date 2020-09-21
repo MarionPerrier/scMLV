@@ -178,7 +178,7 @@ function ask_for_name(){
 function is_a_legend_possible (){
     let number_of_layers = document.getElementById('numberOfLayers').value;
     if(number_of_layers != 1){
-        if(number_of_layers == 2 && is_quantitative([1, 2]) === 1){
+        if(number_of_layers == 2 && is_quantitative([1, 2]) === 1 || is_quantitative([1, 2]) === 0){
             return false;
         }
         else if(number_of_layers == 3 && is_quantitative([1, 2, 3]) === 1){
