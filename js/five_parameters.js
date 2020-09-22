@@ -62,7 +62,7 @@ function five_parameters () {
 
             //Otherwise, throw an error and reset the app (the reset is not implemented yet)
             default:
-                console.log("Sorry, not implemented yet");
+                alert("You can't select more than 2 qualitatives layers !\nPlease select again");  
             break;
         }
     }

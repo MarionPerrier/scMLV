@@ -1023,13 +1023,19 @@ function change_size_legend (position, different_terms, term, valueSize) {
     let terms_and_sizes_associated = [terms];
     let all_sizes = [];
     for(let term_i in terms){
+        console.log("terms : ", term_i, terms, terms[term_i]);
         //There is two differents size sliders : 1 for the shape, 1 for the color.
         //We want here to make sure we take the right appropriate one, depending on if 
         //we have changed dot size on the shape or the color.
+
+
+        //Et si au lieu de faire ça, on vérifierai pas si la size_color est hidden? ça serait pratique, non?
         if(document.getElementsByName(`size_color_${position}_${terms[term_i]}`).length != 0){
+            console.log(document.getElementsByName(`size_color_${position}_${terms[term_i]}`)[0].value);
             all_sizes.push(document.getElementsByName(`size_color_${position}_${terms[term_i]}`)[0].value);
         }
         else {
+            console.log(document.getElementsByName(`size_shape_${position}_${terms[term_i]}`)[0].value);
             all_sizes.push(document.getElementsByName(`size_shape_${position}_${terms[term_i]}`)[0].value);
         }
     }
@@ -1078,14 +1084,17 @@ function change_size_legend (position, different_terms, term, valueSize) {
     let sizes = [];
     let widths = [];
 
-    //Looking at all current sizes, and register them for each points
-    for(trace in GRAPHDIV.data){
-        if(position === 2){
+    console.log("position :", position); //OK
+    console.log("terms and sizes assicuated :", terms_and_sizes_associated);
+    console.log("associated : ", terms_and_sizes_associated_bis);
+    //Looking at all current sizes, and register them for each point
+    for(trace in GRAPHDIV.data){ // On a qu'une trace = 1 seul passage
+        if(position === 2){ //TRUE
             //It means there is two qualitative layers.
             for(element in GRAPHDIV.data[trace].z){
                 //Add the size selected for each point with a corresponding term
                 if(GRAPHDIV.data[trace].z[element] === term){
-                    sizes.push(valueSize);
+                    sizes.push(parseInt(valueSize));
                     if(valueSize>=6){
                         widths.push(1);
                     }
@@ -1127,7 +1136,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
         else { // means Position == 1, so we are looking into text instead of "z".
             for(element in GRAPHDIV.data[trace].text){
                 if(GRAPHDIV.data[trace].text[element] === term){
-                    sizes.push(valueSize);
+                    sizes.push(parseInt(valueSize));
                     if(valueSize>=6){
                         widths.push(1);
                     }
