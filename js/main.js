@@ -561,7 +561,7 @@ function save_parameters () {
     //Each term will be a new line added.
     for(term in terms_list){
         let shape = document.getElementById(`shape_1_${terms_list[term]}`).value;
-        let size = document.getElementsByName(`size_shape_1_${term}`)[0].value;
+        let size = document.getElementsByName(`size_shape_1_${terms_list[term]}`)[0].value;
         if(document.getElementById(`cp_1_${terms_list[term]}`) === null){
             var color = null;
         } 
@@ -593,7 +593,7 @@ function save_parameters () {
         //Each term will be a new line added.
         for(term in terms_list){
             let shape = document.getElementById(`shape_2_${terms_list[term]}`).value;
-            let size = document.getElementsByName(`size_shape_2_${term}`)[0].value;
+            let size = document.getElementsByName(`size_shape_2_${terms_list[term]}`)[0].value;
             if(document.getElementById(`cp_2_${terms_list[term]}`) === null){
                 var color = null;
             } 

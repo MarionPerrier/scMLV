@@ -663,7 +663,7 @@ function change_dot_size (layer_id) {
                 }
                 else {
                     //2 and 3
-                    if(layer_id == 2){
+                    if(layer_id == 2 || layer_id == 3){
                         affected_traces = [1, 3];
                     }
                     else {
