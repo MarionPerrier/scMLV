@@ -85,7 +85,6 @@ function parse_csv_to_json(){
     if (IS_CREATED) {
         if (document.getElementById('x_axis_select_id') 
             || document.getElementById('y_axis_select_id')) {
-            console.log("Je suis déjà créé, donc je disable tous les boutons");
             document.getElementById('x_axis_select_id').setAttribute('disabled', '');
             document.getElementById('y_axis_select_id').setAttribute('disabled', '');
             document.getElementById('numberOfLayers').setAttribute('disabled', '');
