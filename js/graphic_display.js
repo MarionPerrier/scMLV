@@ -1022,20 +1022,22 @@ function change_size_legend (position, different_terms, term, valueSize) {
     //First step : Create a dictionnary of sizes and terms.
     let terms_and_sizes_associated = [terms];
     let all_sizes = [];
+
+    //Makes the sliders equals in both legends colors and shapes
+    if(document.getElementsByName(`size_color_${position}_${term}`).length != 0){
+        document.getElementsByName(`size_color_${position}_${term}`)[0].value = valueSize;
+    }
+    document.getElementsByName(`size_shape_${position}_${term}`)[0].value = valueSize;
+
     for(let term_i in terms){
-        console.log("terms : ", term_i, terms, terms[term_i]);
         //There is two differents size sliders : 1 for the shape, 1 for the color.
         //We want here to make sure we take the right appropriate one, depending on if 
         //we have changed dot size on the shape or the color.
 
-
-        //Et si au lieu de faire ça, on vérifierai pas si la size_color est hidden? ça serait pratique, non?
-        if(document.getElementsByName(`size_color_${position}_${terms[term_i]}`).length != 0){
-            console.log(document.getElementsByName(`size_color_${position}_${terms[term_i]}`)[0].value);
+        if(!document.getElementById(`display_qual_color_${position}`).hidden){
             all_sizes.push(document.getElementsByName(`size_color_${position}_${terms[term_i]}`)[0].value);
         }
         else {
-            console.log(document.getElementsByName(`size_shape_${position}_${terms[term_i]}`)[0].value);
             all_sizes.push(document.getElementsByName(`size_shape_${position}_${terms[term_i]}`)[0].value);
         }
     }
@@ -1084,9 +1086,6 @@ function change_size_legend (position, different_terms, term, valueSize) {
     let sizes = [];
     let widths = [];
 
-    console.log("position :", position); //OK
-    console.log("terms and sizes assicuated :", terms_and_sizes_associated);
-    console.log("associated : ", terms_and_sizes_associated_bis);
     //Looking at all current sizes, and register them for each point
     for(trace in GRAPHDIV.data){ // On a qu'une trace = 1 seul passage
         if(position === 2){ //TRUE
