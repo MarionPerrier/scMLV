@@ -27,6 +27,9 @@
  * @param {number} z_id The button id of the second qualitative variable 
  */
 function one_parameter(list_number, text_id = undefined, z_id = undefined){
+
+    clearLegend();
+
     let quantitatives_values = [];
     let column_name = document.getElementById(`selectLayer${list_number}`).value;
 
@@ -131,7 +134,6 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
         //It's a qualitative value
         //retrieve the column name
         quali_column_name = document.getElementById('selectLayer1').value;
-
         //Bring up the checkbox for legend
         document.getElementById('control_color_1').setAttribute('hidden', '');
         document.getElementById('control_checkbox_1').removeAttribute('hidden');
