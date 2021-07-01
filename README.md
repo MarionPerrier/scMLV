@@ -10,14 +10,13 @@ This tool is powered by [Plotly.js]
 
 ## Features
 
-- Save your graphics in .png or .svg format
-- Save the legend
-- Change the size and colours of each quantitative layer
-- Change size, shape, and color of each qualitative layer
-- Visualize only one layer combination
-- Resample randomnly your datasheet if you have too many cells
+- Graphics can be exported in PNG or SVG format
+- Legend can be exported in TXT format
+- Size and color of each quantitative layer can be customized
+- Size, shape, and color of each qualitative layer can be customized
+- Your datasheet can be randomly resampled if you have too many cells
 - Save and load the parameters used for the same dataset
-- Offline usage. Internet connexion non needed
+- Offline usage. Internet connexion not needed
 - No installation required
 
 ## Installation
