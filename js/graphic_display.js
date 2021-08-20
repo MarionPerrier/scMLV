@@ -19,9 +19,9 @@
 /**
  * Enable all usefull buttons. Show graphical plot
  * using Plot.ly, graphical framework.
- * 
- * @param {String} x_value The value selected in the x axe select menu  
- * @param {String} y_value The value selected in the y axe select menu  
+ *
+ * @param {String} x_value The value selected in the x axe select menu
+ * @param {String} y_value The value selected in the y axe select menu
  * @param {Array} color_value Array of intensity values. Default : undefined
  * @param {Array} color_scale The colorscale plot.ly need to use. Can be a string (ex : 'RdBu') or an array of array for custom colorscale. (ex : [[0, rgb(0,0,0)], [0.5, rgb(255,255,255)]]) Default : undefined
  */
@@ -34,7 +34,7 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
         Y.push(PARSED_RESULTS[i][y_value]);
     }
 
-    //Enables save PNG/SVG buttons when the plot is shown 
+    //Enables save PNG/SVG buttons when the plot is shown
     if(document.getElementById('svg_button').disabled){
         document.getElementById('svg_button').removeAttribute('disabled');
         document.getElementById('png_button').removeAttribute('disabled');
@@ -74,7 +74,7 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
             },
             type: 'scattergl',
             hoverinfo: 'none' //to hide labels on points
-            }], 
+            }],
             LAYOUT, {responsive: true}
         );
         return;
@@ -91,7 +91,7 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
             },
             type: 'scattergl',
             hoverinfo: 'none' //to hide labels on points
-            }], 
+            }],
             LAYOUT, {responsive: true});
         IS_CREATED = true;
     }
@@ -100,14 +100,14 @@ function draw_on_axes(x_value=X_name, y_value=Y_name, color_value=undefined, col
 /**
  * THIS DESCRIPTION SHOULD BE REPHRASED (seriously, this is mumbling)
  * Finds how many lists of parameters are displayed
- * Color each point in function of : 
- * 
+ * Color each point in function of :
+ *
  *  -> How many parameters are shown
- * 
+ *
  *  -> If it's a qualitative value
- * 
+ *
  *  -> If it's a quantitative value (color palette on a RGB scale)
- * 
+ *
  * @param {Number} list_number The id number of the select button.
  */
 function color_point(list_number){
@@ -127,7 +127,7 @@ function color_point(list_number){
     for (let j = 0; j<= number_parameters; j++) {
         if(document.getElementById(`control_checkbox_${j}`)!=null){
             document.getElementById(`control_checkbox_${j}`).setAttribute('hidden', '');
-            
+
             //Change select for "shape" instead of "color"
             document.getElementById(`cb_shape_${j}`).checked = true;
             document.getElementById(`cb_color_${j}`).checked = false;
@@ -165,18 +165,18 @@ function color_point(list_number){
 
 /**
  * WARNING : WILL FAIL IF THE COLUMN TITLE IS EQUAL TO ""
- * 
- * Add a legend under the plot, for qualitative values. 
+ *
+ * Add a legend under the plot, for qualitative values.
  * Display a list of all values, with a choice of color
  * (color picker) and a range slider for a variable dot
  * size.
- * 
- * @param {number or array} list_number id of the button where the qualitative variable is. If there is two qualitative variables, the argument given is an array of id. 
+ *
+ * @param {number or array} list_number id of the button where the qualitative variable is. If there is two qualitative variables, the argument given is an array of id.
  */
 function add_legend_color (list_number) {
 
     //Do the same with the other qualitative variable if there is one
-    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden) 
+    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden)
     && (!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden)){
         //we disable the other quali
         for (let i = 1; i <= 5; i++){
@@ -286,7 +286,7 @@ function add_legend_color (list_number) {
         div.appendChild(line);
         myDiv.appendChild(div);
     }
-    
+
     //Add the title
     document.getElementById(`qual_color_title_${position}`).innerHTML = `Legend of "${column_name}"`;
     //Makes the sliders appear
@@ -298,12 +298,12 @@ function add_legend_color (list_number) {
  * Add a legend under the plot, for qualitative values.
  * Display a list of all values, with a choice of shapes for
  * points, and a range slider for a variable dot size.
- * 
+ *
  * @param {number} list_number id of the button where the qualitative variable is
  */
 function add_legend_shapes (list_number) {
 
-    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden) 
+    if((!document.getElementById('display_shapes_1').hidden || !document.getElementById('display_qual_color_1').hidden)
     && (!document.getElementById('display_shapes_2').hidden || !document.getElementById('display_qual_color_2').hidden)){
         //we disable the other quali
         for (let i = 1; i <= 5; i++){
@@ -358,7 +358,7 @@ function add_legend_shapes (list_number) {
 
         //Make sliders appears to the right for each term [TERM : *slider*]
         for (let term in differents_terms) {
-            
+
             //Calculates the number of cells for each terms
             var number_of_cells = 0;
             for(data_number in GRAPHDIV.data){
@@ -389,7 +389,7 @@ function add_legend_shapes (list_number) {
             let element1 = document.createElement('div'); //This div will contain the select
             element1.setAttribute('class', 'select is-purple');
             let element1_1 = document.createElement("select"); //Select for shape
-            
+
             let element2 = document.createElement("input"); //Slider for size
             let line = document.createElement('hr');
             line.setAttribute('color', 'purple');
@@ -422,7 +422,7 @@ function add_legend_shapes (list_number) {
             element2.setAttribute('type', 'range');
             element2.setAttribute('id', `size_${div_number}_${differents_terms[term]}`);
             element2.setAttribute('name', `size_shape_${div_number}_${differents_terms[term]}`);
-            element2.setAttribute('style', 'width: auto; float: right; margin-top:10px;'); //margin-left: 15px; margin-right: 10px; 
+            element2.setAttribute('style', 'width: auto; float: right; margin-top:10px;'); //margin-left: 15px; margin-right: 10px;
             element2.setAttribute('onchange', `change_size_legend(${div_number}, '${differents_terms}', '${differents_terms[term]}', this.value);`);
 
             //Add them to the appropriate div
@@ -446,9 +446,16 @@ function add_legend_shapes (list_number) {
     }
 
     //Do the same with the other qualitative variable if there is one
-    if(Array.isArray(list_number) && list_number.length>1){ //&& document.getElementById(`shapes_title_1`).innerHTML === "") 
-        document.getElementById(`cb_color_${list_number[list_number.length -1]}`).click();
-        document.getElementById(`cb_shape_${list_number[list_number.length -1]}`).checked = false;
+    if(Array.isArray(list_number) && list_number.length>1){ //&& document.getElementById(`shapes_title_1`).innerHTML === "")
+        console.log("Je suis passé par le coche de cd_color !");
+        console.log(list_number[list_number.length -1]);
+        if(document.getElementById(`cb_color_${list_number[list_number.length -1]}`).checked == true){
+            add_legend_color(list_number[list_number.length -1]);
+        }
+        else {
+          document.getElementById(`cb_color_${list_number[list_number.length -1]}`).click();
+          document.getElementById(`cb_shape_${list_number[list_number.length -1]}`).checked = false;
+        }
     }
 }
 
@@ -460,7 +467,7 @@ function display_legend (legend) {
     document.getElementById('display_legend').removeAttribute('hidden');
 
     var textNode = document.createElement("div");
-    
+
     var string_to_display = '<ul>';
     for(let elem in legend){
 
@@ -478,10 +485,10 @@ function display_legend (legend) {
 /**
  * Will be activated when there is a color change
  * for a layer.
- * Call again the main function of the number of 
+ * Call again the main function of the number of
  * total layer.
- * 
- * @param {string} number_layout total number of layout displayed 
+ *
+ * @param {string} number_layout total number of layout displayed
  */
 function color_change (){
 
@@ -511,8 +518,8 @@ function color_change (){
 }
 
 /**
- * Transform a hexadecimal code (string) into a rgb color code (array) 
- * @param {string} hex Hexadecimal code of a color 
+ * Transform a hexadecimal code (string) into a rgb color code (array)
+ * @param {string} hex Hexadecimal code of a color
  */
 function hexToRgb(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -525,17 +532,17 @@ function hexToRgb(hex) {
 
 /**
  * Return a palette of 3 colors : [#e3e3e3, the color given, #000000].
- * @param {string} color RGB values returned for one layer (from grey to the color to black). 
+ * @param {string} color RGB values returned for one layer (from grey to the color to black).
  */
 function creating_palette_one_layer (color){
-    return [[0, "#e3e3e3"], 
+    return [[0, "#e3e3e3"],
             [0.5, `rgb(${color.r},${color.g},${color.b})`],
             [1, 'rgb(0,0,0)']];
 }
 
 /**
  * Return a palette composed by two colors : #e3e3e3, and the color given.
- * @param {string} color RGB values returned for several layers (from grey to the color). 
+ * @param {string} color RGB values returned for several layers (from grey to the color).
  */
 function creating_palette_several_layers (color) {
     return [[0, "#e3e3e3"], [1, `rgb(${color.r},${color.g},${color.b})`]];
@@ -543,7 +550,7 @@ function creating_palette_several_layers (color) {
 
 /**
  * Compute all intermediates color between two or more (up to 5) values.
- * @param {Array} color Array of hexadecimal color values selected by the user 
+ * @param {Array} color Array of hexadecimal color values selected by the user
  * @returns {Array} middle_colors Array of RGB color values selected by the user
  */
 function calculation_middle_color(color) {
@@ -555,7 +562,7 @@ function calculation_middle_color(color) {
 
     //No need for the first one "[]" to be treated
     //This "for" loop will generate an intermediate color for each combination
-    color_combinations.forEach(function(combination){ 
+    color_combinations.forEach(function(combination){
 
         //We don't care about empty and solo combination
         if(combination.length != 0 && combination.length != 1){
@@ -577,7 +584,7 @@ function calculation_middle_color(color) {
             middle_R = parseInt(middle_R/rgb_color.length);
             middle_B = parseInt(middle_B/rgb_color.length);
             middle_G = parseInt(middle_G/rgb_color.length);
-            
+
             middle_colors.push(`rgb(${middle_R}, ${middle_G}, ${middle_B})`);
 
             rgb_color = [];
@@ -588,14 +595,14 @@ function calculation_middle_color(color) {
 }
 
 /**
- * Change the dot size of a specific layer and all the layers associated to this one. 
+ * Change the dot size of a specific layer and all the layers associated to this one.
  * Insert a black border line for each point which has a width >= 6.
  * Reset the size and the border line when there is an other layer selected.
- * 
+ *
  * WARNING : That's not an elegant way to proceed. This function needs to be updated
  * in the future (the traces are hard written, and we want to avoid that.)
- * Plus, this piece of code is extremely slow. We should improve it 
- * 
+ * Plus, this piece of code is extremely slow. We should improve it
+ *
  * @param {string} layer_id As the name says : The ID of the layer selected
  */
 function change_dot_size (layer_id) {
@@ -621,7 +628,7 @@ function change_dot_size (layer_id) {
             if(nb_layers == 2){
                 //Check how many quantitatives values
                 let n_quantitatives = is_quantitative([1, 2]);
-                
+
                 //If there is two quantitatives layers :
                 //      Increase the size of the dots and relatives traces
                 if(n_quantitatives === 2){
@@ -633,7 +640,7 @@ function change_dot_size (layer_id) {
                     }
                 }
 
-                //If there is only one quantitative layer : 
+                //If there is only one quantitative layer :
                 //      Treats it like case 1
                 else {
                     affected_traces = [1];
@@ -752,7 +759,7 @@ function change_dot_size (layer_id) {
                     }
                     else {
                         //One of the two is qualitative, then the button will show the second layer
-                        affected_traces = [2,5,8,9,11,12,14,15]; 
+                        affected_traces = [2,5,8,9,11,12,14,15];
                     }
                 }
                 else if(layer_id == 4){
@@ -873,8 +880,8 @@ function change_dot_size (layer_id) {
 
 /**
  * Happens when the value inside the select for "shape" is changed.
- * Changes the shape of the points wich belongs to the value selected 
- * 
+ * Changes the shape of the points wich belongs to the value selected
+ *
  * @param {number} position indicates the div number to modify the shape (is it the first qualitative value or the second one ?)
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
  * @param {string} term indicates the style number to modify
@@ -891,7 +898,7 @@ function change_shape_legend (position, different_terms, term, valueShape){
         all_shapes.push(document.getElementById(`shape_${position}_${terms[term_i]}`).value);
     }
     terms_and_shapes_associated.push(all_shapes);
-    
+
     let shapes = [];
     //each trace will be treated one by one
     for(trace in GRAPHDIV.data){
@@ -901,7 +908,7 @@ function change_shape_legend (position, different_terms, term, valueShape){
                     shapes.push(valueShape);
                 }
                 else {
-                    //If the term is not found, we want to keep the same shape as before 
+                    //If the term is not found, we want to keep the same shape as before
                     let index_term = terms_and_shapes_associated[0].indexOf(GRAPHDIV.data[trace].z[element]);
                     let shape = terms_and_shapes_associated[1][index_term];
                     shapes.push(shape);
@@ -935,12 +942,12 @@ function change_shape_legend (position, different_terms, term, valueShape){
 
 /**
  * Changes the color of each point belonging to a specific value in qualitative layers
- * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?) 
+ * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?)
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
  * @param {string} term indicates the style number to modify
  */
 function change_legend_color (position, different_terms, term) {
-    //Starting by looking at how many terms has been changed : 
+    //Starting by looking at how many terms has been changed :
     var terms = different_terms.split(",");
 
     //Creation of a correspondance table, where each term will be associated
@@ -950,7 +957,7 @@ function change_legend_color (position, different_terms, term) {
 
         //Look what div is concerned by the change
         if(position === 2){
-            
+
             //A target by group will be added to the transform.
             for(term in terms){
                 if(document.getElementById(`cp_${position}_${terms[term]}`).value != "#ffffff"){
@@ -1006,11 +1013,11 @@ function change_legend_color (position, different_terms, term) {
 /**
  * Happens when the value inside the input range for "size" is changed.
  * Changes the size of the points wich belongs to the value selected.
- * If the selected size is bigger or equal to 6, then a black border is added to the point.  
- * 
+ * If the selected size is bigger or equal to 6, then a black border is added to the point.
+ *
  * Please don't judge the quality of that work. It tooks me ages to figure out a solution.
- * 
- * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?) 
+ *
+ * @param {number} position indicates the div number to modify the color (is it the first qualitative value or the second one ?)
  * @param {string} different_terms A string with all the terms of the concerned layer is in, separated by a comma
  * @param {string} term the name of the term concerned by the size change
  * @param {string} valueSize the size selected in the range slider. Can go from O to 10. Default value = 3
@@ -1031,7 +1038,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
 
     for(let term_i in terms){
         //There is two differents size sliders : 1 for the shape, 1 for the color.
-        //We want here to make sure we take the right appropriate one, depending on if 
+        //We want here to make sure we take the right appropriate one, depending on if
         //we have changed dot size on the shape or the color.
 
         if(!document.getElementById(`display_qual_color_${position}`).hidden){
@@ -1045,7 +1052,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
 
     //If there is a second div, do an other correspondace table for this other div
     //Quick fonction to return unique values of an array
-    function onlyUnique(value, index, self) { 
+    function onlyUnique(value, index, self) {
         return self.indexOf(value) === index;
     }
 
@@ -1062,7 +1069,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
         var terms_to_filter = GRAPHDIV.data[0].text;
         var inverted_position = 1;
     }
-    
+
     //Filter those term to have only uniq one
     if(isThereASecondDiv){
         var terms_bis = terms_to_filter.filter(onlyUnique);
@@ -1072,7 +1079,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
 
         for(let term_i in terms_bis){
             //There is two differents size sliders : 1 for the shape, 1 for the color.
-            //We want here to make sure we take the right appropriate one, depending on if 
+            //We want here to make sure we take the right appropriate one, depending on if
             //We have changed dot size on the shape or the color.
             if(document.getElementsByName(`size_color_${inverted_position}_${terms_bis[term_i]}`).length != 0){
                 all_sizes_bis.push(document.getElementsByName(`size_color_${inverted_position}_${terms_bis[term_i]}`)[0].value);
@@ -1145,7 +1152,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
                 }
                 else {
                     //If the term is not found, we want to keep the same size as before
-                    //If there is two div : 
+                    //If there is two div :
                     if(isThereASecondDiv){
                         //But, we need to make sure that the point is not linked to an other term with a bigger size
                         //We are looking for change on the first div. So the opposite position is obviously 2.
@@ -1168,7 +1175,7 @@ function change_size_legend (position, different_terms, term, valueSize) {
                         else{
                             widths.push(0);
                         }
-                    } 
+                    }
                     else {
                         let index_term = terms_and_sizes_associated[0].indexOf(GRAPHDIV.data[trace].text[element]);
                         let size = parseInt(terms_and_sizes_associated[1][index_term]);
