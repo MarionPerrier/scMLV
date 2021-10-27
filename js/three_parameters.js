@@ -78,13 +78,11 @@ function one_quanti_two_quali () {
     //For each button, activate or hide the colors/shape controls
     for(let j = 1; j <= 3; j++){
         if(is_quantitative(j)){
-            document.getElementById(`control_color_${j}`).removeAttribute('hidden');
             document.getElementById(`control_checkbox_${j}`).setAttribute('hidden', '');
             list_quanti = j;
         }
         else {
             document.getElementById(`control_color_${j}`).setAttribute('hidden', '');
-            document.getElementById(`control_checkbox_${j}`).removeAttribute('hidden');
             list_quali.push(j);
         }
     }

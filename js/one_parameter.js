@@ -15,7 +15,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-
 /**
  * Check for qualitative or quantitative value.
  *
@@ -37,8 +36,6 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
     //for each point based on a pre-defined color palette
     if(is_quantitative(list_number)){
 
-        document.getElementById(`control_color_${list_number}`).removeAttribute('hidden');
-
         //Let's set two traces : The one where values are equals to the minimal value, and the other.
         for(let j = 0; j < TAB_LENGTH; j++){
             quantitatives_values.push(parseFloat(PARSED_RESULTS[j][column_name]));
@@ -46,19 +43,12 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
 
         //Trace computing
         var data = [];
-        var palette = [[[0,'#e3e3e3'],[1,'#e3e3e3']]];
-
-        //Get the color palette
-        color = document.getElementById(`color_layer_${list_number}`).value;
-        palette.push(creating_palette_one_layer(hexToRgb(color)));
 
         if(text_id != undefined){
             text_name = document.getElementById(`selectLayer${text_id}`).value;
             Z_name = document.getElementById(`selectLayer${z_id}`).value;
         }
 
-        //We want two traces here
-        for (let j = 0; j <= 1; j++){
             var X = [];
             var Y = [];
             var Z = [];
@@ -66,27 +56,12 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
             var color = [];
 
             for (let point in quantitatives_values){
-                if(j === 0 
-                    && quantitatives_values[point] <= VAL_MIN){
-                    
-                    X.push(PARSED_RESULTS[point][X_name]);
-                    Y.push(PARSED_RESULTS[point][Y_name]);
-                    color.push(VAL_MIN);
-                    if(document.getElementById('numberOfLayers').value == 3){
-                        text.push(PARSED_RESULTS[point][text_name]);
-                        Z.push(PARSED_RESULTS[point][Z_name]);
-                    }
-                }
-                else if(j === 1
-                    && quantitatives_values[point] > VAL_MIN){
-
-                    X.push(PARSED_RESULTS[point][X_name]);
-                    Y.push(PARSED_RESULTS[point][Y_name]);
-                    color.push(PARSED_RESULTS[point][column_name]);
-                    if(document.getElementById('numberOfLayers').value == 3){
-                        text.push(PARSED_RESULTS[point][text_name]);
-                        Z.push(PARSED_RESULTS[point][Z_name]);
-                    }
+                X.push(PARSED_RESULTS[point][X_name]);
+                Y.push(PARSED_RESULTS[point][Y_name]);
+                color.push(PARSED_RESULTS[point][column_name]);
+                if(document.getElementById('numberOfLayers').value == 3){
+                    text.push(PARSED_RESULTS[point][text_name]);
+                    Z.push(PARSED_RESULTS[point][Z_name]);
                 }
             }
 
@@ -101,11 +76,11 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
                     marker: {
                         size: DOT_SIZE,
                         color: color,
-                        colorscale: palette[j],
+                        colorscale: "Jet",
                         cmin: VAL_MIN
                     },
                     type: 'scattergl',
-                    hoverinfo:'none' //To hide labels on points
+                    hoverinfo:'none'
                 });
             }
             else {
@@ -116,15 +91,14 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
                     marker: {
                         size: DOT_SIZE,
                         color: color,
-                        colorscale: palette[j],
+                        colorscale: "Jet",
                         cmin: VAL_MIN
                     },
                     type: 'scattergl',
                     hoverinfo:'none' //To hide labels on points
                 });
             }
-        }
-        
+
         //update the graph
         Plotly.purge(GRAPHDIV);
         Plotly.react(GRAPHDIV, data, layout=LAYOUT,{showlegend: false},

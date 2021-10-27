@@ -447,8 +447,6 @@ function add_legend_shapes (list_number) {
 
     //Do the same with the other qualitative variable if there is one
     if(Array.isArray(list_number) && list_number.length>1){ //&& document.getElementById(`shapes_title_1`).innerHTML === "")
-        console.log("Je suis passé par le coche de cd_color !");
-        console.log(list_number[list_number.length -1]);
         if(document.getElementById(`cb_color_${list_number[list_number.length -1]}`).checked == true){
             add_legend_color(list_number[list_number.length -1]);
         }
