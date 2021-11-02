@@ -51,7 +51,7 @@ This software is still in developpement. As such, you can encounter several bugs
 Thank you for helping us !
 
 ## Citation
-If you consider publishing graphics realised with scMLV, please cite [under publication in oncoImmunology journal]
+If you consider publishing graphics realised with scMLV, please cite : Juan-Pablo Cerapio, Marion Perrier, Camille-Charlotte Balança, Pauline Gravelle, Fréderic Pont, Christel Devaud, Don-Marc Franchini, Virginie Féliu, Marie Tosolini, Carine Valle, Fréderic Lopez, Anne Quillet-Mary, Loic Ysebaert, Alejandra Martinez, Jean Pierre Delord, Maha Ayyoub, Camille Laurent & Jean-Jacques Fournie (2021) Phased differentiation of γδ T and T CD8 tumor-infiltrating lymphocytes revealed by single-cell transcriptomics of human cancers, OncoImmunology, 10:1, DOI: 10.1080/2162402X.2021.1939518
 
 ## License
 
