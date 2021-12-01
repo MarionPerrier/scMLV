@@ -36,6 +36,9 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
     //for each point based on a pre-defined color palette
     if(is_quantitative(list_number)){
 
+        document.getElementById(`control_color_${list_number}`).removeAttribute('hidden');
+        document.getElementById(`color_picker${list_number}`).setAttribute('hidden', '');
+
         //Let's set two traces : The one where values are equals to the minimal value, and the other.
         for(let j = 0; j < TAB_LENGTH; j++){
             quantitatives_values.push(parseFloat(PARSED_RESULTS[j][column_name]));
@@ -43,11 +46,14 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
 
         //Trace computing
         var data = [];
+        var palette = [[[0,'#000083'],[1,'#000083']], 'Jet'];
 
         if(text_id != undefined){
             text_name = document.getElementById(`selectLayer${text_id}`).value;
             Z_name = document.getElementById(`selectLayer${z_id}`).value;
         }
+
+        for(let j = 0; j <= 1; j++){
 
             var X = [];
             var Y = [];
@@ -56,12 +62,25 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
             var color = [];
 
             for (let point in quantitatives_values){
-                X.push(PARSED_RESULTS[point][X_name]);
-                Y.push(PARSED_RESULTS[point][Y_name]);
-                color.push(PARSED_RESULTS[point][column_name]);
-                if(document.getElementById('numberOfLayers').value == 3){
-                    text.push(PARSED_RESULTS[point][text_name]);
-                    Z.push(PARSED_RESULTS[point][Z_name]);
+                if(j === 0 && quantitatives_values[point] <= VAL_MIN){
+
+                    X.push(PARSED_RESULTS[point][X_name]);
+                    Y.push(PARSED_RESULTS[point][Y_name]);
+                    color.push(VAL_MIN);
+                    if(document.getElementById('numberOfLayers').value == 3){
+                        text.push(PARSED_RESULTS[point][text_name]);
+                        Z.push(PARSED_RESULTS[point][Z_name]);
+                    }
+                }
+                else if(j === 1 && quantitatives_values[point] > VAL_MIN){
+
+                    X.push(PARSED_RESULTS[point][X_name]);
+                    Y.push(PARSED_RESULTS[point][Y_name]);
+                    color.push(PARSED_RESULTS[point][column_name]);
+                    if(document.getElementById('numberOfLayers').value == 3){
+                        text.push(PARSED_RESULTS[point][text_name]);
+                        Z.push(PARSED_RESULTS[point][Z_name]);
+                    }
                 }
             }
 
@@ -76,13 +95,14 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
                     marker: {
                         size: DOT_SIZE,
                         color: color,
-                        colorscale: "Jet",
+                        colorscale: palette[j],
                         cmin: VAL_MIN
                     },
                     type: 'scattergl',
                     hoverinfo:'none'
                 });
             }
+
             else {
                 data.push({
                     x: X,
@@ -91,19 +111,21 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
                     marker: {
                         size: DOT_SIZE,
                         color: color,
-                        colorscale: "Jet",
-                        cmin: VAL_MIN
+                        colorscale: palette[j],
+                        cmin: VAL_MIN //There is a problem here, and it seems that we have some "0" in our data.
                     },
                     type: 'scattergl',
                     hoverinfo:'none' //To hide labels on points
                 });
             }
 
-        //update the graph
-        Plotly.purge(GRAPHDIV);
-        Plotly.react(GRAPHDIV, data, layout=LAYOUT,{showlegend: false},
-            config={responsive: true});
+            //update the graph
+            Plotly.purge(GRAPHDIV);
+            Plotly.react(GRAPHDIV, data, layout=LAYOUT,{showlegend: false},
+                config={responsive: true});
+        }
     }
+    
     else {
         //It's a qualitative value
         //retrieve the column name

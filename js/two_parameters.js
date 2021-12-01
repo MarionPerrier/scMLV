@@ -82,6 +82,8 @@ function one_quanti_one_quali () {
     //Detect which columns contain quantitative values
     if(is_quantitative(1)){
         //Quantitative values are in selectLayer1
+        document.getElementById(`control_color_1`).removeAttribute('hidden');
+        document.getElementById(`color_picker1`).setAttribute('hidden', '');
         document.getElementById('control_color_2').setAttribute('hidden', '');
         quanti_column_name = document.getElementById('selectLayer1').value;
         quali_column_name = document.getElementById('selectLayer2').value;
@@ -92,6 +94,8 @@ function one_quanti_one_quali () {
     } 
     else {
         //Quantitative values are in selectLayer2
+        document.getElementById(`control_color_2`).removeAttribute('hidden');
+        document.getElementById(`color_picker2`).setAttribute('hidden', '');
         document.getElementById('control_color_1').setAttribute('hidden', '');
         quanti_column_name = document.getElementById('selectLayer2').value;
         quali_column_name = document.getElementById('selectLayer1').value;
@@ -110,6 +114,7 @@ function one_quanti_one_quali () {
 
     //Trace computing
     var data = [];
+    var palette = [[[0,'#000083'],[1,'#000083']], 'Jet'];
 
     //We want two traces here
     for (let j = 0; j <= 1; j++){
@@ -119,10 +124,18 @@ function one_quanti_one_quali () {
         var color = [];
 
         for (let point in quantitatives_values){
+            if(j === 0 && quantitatives_values[point] <= VAL_MIN){
+                X.push(PARSED_RESULTS[point][X_name]);
+                Y.push(PARSED_RESULTS[point][Y_name]);
+                text.push(PARSED_RESULTS[point][quali_column_name]);
+                color.push(VAL_MIN);
+            }
+            else if(j === 1 && quantitatives_values[point] > VAL_MIN){
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 text.push(PARSED_RESULTS[point][quali_column_name]);
                 color.push(PARSED_RESULTS[point][quanti_column_name]);
+            }
         }
 
         //Add a trace
@@ -134,7 +147,7 @@ function one_quanti_one_quali () {
             marker: {
                 size: DOT_SIZE,
                 color: color,
-                colorscale: "Jet",
+                colorscale: palette[j],
                 cmin: VAL_MIN
             },
             type: 'scattergl',
