@@ -46,6 +46,8 @@ This is the libraries used by scMLV:
 - [Combinatorics](https://github.com/dankogai/js-combinatorics) (v0.25) - Javascript lobrary : Compute every kind of elements combination
 - [Fontawesome](https://fontawesome.com/) (v5.3.1) - Provides the icons use by Bulma.
 
+They are included in the .zip folder, no need to download them !
+
 ## Bugs
 This software is still in developpement. As such, you can encounter several bugs and non wanted behavior. Please report them directly on Github, in the "issue" category. We will do our possible to reply and provide a solution rapidly.
 Thank you for helping us !
