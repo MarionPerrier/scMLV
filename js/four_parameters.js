@@ -21,11 +21,11 @@
  * Will determine how many quantitative and qualitative values are asked, and
  * then draws the plot.
  * First case : Four quantitative parameters
- * 
+ *
  * Second case : One qualitative and three quantitative parameters
  * (Transparency variation sliders, the color of each point depend
  * on the quantitative data : colorscale).
- * 
+ *
  * Third case : Two qualitative and two quantitative parameters.
  * (Variation on two colorscales, one for each value).
 */
@@ -33,7 +33,7 @@ function four_parameters () {
     /*If the three columns have been selected, checked if we are
     in case 0 and 1 (Throw an error (more than 2 qualitative parameters))
     in case 2 (mixed between 1 quantitative and 2 qualitative parameters)
-    in case 3 (mixed between 2 quantitative and 1 qualitative parameters) 
+    in case 3 (mixed between 2 quantitative and 1 qualitative parameters)
     in case 4 (four quantitative parameters)*/
 
     //Reset legend if already existing
@@ -85,6 +85,7 @@ function two_quanti_two_quali () {
     for(let j = 1; j <= 4; j++){
         if(is_quantitative(j)){
             document.getElementById(`control_color_${j}`).removeAttribute('hidden');
+            document.getElementById(`color_picker${j}`).removeAttribute('hidden');
             document.getElementById(`control_checkbox_${j}`).setAttribute('hidden', '');
             list_quanti.push(j);
         }
@@ -112,13 +113,13 @@ function two_quanti_two_quali () {
 
 /**
  * Handles data if there is three quantitatives columns selected, and one qualitative column selected.
- * There will be three colors selected : 
+ * There will be three colors selected :
  *      - One for layer 1
  *      - One for layer 2
  *      - One for layer 3
  * And all their overlay (see three_parameters() description for more details).
  * The legend will be displayed for both quantitative and qualitative values
- * 
+ *
  * The plot will be entirely redrawn in the three_parameters() function.
  */
 function three_quanti_one_quali () {
@@ -138,10 +139,11 @@ function three_quanti_one_quali () {
     for (let j in list_quanti){
         //Retrieves color values
         color.push(document.getElementById(`color_layer_${list_quanti[j]}`).value);
-        
+
         //Displays color pickers
         document.getElementById(`control_color_${list_quanti[j]}`).removeAttribute('hidden');
-        
+        document.getElementById(`color_picker${list_quanti[j]}`).removeAttribute('hidden');
+
         //Hides unecessary buttons
         document.getElementById(`control_checkbox_${list_quanti[j]}`).setAttribute('hidden', '');
     }
@@ -152,15 +154,15 @@ function three_quanti_one_quali () {
     //Retrieves columns names
     quanti_column_name1 = document.getElementById(`selectLayer${list_quanti[0]}`).value;
     quanti_column_name2 = document.getElementById(`selectLayer${list_quanti[1]}`).value;
-    quanti_column_name3 = document.getElementById(`selectLayer${list_quanti[2]}`).value;    
+    quanti_column_name3 = document.getElementById(`selectLayer${list_quanti[2]}`).value;
     quali_column_name = document.getElementById(`selectLayer${list_quali}`).value;
 
     //Displays color for quantitative values
     //as the same way that "three parameters" does
-    three_quanti(color, 
-        quanti_column_name1, 
-        quanti_column_name2, 
-        quanti_column_name3, 
+    three_quanti(color,
+        quanti_column_name1,
+        quanti_column_name2,
+        quanti_column_name3,
         quali_column_name);
 
     //Now taking care of qualitative values.
@@ -170,7 +172,7 @@ function three_quanti_one_quali () {
 
 /**
  * Handles data if there is four quantitative colums selected.
- * There will be four colors selected : 
+ * There will be four colors selected :
  *      - One for the layer 1
  *      - One for the layer 2
  *      - One for the layer 3
@@ -187,7 +189,7 @@ function three_quanti_one_quali () {
  *      - Layers 1, 3 and 4
  *      - Layers 2, 3 and 4
  * And all the layers combined 1, 2, 3 and 4 (the points will appears black if so.)
- * 
+ *
  * @param {Array} color Array of strings : hexadecimal value of each color
  * @param {string} quanti_column_name1 Name of the first quantitative column
  * @param {string} quanti_column_name2 Name of the second quantitative column
@@ -196,8 +198,8 @@ function three_quanti_one_quali () {
  * @param {string} quali_column_name Name of the first qualitative column
  * @param {string} quali_column_name2 Name of the second qualitative column
  */
-function four_quanti (color = undefined, 
-    quanti_column_name1 = undefined, 
+function four_quanti (color = undefined,
+    quanti_column_name1 = undefined,
     quanti_column_name2 = undefined,
     quanti_column_name3 = undefined,
     quanti_column_name4 = undefined,
@@ -205,8 +207,8 @@ function four_quanti (color = undefined,
 
     var colorscale = [[[0,'#e3e3e3'], [1,'#e3e3e3']]]; //The first colorscale (for all "0" values) is already sets
 
-    if(quanti_column_name1 === undefined 
-        && quanti_column_name2 === undefined 
+    if(quanti_column_name1 === undefined
+        && quanti_column_name2 === undefined
         && quanti_column_name3 === undefined
         && quanti_column_name4 === undefined
         && color === undefined){
@@ -214,6 +216,7 @@ function four_quanti (color = undefined,
         //Make the color pickers appears
         for (let j = 1; j <= 4; j++) {
             document.getElementById(`control_color_${j}`).removeAttribute('hidden');
+            document.getElementById(`color_picker${j}`).removeAttribute('hidden');
         }
 
         quanti_column_name1 = document.getElementById('selectLayer1').value;
@@ -376,14 +379,14 @@ function four_quanti (color = undefined,
                 let exp_percent2 = (values_layer2[point]*100)/cmax2;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name1 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name1 + ' + '
                         + quanti_column_name2+` (${X.length} cells)\n`;
             }
 
             //Looking at the values which contain L1 and L3
             else if (j === 6
-                && values_layer1[point] > VAL_MIN 
+                && values_layer1[point] > VAL_MIN
                 && values_layer2[point] <= VAL_MIN
                 && values_layer3[point] > VAL_MIN
                 && values_layer4[point] <= VAL_MIN) {
@@ -397,10 +400,10 @@ function four_quanti (color = undefined,
                 //Percent of expression calculated
                 let exp_percent1 = (values_layer1[point]*100)/cmax1;
                 let exp_percent2 = (values_layer3[point]*100)/cmax3;
-                let exp_percent = (exp_percent1+exp_percent2)/2;                     
+                let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name1 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name1 + ' + '
                         + quanti_column_name3+` (${X.length} cells)\n`;
             }
 
@@ -410,7 +413,7 @@ function four_quanti (color = undefined,
                 && values_layer2[point] <= VAL_MIN
                 && values_layer3[point] <= VAL_MIN
                 && values_layer4[point] > VAL_MIN){
-                
+
                 X.push(PARSED_RESULTS[point][X_name]);
                 Y.push(PARSED_RESULTS[point][Y_name]);
                 if(quali_column_name != undefined){
@@ -422,8 +425,8 @@ function four_quanti (color = undefined,
                 let exp_percent2 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name1 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name1 + ' + '
                         + quanti_column_name4+` (${X.length} cells)\n`;
             }
 
@@ -445,8 +448,8 @@ function four_quanti (color = undefined,
                 let exp_percent2 = (values_layer3[point]*100)/cmax3;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name2 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name2 + ' + '
                         + quanti_column_name3+` (${X.length} cells)\n`;
             }
 
@@ -466,9 +469,9 @@ function four_quanti (color = undefined,
                 //Percent of expression calculated
                 let exp_percent1 = (values_layer2[point]*100)/cmax2;
                 let exp_percent2 = (values_layer4[point]*100)/cmax4;
-                let exp_percent = (exp_percent1+exp_percent2)/2;                     
+                let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
+                title = 'LC ' + j + ' = '
                         + quanti_column_name2 + ' + '
                         + quanti_column_name4+` (${X.length} cells)\n`;
             }
@@ -491,8 +494,8 @@ function four_quanti (color = undefined,
                 let exp_percent2 = (values_layer4[point]*100)/cmax4;
                 let exp_percent = (exp_percent1+exp_percent2)/2;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name3 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name3 + ' + '
                         + quanti_column_name4+` (${X.length} cells)\n`;
             }
 
@@ -513,11 +516,11 @@ function four_quanti (color = undefined,
                 let exp_percent1 = (values_layer1[point]*100)/cmax1;
                 let exp_percent2 = (values_layer2[point]*100)/cmax2;
                 let exp_percent3 = (values_layer3[point]*100)/cmax3;
-                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
+                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name1 + ' + ' 
-                        + quanti_column_name2 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name1 + ' + '
+                        + quanti_column_name2 + ' + '
                         + quanti_column_name3+` (${X.length} cells)\n`;
             }
 
@@ -538,10 +541,10 @@ function four_quanti (color = undefined,
                 let exp_percent1 = (values_layer1[point]*100)/cmax1;
                 let exp_percent2 = (values_layer2[point]*100)/cmax2;
                 let exp_percent3 = (values_layer4[point]*100)/cmax4;
-                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
+                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name1 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name1 + ' + '
                         + quanti_column_name2 + ' + '
                         + quanti_column_name4+` (${X.length} cells)\n`;
             }
@@ -563,10 +566,10 @@ function four_quanti (color = undefined,
                 let exp_percent1 = (values_layer1[point]*100)/cmax1;
                 let exp_percent2 = (values_layer3[point]*100)/cmax3;
                 let exp_percent3 = (values_layer4[point]*100)/cmax4;
-                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
+                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name1 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name1 + ' + '
                         + quanti_column_name3 + ' + '
                         + quanti_column_name4+` (${X.length} cells)\n`;
             }
@@ -588,11 +591,11 @@ function four_quanti (color = undefined,
                 let exp_percent1 = (values_layer2[point]*100)/cmax2;
                 let exp_percent2 = (values_layer3[point]*100)/cmax3;
                 let exp_percent3 = (values_layer4[point]*100)/cmax4;
-                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;                     
+                let exp_percent = (exp_percent1+exp_percent2+exp_percent3)/3;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
-                        + quanti_column_name2 + ' + ' 
-                        + quanti_column_name3 + ' + ' 
+                title = 'LC ' + j + ' = '
+                        + quanti_column_name2 + ' + '
+                        + quanti_column_name3 + ' + '
                         + quanti_column_name4+` (${X.length} cells)\n`;
             }
 
@@ -614,11 +617,11 @@ function four_quanti (color = undefined,
                 let exp_percent2 = (values_layer2[point]*100)/cmax2;
                 let exp_percent3 = (values_layer3[point]*100)/cmax3;
                 let exp_percent4 = (values_layer4[point]*100)/cmax4;
-                let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4)/4;                     
+                let exp_percent = (exp_percent1+exp_percent2+exp_percent3+exp_percent4)/4;
                 color.push(exp_percent);
-                title = 'LC ' + j + ' = ' 
+                title = 'LC ' + j + ' = '
                         + quanti_column_name1 + ' + '
-                        + quanti_column_name2 + ' + ' 
+                        + quanti_column_name2 + ' + '
                         + quanti_column_name3 + ' + '
                         + quanti_column_name4+` (${X.length} cells)\n`;
             }
@@ -635,6 +638,7 @@ function four_quanti (color = undefined,
                     size: DOT_SIZE,
                     color: color,
                     colorscale: colorscale[j],
+                    cauto: false,
                     cmin: VAL_MIN
                 },
                 name: 'LC ' + j,
@@ -651,6 +655,7 @@ function four_quanti (color = undefined,
                     size: DOT_SIZE,
                     color: color,
                     colorscale: colorscale[j],
+                    cauto: false,
                     cmin: VAL_MIN
                 },
                 name: 'LC ' + j,

@@ -20,10 +20,10 @@
  *
  * -> If quantitative value : Display points on a color scale pre-defined
  * -> If qualitative value : Display a slider to control opacity of each point.
- *  
- * @param {number} list_number The select button id. 
+ *
+ * @param {number} list_number The select button id.
  * @param {number} text_id The button id of the first qualitative variable
- * @param {number} z_id The button id of the second qualitative variable 
+ * @param {number} z_id The button id of the second qualitative variable
  */
 function one_parameter(list_number, text_id = undefined, z_id = undefined){
 
@@ -32,7 +32,7 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
     let quantitatives_values = [];
     let column_name = document.getElementById(`selectLayer${list_number}`).value;
 
-    //if it's true : Then will computes color values 
+    //if it's true : Then will computes color values
     //for each point based on a pre-defined color palette
     if(is_quantitative(list_number)){
 
@@ -96,6 +96,7 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
                         size: DOT_SIZE,
                         color: color,
                         colorscale: palette[j],
+                        cauto: false,
                         cmin: VAL_MIN
                     },
                     type: 'scattergl',
@@ -112,6 +113,7 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
                         size: DOT_SIZE,
                         color: color,
                         colorscale: palette[j],
+                        cauto: false,
                         cmin: VAL_MIN //There is a problem here, and it seems that we have some "0" in our data.
                     },
                     type: 'scattergl',
@@ -125,7 +127,7 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
                 config={responsive: true});
         }
     }
-    
+
     else {
         //It's a qualitative value
         //retrieve the column name
@@ -133,7 +135,7 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
         //Bring up the checkbox for legend
         document.getElementById('control_color_1').setAttribute('hidden', '');
         document.getElementById('control_checkbox_1').removeAttribute('hidden');
-        
+
         //Add text values to each point
         let data = [];
         let text = [];
@@ -157,7 +159,7 @@ function one_parameter(list_number, text_id = undefined, z_id = undefined){
             hoverinfo: 'none' //To hide labels on points
         });
 
-        //Update graph : 
+        //Update graph :
         Plotly.purge(GRAPHDIV);
         Plotly.react(GRAPHDIV, data, LAYOUT, {responsive: true});
 
